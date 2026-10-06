@@ -20,10 +20,16 @@ slider moves do not re-run identical simulations.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_DIR = PROJECT_ROOT / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 from qfim_bench.backends import SimulatorBackend
 from qfim_bench.circuit import build_grover_circuit
@@ -59,6 +65,12 @@ st.caption(
     "Reproducible benchmarking of the companion paper's Grover-based QFIM circuit. "
     "Simulator panels run live; the hardware panel shows archived ibm_marrakesh results "
     "and never re-runs them."
+)
+st.info(
+    "This software does not demonstrate quantum advantage. Its purpose is reproducible "
+    "infrastructure for studying the relationship between theoretical predictions, noisy "
+    "simulation, and hardware observations, not a claim that the quantum pipeline "
+    "outperforms the classical baselines shown in Panel 4."
 )
 
 tab1, tab2, tab3, tab4 = st.tabs(
@@ -123,6 +135,10 @@ with tab2:
 # ---------------------------------------------------------------------------
 with tab3:
     st.subheader("Real hardware results: uniform start, ibm_marrakesh (archived)")
+    st.info(
+        "Hardware data shown here are archived experimental results. Opening this dashboard does not "
+        "submit jobs to IBM Quantum."
+    )
     st.caption(
         "Five jobs submitted once under a write-once prediction manifest "
         "(campaigns/uniform_marrakesh/manifest.json). Measured values are read from the saved counts. "
@@ -158,8 +174,9 @@ with tab3:
         }))
         st.caption(
             "Hardware sits flat near 0.80, well below Eq. (4)'s predicted peak at r=3, and close to "
-            "the uniform-distribution reference 26/32 = 0.8125. The noisy simulator stays within about "
-            "0.012 of the hardware value at each r for this start state."
+            "the uniform-distribution reference (M/N = 26/32 = 0.8125). The device-noise simulation "
+            "reproduces the approximately flat trend observed in the archived hardware measurements; "
+            "the numerical differences are shown in the table above."
         )
     if missing:
         st.info(f"No archived data found for: {', '.join(missing)} (expected in campaigns/uniform_marrakesh/)")
@@ -196,6 +213,9 @@ with tab4:
 
 st.divider()
 st.caption(
-    "qfim-bench, Apache-2.0. This dashboard is a demo. The software is used programmatically, "
-    "as described in the README."
+    "**This software does not demonstrate quantum advantage.** The quantum pipeline is not claimed to "
+    "outperform the classical methods; the classical implementations provide reference baselines and "
+    "ground truth for validation."
 )
+st.caption("Source code and reproducibility: [QFIM-bench on GitHub](https://github.com/Thina45/QFIM-bench)")
+st.caption("qfim-bench, Apache-2.0. This dashboard is a demo. The software is used programmatically, as described in the README.")
