@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use qfim-bench, please cite it."
+title: "qfim-bench: reproducible benchmarking of Grover-based quantum frequent itemset mining"
+type: software
+version: 0.1.0
+authors:
+  - family-names: P
+    given-names: Thinakaran
+    email: thinasharma1@gmail.com
+license: Apache-2.0
+repository-code: "https://github.com/REPLACE_WITH_YOUR_ORG/qfim-bench"
+keywords:
+  - quantum computing
+  - frequent itemset mining
+  - Grover's algorithm
+  - NISQ
+  - reproducibility

@@ -1,0 +1,12 @@
+# Pinned versions used to produce the results in the paper's software companion.
+# Install with: pip install -r requirements.txt
+qiskit==2.1.2
+qiskit-aer==0.17.2
+qiskit-ibm-runtime==0.41.1
+numpy
+pandas
+scipy
+mlxtend
+pytest
+# dashboard demo only (examples/dashboard.py)
+streamlit

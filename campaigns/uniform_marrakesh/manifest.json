@@ -1,0 +1,38 @@
+{
+  "written_utc": "2026-10-05T15:53:25.330204+00:00",
+  "note": "Uniform start H^5|0>, ibm_marrakesh, SamplerV2 backend mode, opt level 3, seed_transpiler 42, XpXm DD, 8192 shots. Predictions = Eq.(4), M=26, N=32, written before any submission.",
+  "predictions": {
+    "r=1": 0.05078,
+    "r=2": 0.38403,
+    "r=3": 0.99995,
+    "r=4": 0.39724,
+    "r=2 (repeat)": 0.38403
+  },
+  "jobs": [
+    {
+      "label": "r=1",
+      "job_id": "db1upt47f06c73ap3vv0",
+      "target": "ibm_marrakesh (live calibration)"
+    },
+    {
+      "label": "r=2",
+      "job_id": "db1v2c68v0ts73c23t6g",
+      "target": "ibm_marrakesh (live calibration)"
+    },
+    {
+      "label": "r=3",
+      "job_id": "db1v3fc2ljfc73d3os50",
+      "target": "ibm_marrakesh (live calibration)"
+    },
+    {
+      "label": "r=4",
+      "job_id": "db1v40m8v0ts73c23vgg",
+      "target": "ibm_marrakesh (live calibration)"
+    },
+    {
+      "label": "r=2 (repeat)",
+      "job_id": "db1v4bc2ljfc73d3ots0",
+      "target": "ibm_marrakesh (live calibration)"
+    }
+  ]
+}
