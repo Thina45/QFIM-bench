@@ -158,8 +158,8 @@ with tab3:
         }))
         st.caption(
             "Hardware sits flat near 0.80, well below Eq. (4)'s predicted peak at r=3, and close to "
-            "the fully mixed reference 26/32 = 0.8125. The noisy simulator tracks the hardware values "
-            "at every r for this start state."
+            "the uniform-distribution reference 26/32 = 0.8125. The noisy simulator stays within about "
+            "0.012 of the hardware value at each r for this start state."
         )
     if missing:
         st.info(f"No archived data found for: {', '.join(missing)} (expected in campaigns/uniform_marrakesh/)")
