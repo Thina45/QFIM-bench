@@ -166,7 +166,7 @@ with tab3:
 
     if rows3:
         df3 = pd.DataFrame(rows3).set_index("label")
-        st.bar_chart(df3[["theory (Eq.4)", "measured (hardware)", "noisy sim (FakeMarrakesh)"]])
+        st.bar_chart(df3[["theory (Eq.4)", "measured (hardware)", "noisy sim (FakeMarrakesh)"]], stack=False)
         st.dataframe(df3.style.format({
             "theory (Eq.4)": "{:.5f}",
             "measured (hardware)": "{:.4f}",
