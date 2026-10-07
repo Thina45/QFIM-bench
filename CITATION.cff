@@ -7,6 +7,10 @@ authors:
   - family-names: P
     given-names: Thinakaran
     email: thinasharma1@gmail.com
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, Tamil Nadu, India"
+  - family-names: K
+    given-names: Parthiban
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, Tamil Nadu, India"
 license: Apache-2.0
 repository-code: "https://github.com/Thina45/QFIM-bench"
 keywords:
