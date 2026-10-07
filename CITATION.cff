@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use qfim-bench, please cite it."
 title: "qfim-bench: reproducible benchmarking of Grover-based quantum frequent itemset mining"
 type: software
-version: 0.1.0
+version: 1.0.0
 authors:
   - family-names: P
     given-names: Thinakaran
