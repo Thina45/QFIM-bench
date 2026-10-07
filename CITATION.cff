@@ -13,6 +13,8 @@ authors:
     affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, Tamil Nadu, India"
 license: Apache-2.0
 repository-code: "https://github.com/Thina45/QFIM-bench"
+doi: "10.5281/zenodo.23204243"
+date-released: "2026-10-07"
 keywords:
   - quantum computing
   - frequent itemset mining
