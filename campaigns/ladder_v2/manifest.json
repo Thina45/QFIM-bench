@@ -1,0 +1,143 @@
+{
+  "written_utc": "2026-10-08T12:38:13.224332+00:00",
+  "note": "ADOPTED. Active scope: probe + Tier A (n=3, M=1, mcz oracle, uniform start, matched diffusion, r=0..4, echo and readout controls). Tiers B and C are locked. Predictions are FakeMarrakesh (opt level 3) values from analysis/ladder_predictions.py.",
+  "predictions": {
+    "ladder_n3_M1_r0": 0.12561,
+    "ladder_n3_M1_r1": 0.73223,
+    "ladder_n3_M1_r2": 0.84753,
+    "ladder_n3_M1_r3": 0.31187,
+    "ladder_n3_M1_r4": 0.0416,
+    "echo_n3_M1_r2": 0.80642,
+    "readout_n3_zeros": 0.99124,
+    "readout_n3_ones": 0.99094
+  },
+  "jobs": [],
+  "max_jobs": 6,
+  "shots": 8192,
+  "usage_budget_seconds": 160.0,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "ADOPTED - no job submitted at the time of writing",
+    "backend": "ibm_marrakesh (availability and remaining plan seconds re-checked at adoption)",
+    "transpile": {
+      "optimization_level": 3,
+      "seed_transpiler": 42,
+      "dd_sequence": "XpXm"
+    },
+    "layout": "chosen by the transpiler on each day from that day's calibration; physical qubits, calibration timestamp and transpiled depth/2Q counts recorded for every job",
+    "criterion": {
+      "file": "review/OPERATING_POINT_CRITERION.md",
+      "commit": "c25b1b0",
+      "addendum": "review/OPERATING_POINT_ADDENDUM.md"
+    },
+    "tolerance_rule": "band half-width = 5*sqrt(p(1-p)/8192) + 0.05 (values in review/preregistration/ladder_predictions.json). Tolerance misses are reported.",
+    "probe": {
+      "circuits": "1 qubit, measure only",
+      "jobs": 1,
+      "cap_seconds": 10,
+      "excluded_from_analysis": true,
+      "purpose": "measure billed seconds for one tiny job before anything else",
+      "stop_rule": "if the probe bills more than 10 s, stop and re-plan"
+    },
+    "budget": {
+      "tier_A_cap_seconds": 150,
+      "probe_plus_tier_A_cap_seconds": 160,
+      "tier_B": "LOCKED",
+      "tier_C": "LOCKED",
+      "unlock": "separate written approval after Tier A analysis; new manifest, new hash, new tag",
+      "reserve_min_seconds": 200,
+      "reserve_rule": "adopt only if remaining plan seconds >= 360; at least 200 s must remain unspent after this manifest",
+      "enforcement": "usage_budget_seconds (cumulative billed seconds) and max_job_seconds (per-job runtime limit) in this manifest, enforced by HardwareBackend.run_batch"
+    },
+    "design": {
+      "circuits_per_day_tier_A": 8,
+      "one_job_per_day": true,
+      "days": 5,
+      "repeats_are_days": true,
+      "order_randomisation": {
+        "method": "numpy default_rng(seed).permutation, per day",
+        "seed_base": 20261008,
+        "schedule": {
+          "day_1": [
+            "ladder_n3_M1_r2",
+            "ladder_n3_M1_r1",
+            "readout_n3_zeros",
+            "ladder_n3_M1_r4",
+            "echo_n3_M1_r2",
+            "ladder_n3_M1_r3",
+            "readout_n3_ones",
+            "ladder_n3_M1_r0"
+          ],
+          "day_2": [
+            "readout_n3_ones",
+            "ladder_n3_M1_r2",
+            "ladder_n3_M1_r1",
+            "ladder_n3_M1_r3",
+            "ladder_n3_M1_r4",
+            "echo_n3_M1_r2",
+            "readout_n3_zeros",
+            "ladder_n3_M1_r0"
+          ],
+          "day_3": [
+            "readout_n3_zeros",
+            "ladder_n3_M1_r3",
+            "ladder_n3_M1_r0",
+            "ladder_n3_M1_r2",
+            "ladder_n3_M1_r4",
+            "ladder_n3_M1_r1",
+            "readout_n3_ones",
+            "echo_n3_M1_r2"
+          ],
+          "day_4": [
+            "echo_n3_M1_r2",
+            "readout_n3_ones",
+            "ladder_n3_M1_r0",
+            "ladder_n3_M1_r4",
+            "readout_n3_zeros",
+            "ladder_n3_M1_r2",
+            "ladder_n3_M1_r3",
+            "ladder_n3_M1_r1"
+          ],
+          "day_5": [
+            "readout_n3_zeros",
+            "echo_n3_M1_r2",
+            "readout_n3_ones",
+            "ladder_n3_M1_r0",
+            "ladder_n3_M1_r4",
+            "ladder_n3_M1_r2",
+            "ladder_n3_M1_r1",
+            "ladder_n3_M1_r3"
+          ]
+        }
+      }
+    },
+    "tier_stop_rule": "If, over the 5 days, no Tier A ladder cell reaches 3x its r=0 value at r_opt, stop and report where amplification disappears.",
+    "record_per_job": [
+      "job_id",
+      "calibration timestamp",
+      "physical qubits",
+      "transpiled depth",
+      "transpiled 2Q count",
+      "billed usage_seconds",
+      "queue time"
+    ],
+    "analysis": {
+      "primary_uncertainty": "t-interval (95%, 4 d.f., t=2.776) across the 5 daily values of each quantity; shot-noise Wilson intervals reported alongside, not instead",
+      "primary": "marked-state probability per cell vs prediction band; TVD to prediction with null floor and p-value; offset from M/N in standard errors",
+      "secondary": "fit hardware fidelity per two-qubit gate (qfim_bench.fit) and compare with the simulator's 0.9967; echo and readout controls reported alongside",
+      "reporting": "tolerance misses, null and negative results are reported"
+    },
+    "estimated_execution_seconds_tier_A": 84.1,
+    "estimate_caveat": "execution time only; billed time includes per-job overhead and is measured by the probe",
+    "git_tag_to_create_on_adoption": "prereg-ladder-v2",
+    "adopted_utc_date": "2026-10-08",
+    "code_commit_at_adoption": "4acc9d3",
+    "ci_status_at_adoption": "WAIVED by user instruction. CI #1 green on b1f3988; CI #2 (4acc9d3) queued, not awaited.",
+    "account_at_adoption": {
+      "plan_limit_seconds": 600,
+      "remaining_seconds": 532,
+      "backend": "ibm_marrakesh operational, 7 pending jobs"
+    }
+  },
+  "sha256": "6dcfc075d5e4af26a786ca2ee2cc911955f0104e6fb228da5c51bdd783bef3b9"
+}

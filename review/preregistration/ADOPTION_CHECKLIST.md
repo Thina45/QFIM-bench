@@ -1,6 +1,6 @@
 # Adoption checklist for the ladder preregistration
 
-Status: NOT ADOPTED. Nothing below has been done. Adoption is the user's decision; nothing is tagged,
+Status: ADOPTED 2026-10-08 (manifest at campaigns/ladder_v2/manifest.json). CI item waived by the user. Tag and probe still pending.
 written to `campaigns/`, or submitted until every box is ticked.
 
 - [ ] **Full test suite green** on the exact commit to be tagged (count recorded in the commit message).
