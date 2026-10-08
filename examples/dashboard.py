@@ -57,9 +57,11 @@ def noiseless_p(
 
 
 @st.cache_data(show_spinner=False)
-def noisy_p(r: int) -> float | None:
-    """Seeded FakeMarrakesh marked-state probability (uniform start, t=2, 5 items), from the precomputed file."""
-    f = CAMPAIGN_DIR / "noisy_sim_seeded.json"
+def noisy_p(r: int, level: int = 1) -> float | None:
+    """Seeded FakeMarrakesh marked-state probability (uniform start, t=2, 5 items), from the precomputed file.
+
+    level 1 is the archived file; level 3 (the hardware's optimization level) is a separate, newer file."""
+    f = CAMPAIGN_DIR / ("noisy_sim_seeded.json" if level == 1 else f"noisy_sim_seeded_L{level}.json")
     if not f.exists():
         return None
     return json.loads(f.read_text(encoding="utf-8"))["marked_probability"][str(r)]
@@ -79,8 +81,9 @@ st.info(
     "outperforms the classical baselines shown in Panel 4."
 )
 
-tab1, tab2, tab3, tab4 = st.tabs(
-    ["1. Theory vs. simulator", "2. Start-state comparison", "3. Hardware results (archived)", "4. Classical baselines"]
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
+    ["1. Theory vs. simulator", "2. Start-state comparison", "3. Hardware results (archived)", "4. Classical baselines",
+     "5. Hardware ladder (2026-10-08)"]
 )
 
 # ---------------------------------------------------------------------------
@@ -175,15 +178,17 @@ with tab3:
             "theory (Eq.4)": d["theoretical_p"],
             "measured (hardware)": measured,
             "noisy sim (FakeMarrakesh)": noisy_p(d["r"]),
+            "noisy sim, level 3": noisy_p(d["r"], 3),
         })
 
     if rows3:
         df3 = pd.DataFrame(rows3).set_index("label")
-        st.bar_chart(df3[["theory (Eq.4)", "measured (hardware)", "noisy sim (FakeMarrakesh)"]], stack=False)
+        st.bar_chart(df3[["theory (Eq.4)", "measured (hardware)", "noisy sim (FakeMarrakesh)", "noisy sim, level 3"]], stack=False)
         st.dataframe(df3.style.format({
             "theory (Eq.4)": "{:.5f}",
             "measured (hardware)": "{:.4f}",
             "noisy sim (FakeMarrakesh)": "{:.4f}",
+            "noisy sim, level 3": "{:.4f}",
         }))
         st.caption(
             "Hardware sits flat near 0.80, well below Eq. (4)'s predicted peak at r=3, and close to "
@@ -223,6 +228,62 @@ with tab4:
             })
         st.dataframe(pd.DataFrame(rows4).set_index("algorithm"))
         st.caption(f"Ground-truth frequent itemsets (brute force): {len(truth)}. Items: {order}")
+
+# ---------------------------------------------------------------------------
+# Panel 5: hardware ladder (static, archived results; never contacts IBM Quantum)
+# ---------------------------------------------------------------------------
+HW_DIR = ROOT / "results" / "hardware"
+
+
+@st.cache_data(show_spinner=False)
+def ladder_rows() -> dict[int, list[dict]] | None:
+    a, b = HW_DIR / "ladder_v2" / "analysis.json", HW_DIR / "ladder_v2b" / "analysis.json"
+    if not (a.exists() and b.exists()):
+        return None
+    ja, jb = json.loads(a.read_text(encoding="utf-8")), json.loads(b.read_text(encoding="utf-8"))
+    return {3: ja["rows"], 4: jb["B"]["rows"], 5: jb["C"]["rows"]}
+
+
+with tab5:
+    st.subheader("Grover amplification on ibm_marrakesh at 3, 4 and 5 qubits (archived)")
+    st.warning(
+        "Each hardware point is the mean of 5 consecutive jobs run in one sitting, in a single calibration "
+        "window on one device (ibm_marrakesh, 2026-10-08, 8192 shots per circuit). The interval is a "
+        "t-interval across those 5 jobs, so it does not include day-to-day drift or other devices or layouts. "
+        "This tab reads saved results and never contacts IBM Quantum."
+    )
+    ladder = ladder_rows()
+    if ladder is None:
+        st.info("Hardware ladder results not found (expected in results/hardware/).")
+    else:
+        sizes = {3: "n=3, M=1", 4: "n=4, M=2", 5: "n=5, M=4"}
+        cols = st.columns(3)
+        summary = []
+        for col, n in zip(cols, (3, 4, 5)):
+            lad = sorted((r for r in ladder[n] if r["id"].startswith("ladder")), key=lambda r: int(r["id"].rsplit("_r", 1)[1]))
+            df = pd.DataFrame({
+                "ideal (noiseless)": [r["ideal"] for r in lad],
+                "simulator prediction": [r["prediction"] for r in lad],
+                "prediction band low": [r["prediction"] - r["band"] for r in lad],
+                "prediction band high": [r["prediction"] + r["band"] for r in lad],
+                "hardware (mean of 5)": [r["mean"] for r in lad],
+            }, index=pd.Index(range(len(lad)), name="Grover iterations r"))
+            col.markdown(f"**{sizes[n]}**")
+            col.line_chart(df)
+            for r in lad:
+                summary.append({"size": sizes[n], "r": int(r["id"].rsplit("_r", 1)[1]), "two-qubit gates": round(r["two_qubit_gates"]),
+                                "ideal": r["ideal"], "prediction": r["prediction"], "hardware": r["mean"],
+                                "95% interval low": r["t_ci95"][0], "95% interval high": r["t_ci95"][1],
+                                "inside band": r["within_band"]})
+        st.dataframe(pd.DataFrame(summary).style.format({
+            "ideal": "{:.3f}", "prediction": "{:.3f}", "hardware": "{:.3f}",
+            "95% interval low": "{:.3f}", "95% interval high": "{:.3f}"}), hide_index=True)
+        st.caption(
+            "Amplification works at 3 qubits (0.796 at r=2 versus 0.124 at r=0), still works narrowly at 4 qubits "
+            "(0.568; the best r is already 1), and is gone at 5 qubits (0.194). The simulator is above the hardware "
+            "where amplification matters, by 0.04 to 0.14 at r=1 and r=2. Predictions come from the preregistered "
+            "manifests (campaigns/ladder_v2, campaigns/ladder_v2b). No quantum advantage is claimed."
+        )
 
 st.divider()
 st.caption(
