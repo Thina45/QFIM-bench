@@ -1,0 +1,186 @@
+{
+  "N": 32,
+  "wrong_m": [
+    {
+      "true_M": 1,
+      "assumed_M": 1,
+      "r_used": 4,
+      "p_with_r_used": 0.9991823155432941,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.9991823155432252
+    },
+    {
+      "true_M": 1,
+      "assumed_M": 2,
+      "r_used": 3,
+      "p_with_r_used": 0.8969365358352662,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.89693653583522
+    },
+    {
+      "true_M": 1,
+      "assumed_M": 3,
+      "r_used": 2,
+      "p_with_r_used": 0.6024246215820314,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.6024246215820102
+    },
+    {
+      "true_M": 1,
+      "assumed_M": 4,
+      "r_used": 2,
+      "p_with_r_used": 0.6024246215820314,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.6024246215820102
+    },
+    {
+      "true_M": 1,
+      "assumed_M": 6,
+      "r_used": 1,
+      "p_with_r_used": 0.2583007812500001,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.25830078124999534
+    },
+    {
+      "true_M": 1,
+      "assumed_M": 8,
+      "r_used": 1,
+      "p_with_r_used": 0.2583007812500001,
+      "p_best_possible": 0.9991823155432941,
+      "exact_circuit_p": 0.25830078124999534
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 1,
+      "r_used": 4,
+      "p_with_r_used": 0.5817041397094724,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.5817041397094116
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 2,
+      "r_used": 3,
+      "p_with_r_used": 0.9613189697265625,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.9613189697264866
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 3,
+      "r_used": 2,
+      "p_with_r_used": 0.908447265625,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.9084472656249521
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 4,
+      "r_used": 2,
+      "p_with_r_used": 0.908447265625,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.9084472656249521
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 6,
+      "r_used": 1,
+      "p_with_r_used": 0.47265625,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.47265624999998734
+    },
+    {
+      "true_M": 2,
+      "assumed_M": 8,
+      "r_used": 1,
+      "p_with_r_used": 0.47265625,
+      "p_best_possible": 0.9613189697265625,
+      "exact_circuit_p": 0.47265624999998734
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 1,
+      "r_used": 4,
+      "p_with_r_used": 0.01220703125000009,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.01220703124999788
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 2,
+      "r_used": 3,
+      "p_with_r_used": 0.330078125,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.3300781249999575
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 3,
+      "r_used": 2,
+      "p_with_r_used": 0.9453124999999999,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.9453124999999194
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 4,
+      "r_used": 2,
+      "p_with_r_used": 0.9453124999999999,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.9453124999999194
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 6,
+      "r_used": 1,
+      "p_with_r_used": 0.7812500000000001,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.7812499999999665
+    },
+    {
+      "true_M": 4,
+      "assumed_M": 8,
+      "r_used": 1,
+      "p_with_r_used": 0.7812500000000001,
+      "p_best_possible": 0.9453124999999999,
+      "exact_circuit_p": 0.7812499999999665
+    }
+  ],
+  "bbht_and_enumeration": [
+    {
+      "M": 1,
+      "bbht_mean_oracle_calls": 8.636,
+      "bound_9_over_2_sqrt_N_over_M": 25.455844122715714,
+      "known_M_r_opt_plus_1": 5,
+      "enumerate_all_M_calls": 4.442882938158366
+    },
+    {
+      "M": 2,
+      "bbht_mean_oracle_calls": 5.7842,
+      "bound_9_over_2_sqrt_N_over_M": 18.0,
+      "known_M_r_opt_plus_1": 4,
+      "enumerate_all_M_calls": 7.584475591748159
+    },
+    {
+      "M": 4,
+      "bbht_mean_oracle_calls": 3.9244,
+      "bound_9_over_2_sqrt_N_over_M": 12.727922061357857,
+      "known_M_r_opt_plus_1": 3,
+      "enumerate_all_M_calls": 12.37101672115107
+    },
+    {
+      "M": 8,
+      "bbht_mean_oracle_calls": 2.945,
+      "bound_9_over_2_sqrt_N_over_M": 9.0,
+      "known_M_r_opt_plus_1": 2,
+      "enumerate_all_M_calls": 19.421781973702117
+    },
+    {
+      "M": 16,
+      "bbht_mean_oracle_calls": 2.609,
+      "bound_9_over_2_sqrt_N_over_M": 6.3639610306789285,
+      "known_M_r_opt_plus_1": 1,
+      "enumerate_all_M_calls": 29.607347944917482
+    }
+  ]
+}
