@@ -1,0 +1,13 @@
+{
+  "backend": "FakeMarrakesh",
+  "seed": 42,
+  "shots": 8192,
+  "initial_state": "uniform",
+  "optimization_level": 3,
+  "marked_probability": {
+    "1": 0.802734375,
+    "2": 0.8035888671875,
+    "3": 0.80517578125,
+    "4": 0.80224609375
+  }
+}
