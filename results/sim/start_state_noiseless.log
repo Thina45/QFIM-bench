@@ -1,0 +1,12 @@
+noiseless flat? {'start': 'uniform', 'M': 1, 'median_range': 0.9679323155432252, 'flat': False}
+noiseless flat? {'start': 'uniform', 'M': 2, 'median_range': 0.8988189697264866, 'flat': False}
+noiseless flat? {'start': 'uniform', 'M': 3, 'median_range': 0.9060287475585252, 'flat': False}
+noiseless flat? {'start': 'uniform', 'M': 4, 'median_range': 0.9331054687499215, 'flat': False}
+noiseless flat? {'start': 'ansatz_hadamard', 'M': 1, 'median_range': 0.015784292131342484, 'flat': True}
+noiseless flat? {'start': 'ansatz_hadamard', 'M': 2, 'median_range': 0.017158165986841216, 'flat': True}
+noiseless flat? {'start': 'ansatz_hadamard', 'M': 3, 'median_range': 0.02403509272195825, 'flat': True}
+noiseless flat? {'start': 'ansatz_hadamard', 'M': 4, 'median_range': 0.01812967511157243, 'flat': True}
+noiseless flat? {'start': 'ansatz_matched', 'M': 1, 'median_range': 0.41674564195053654, 'flat': False}
+noiseless flat? {'start': 'ansatz_matched', 'M': 2, 'median_range': 0.7786861230246733, 'flat': False}
+noiseless flat? {'start': 'ansatz_matched', 'M': 3, 'median_range': 0.6588664600783478, 'flat': False}
+noiseless flat? {'start': 'ansatz_matched', 'M': 4, 'median_range': 0.7079595314982967, 'flat': False}
