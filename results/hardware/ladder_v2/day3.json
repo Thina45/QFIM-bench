@@ -1,0 +1,181 @@
+{
+  "label": "tierA_day3",
+  "job": {
+    "label": "tierA_day3",
+    "labels": [
+      "readout_n3_zeros",
+      "ladder_n3_M1_r3",
+      "ladder_n3_M1_r0",
+      "ladder_n3_M1_r2",
+      "ladder_n3_M1_r4",
+      "ladder_n3_M1_r1",
+      "readout_n3_ones",
+      "echo_n3_M1_r2"
+    ],
+    "job_id": "db3p4404qg6s73c14qig",
+    "target": "ibm_marrakesh (live calibration)",
+    "n_circuits": 8,
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "circuits_info": [
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "usage_seconds": 20.0
+  },
+  "order": [
+    "readout_n3_zeros",
+    "ladder_n3_M1_r3",
+    "ladder_n3_M1_r0",
+    "ladder_n3_M1_r2",
+    "ladder_n3_M1_r4",
+    "ladder_n3_M1_r1",
+    "readout_n3_ones",
+    "echo_n3_M1_r2"
+  ],
+  "counts": {
+    "readout_n3_zeros": {
+      "000": 8122,
+      "001": 45,
+      "010": 21,
+      "100": 4
+    },
+    "ladder_n3_M1_r3": {
+      "101": 1170,
+      "001": 777,
+      "011": 1990,
+      "110": 1018,
+      "111": 812,
+      "010": 840,
+      "100": 1046,
+      "000": 539
+    },
+    "ladder_n3_M1_r0": {
+      "100": 1028,
+      "010": 1032,
+      "011": 1047,
+      "000": 1024,
+      "111": 995,
+      "101": 977,
+      "110": 1041,
+      "001": 1048
+    },
+    "ladder_n3_M1_r2": {
+      "011": 6549,
+      "101": 257,
+      "010": 280,
+      "111": 219,
+      "001": 277,
+      "110": 206,
+      "100": 212,
+      "000": 192
+    },
+    "ladder_n3_M1_r4": {
+      "110": 1119,
+      "111": 1168,
+      "101": 1048,
+      "100": 1133,
+      "001": 1167,
+      "000": 1171,
+      "010": 912,
+      "011": 474
+    },
+    "ladder_n3_M1_r1": {
+      "011": 5709,
+      "010": 386,
+      "000": 391,
+      "101": 301,
+      "001": 392,
+      "100": 321,
+      "110": 304,
+      "111": 388
+    },
+    "readout_n3_ones": {
+      "111": 8007,
+      "101": 80,
+      "011": 60,
+      "110": 42,
+      "001": 2,
+      "100": 1
+    },
+    "echo_n3_M1_r2": {
+      "010": 868,
+      "000": 5523,
+      "111": 222,
+      "011": 330,
+      "001": 404,
+      "110": 273,
+      "101": 263,
+      "100": 309
+    }
+  }
+}

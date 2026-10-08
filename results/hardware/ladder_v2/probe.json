@@ -1,0 +1,20 @@
+{
+  "label": "probe",
+  "labels": [
+    "probe"
+  ],
+  "job_id": "db3p1ckvf2bc73ctibpg",
+  "target": "ibm_marrakesh (live calibration)",
+  "n_circuits": 1,
+  "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+  "circuits_info": [
+    {
+      "depth": 1,
+      "two_qubit_gates": 0,
+      "physical_qubits": [
+        6
+      ]
+    }
+  ],
+  "usage_seconds": 4.0
+}
