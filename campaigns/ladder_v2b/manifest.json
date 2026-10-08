@@ -19,7 +19,1048 @@
     "readout_n5_zeros": 0.98459,
     "readout_n5_ones": 0.98423
   },
-  "jobs": [],
+  "jobs": [
+    {
+      "label": "tierB_run1",
+      "labels": [
+        "ladder_n4_M2_r0",
+        "echo_n4_M2_r2",
+        "readout_n4_zeros",
+        "ladder_n4_M2_r3",
+        "ladder_n4_M2_r1",
+        "ladder_n4_M2_r4",
+        "ladder_n4_M2_r2",
+        "readout_n4_ones"
+      ],
+      "job_id": "db3p9lsvf2bc73ctiq6g",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 869,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 647,
+          "two_qubit_gates": 170,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 216,
+          "two_qubit_gates": 56,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 863,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 431,
+          "two_qubit_gates": 113,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 21.0
+    },
+    {
+      "label": "tierB_run2",
+      "labels": [
+        "ladder_n4_M2_r4",
+        "ladder_n4_M2_r2",
+        "readout_n4_ones",
+        "ladder_n4_M2_r1",
+        "ladder_n4_M2_r3",
+        "echo_n4_M2_r2",
+        "ladder_n4_M2_r0",
+        "readout_n4_zeros"
+      ],
+      "job_id": "db3pa584qg6s73c15420",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 863,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 431,
+          "two_qubit_gates": 113,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 216,
+          "two_qubit_gates": 56,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 647,
+          "two_qubit_gates": 170,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 869,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 21.0
+    },
+    {
+      "label": "tierB_run3",
+      "labels": [
+        "ladder_n4_M2_r4",
+        "echo_n4_M2_r2",
+        "readout_n4_ones",
+        "ladder_n4_M2_r0",
+        "ladder_n4_M2_r3",
+        "readout_n4_zeros",
+        "ladder_n4_M2_r1",
+        "ladder_n4_M2_r2"
+      ],
+      "job_id": "db3paqqmb58s73885tmg",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 863,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 869,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 647,
+          "two_qubit_gates": 170,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 216,
+          "two_qubit_gates": 56,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 431,
+          "two_qubit_gates": 113,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        }
+      ],
+      "usage_seconds": 21.0
+    },
+    {
+      "label": "tierB_run4",
+      "labels": [
+        "ladder_n4_M2_r4",
+        "readout_n4_zeros",
+        "echo_n4_M2_r2",
+        "ladder_n4_M2_r2",
+        "ladder_n4_M2_r1",
+        "readout_n4_ones",
+        "ladder_n4_M2_r3",
+        "ladder_n4_M2_r0"
+      ],
+      "job_id": "db3pb5clf4us73c1n6v0",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 863,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 869,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 431,
+          "two_qubit_gates": 113,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 216,
+          "two_qubit_gates": 56,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 647,
+          "two_qubit_gates": 170,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 21.0
+    },
+    {
+      "label": "tierB_run5",
+      "labels": [
+        "ladder_n4_M2_r3",
+        "ladder_n4_M2_r2",
+        "ladder_n4_M2_r1",
+        "readout_n4_zeros",
+        "readout_n4_ones",
+        "ladder_n4_M2_r4",
+        "echo_n4_M2_r2",
+        "ladder_n4_M2_r0"
+      ],
+      "job_id": "db3pbno4qg6s73c15610",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 647,
+          "two_qubit_gates": 170,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 431,
+          "two_qubit_gates": 113,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 216,
+          "two_qubit_gates": 56,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 863,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 869,
+          "two_qubit_gates": 227,
+          "physical_qubits": [
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 21.0
+    },
+    {
+      "label": "tierC_run1",
+      "labels": [
+        "readout_n5_zeros",
+        "echo_n5_M4_r2",
+        "ladder_n5_M4_r0",
+        "ladder_n5_M4_r4",
+        "readout_n5_ones",
+        "ladder_n5_M4_r3",
+        "ladder_n5_M4_r1",
+        "ladder_n5_M4_r2"
+      ],
+      "job_id": "db3pc184qg6s73c156j0",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 3560,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 3548,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2650,
+          "two_qubit_gates": 1011,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 883,
+          "two_qubit_gates": 329,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1766,
+          "two_qubit_gates": 668,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        }
+      ],
+      "usage_seconds": 24.0
+    },
+    {
+      "label": "tierC_run2",
+      "labels": [
+        "ladder_n5_M4_r4",
+        "readout_n5_ones",
+        "ladder_n5_M4_r2",
+        "readout_n5_zeros",
+        "ladder_n5_M4_r3",
+        "ladder_n5_M4_r1",
+        "echo_n5_M4_r2",
+        "ladder_n5_M4_r0"
+      ],
+      "job_id": "db3pcbimb58s73885vtg",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 3548,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 1766,
+          "two_qubit_gates": 668,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2650,
+          "two_qubit_gates": 1011,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 883,
+          "two_qubit_gates": 329,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 3560,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 24.0
+    },
+    {
+      "label": "tierC_run3",
+      "labels": [
+        "ladder_n5_M4_r4",
+        "ladder_n5_M4_r2",
+        "ladder_n5_M4_r3",
+        "echo_n5_M4_r2",
+        "ladder_n5_M4_r1",
+        "readout_n5_zeros",
+        "readout_n5_ones",
+        "ladder_n5_M4_r0"
+      ],
+      "job_id": "db3pcm4vf2bc73ctitvg",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+      "circuits_info": [
+        {
+          "depth": 3548,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1766,
+          "two_qubit_gates": 668,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2650,
+          "two_qubit_gates": 1011,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 3560,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 883,
+          "two_qubit_gates": 329,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        }
+      ],
+      "usage_seconds": 24.0
+    },
+    {
+      "label": "tierC_run4",
+      "labels": [
+        "ladder_n5_M4_r1",
+        "readout_n5_zeros",
+        "ladder_n5_M4_r3",
+        "readout_n5_ones",
+        "ladder_n5_M4_r2",
+        "ladder_n5_M4_r0",
+        "echo_n5_M4_r2",
+        "ladder_n5_M4_r4"
+      ],
+      "job_id": "db3pd0o4qg6s73c1584g",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:32:55+05:30",
+      "circuits_info": [
+        {
+          "depth": 883,
+          "two_qubit_gates": 329,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2650,
+          "two_qubit_gates": 1011,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 1766,
+          "two_qubit_gates": 668,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 3560,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 3548,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        }
+      ],
+      "usage_seconds": 24.0
+    },
+    {
+      "label": "tierC_run5",
+      "labels": [
+        "ladder_n5_M4_r1",
+        "readout_n5_ones",
+        "echo_n5_M4_r2",
+        "ladder_n5_M4_r2",
+        "ladder_n5_M4_r4",
+        "ladder_n5_M4_r0",
+        "readout_n5_zeros",
+        "ladder_n5_M4_r3"
+      ],
+      "job_id": "db3pdbsvf2bc73ctiuvg",
+      "target": "ibm_marrakesh (live calibration)",
+      "n_circuits": 8,
+      "calibration_timestamp": "2026-10-08 18:32:55+05:30",
+      "circuits_info": [
+        {
+          "depth": 883,
+          "two_qubit_gates": 329,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 2,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 3560,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 1766,
+          "two_qubit_gates": 668,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 3548,
+          "two_qubit_gates": 1354,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        },
+        {
+          "depth": 4,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 1,
+          "two_qubit_gates": 0,
+          "physical_qubits": [
+            6,
+            57,
+            98,
+            114,
+            153
+          ]
+        },
+        {
+          "depth": 2650,
+          "two_qubit_gates": 1011,
+          "physical_qubits": [
+            91,
+            98,
+            110,
+            111,
+            112
+          ]
+        }
+      ],
+      "usage_seconds": 24.0
+    }
+  ],
   "max_jobs": 10,
   "shots": 8192,
   "usage_budget_seconds": 225.0,
