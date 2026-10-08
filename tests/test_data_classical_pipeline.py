@@ -94,7 +94,12 @@ def test_end_to_end_pipeline_on_sample(transactions):
     truth = set(brute_force_frequent_itemsets(reduced, cfg.min_support))
 
     result = run_qfim_bench(cfg, ground_truth_frequent=truth)
-    assert result.circuit_info.M == 26
+    # Default marking is data-driven, so the marked set is exactly the ground truth.
+    assert result.circuit_info.M == len(truth) == 27
+    # The v1 cardinality rule (threshold 2) is data-independent and marks 26 of 32.
+    v1 = QFIMConfig(dataset_path=str(SAMPLE_CSV), top_k_items=5, grover_iterations=1,
+                    initial_state="uniform", marking="cardinality", seed=42)
+    assert run_qfim_bench(v1, ground_truth_frequent=truth).circuit_info.M == 26
     assert result.metrics is not None
     assert 0.0 <= result.metrics.precision <= 1.0
     assert result.metrics.recall >= 0.9  # the post-processing threshold is permissive by design
