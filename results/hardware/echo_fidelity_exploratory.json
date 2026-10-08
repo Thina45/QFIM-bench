@@ -1,0 +1,102 @@
+{
+  "status": "EXPLORATORY - not preregistered",
+  "echo": [
+    {
+      "n": 3,
+      "echo_2q_gates": 79.0,
+      "P_echo": 0.6709716796875,
+      "P_ci95": [
+        0.6594047692878323,
+        0.6825385900871678
+      ],
+      "floor": 0.125,
+      "f_echo": 0.9940474480622785,
+      "f_ci95": [
+        0.9937780403533386,
+        0.9943112782850295
+      ],
+      "f_grover_fit": 0.9941624535042587,
+      "f_simulator": 0.9967
+    },
+    {
+      "n": 4,
+      "echo_2q_gates": 227.0,
+      "P_echo": 0.36953125,
+      "P_ci95": [
+        0.3545651110961377,
+        0.38449738890386226
+      ],
+      "floor": 0.0625,
+      "f_echo": 0.9950945942371467,
+      "f_ci95": [
+        0.9948755538699123,
+        0.9953032523888204
+      ],
+      "f_grover_fit": 0.9940213539298139,
+      "f_simulator": 0.9967
+    },
+    {
+      "n": 5,
+      "echo_2q_gates": 1354.0,
+      "P_echo": 0.034765625,
+      "P_ci95": [
+        0.032161437068311455,
+        0.03736981293168855
+      ],
+      "floor": 0.03125,
+      "f_echo": 0.9958588278961471,
+      "f_ci95": [
+        0.9948664425742151,
+        0.9962666061168778
+      ],
+      "f_grover_fit": 0.9954170277288509,
+      "f_simulator": 0.9967
+    }
+  ],
+  "shortfall": [
+    {
+      "id": "ladder_n3_M1_r1",
+      "simulator_minus_hardware": 0.039111328124999956,
+      "prediction": 0.7322265625,
+      "hardware": 0.693115234375
+    },
+    {
+      "id": "ladder_n3_M1_r2",
+      "simulator_minus_hardware": 0.05161132812500002,
+      "prediction": 0.8475341796875,
+      "hardware": 0.7959228515625
+    },
+    {
+      "id": "ladder_n4_M2_r1",
+      "simulator_minus_hardware": 0.0838623046875,
+      "prediction": 0.666015625,
+      "hardware": 0.5821533203125
+    },
+    {
+      "id": "ladder_n4_M2_r2",
+      "simulator_minus_hardware": 0.141357421875,
+      "prediction": 0.709619140625,
+      "hardware": 0.56826171875
+    },
+    {
+      "id": "ladder_n5_M4_r1",
+      "simulator_minus_hardware": 0.11982421875000004,
+      "prediction": 0.38681640625,
+      "hardware": 0.2669921875
+    },
+    {
+      "id": "ladder_n5_M4_r2",
+      "simulator_minus_hardware": 0.08481445312500002,
+      "prediction": 0.2789794921875,
+      "hardware": 0.1941650390625
+    }
+  ],
+  "shortfall_range_r1_r2": [
+    0.039111328124999956,
+    0.141357421875
+  ],
+  "shortfall_range_r2_only": [
+    0.05161132812500002,
+    0.141357421875
+  ]
+}

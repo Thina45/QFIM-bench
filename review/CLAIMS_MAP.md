@@ -32,11 +32,13 @@ relative to the `qfim-bench` folder. Manuscript sentences are not mapped yet: th
 | C6 | An echo (forward-and-back) circuit loses more with size. | analysis.json files, echo rows | 0.671 (n=3), 0.370 (n=4), 0.035 (n=5); floor 0.031 | Ordering was a preregistered hypothesis (H4); it held. |
 | C7 | The fitted fidelity per two-qubit gate is about 0.994-0.995 at every size. | analysis.json files (`fit`) | 0.9942, 0.9940, 0.9954; simulator 0.9967 | Interval covers shot noise only; the n=5 fit is least informative. |
 
+| C8 | **EXPLORATORY (not preregistered).** Echo-derived fidelity per two-qubit gate, with the 2^-n floor removed, is about 0.994-0.996 and agrees with the Grover-curve fits. | `results/hardware/echo_fidelity_exploratory.json`, `analysis/echo_fidelity_exploratory.py` | Echo: 0.9941 (n=3), 0.9951 (n=4), 0.9959 (n=5, lower bound undefined: echo P 0.035 is near the 0.031 floor); Grover fits 0.9942, 0.9940, 0.9954; simulator 0.9967 | Label EXPLORATORY in the text. At n=4 the echo and Grover intervals do not overlap (0.9951 vs 0.9940); do not say they agree exactly. Shot-noise intervals only. |
+
 ## D. Predict-then-measure agreement
 
 | ID | Claim | Evidence | Figure | Limit |
 |---|---|---|---|---|
-| D1 | The noise model predicts the shape of the amplification curve but overestimates the success probability where amplification matters. | `review/preregistration/ladder_predictions.json`, both analysis.json files | Below band: n=4 r=1,2; n=5 r=1,2; echo at n=3,4. TVD to simulator 0.04-0.14, floor under 0.02, p=0.002 | FakeMarrakesh is one calibration snapshot. |
+| D1 | The noise model predicts the shape of the amplification curve but overestimates the success probability where amplification matters. | `review/preregistration/ladder_predictions.json`, both analysis.json files, `results/hardware/echo_fidelity_exploratory.json` | Shortfall (simulator minus hardware) at r=1, 2: n=3 0.039, 0.052; n=4 0.084, 0.141; n=5 0.120, 0.085. Range **0.04 to 0.14** over r=1,2 at all sizes (0.05 to 0.14 at r=2 only). Below band: n=4 r=1,2; n=5 r=1,2; echo at n=3,4. TVD to simulator 0.04-0.14, floor under 0.02, p=0.002 | FakeMarrakesh is one calibration snapshot. Always say which r the range covers. |
 | D2 | Predictions were fixed before the data. | `review/OPERATING_POINT_CRITERION.md` (commit c25b1b0), manifests (`campaigns/ladder_v2/`, `campaigns/ladder_v2b/`), commits on `main` | hashes 6dcfc075..., ac2958ce... | **No git tag exists.** Write "committed before the experiment", never "tagged". |
 | D3 | The simulator discriminates weak from strong noise, and two-qubit gate error dominates. | `results/sim/noise_sensitivity.json` | n=5, M=2, r=2: 0.905 (no noise), 0.587 (x0.25), 0.187 (x1), 0.081 (x2); 2Q off 0.396, other sources off 0.19-0.21 | Simulation only. |
 
@@ -54,12 +56,14 @@ relative to the `qfim-bench` folder. Manuscript sentences are not mapped yet: th
 ## F. Claims NOT supported (do not write)
 
 - Quantum advantage or speedup of any kind.
+- That the echo-derived fidelity (C8) was a planned result: it is exploratory.
 - That the method is Apriori, or level-wise.
 - "Preregistered with a tag" or "tagged".
 - That amplification "survives to n=5", or that F1 shows quantum benefit.
 - Anything about day-to-day drift (all runs in one sitting, deviation D1), other devices, other layouts,
   or scaling beyond n=5.
 - That the 6-seed noisy ansatz result represents the full seed distribution.
+- A shortfall range without naming the r it covers (0.04-0.14 over r=1,2; 0.05-0.14 at r=2 only).
 
 ## G. Deviations to disclose
 
