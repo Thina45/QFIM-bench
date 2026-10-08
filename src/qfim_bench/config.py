@@ -3,16 +3,15 @@ config.py — single configuration object for qfim-bench. Every run
 parameter lives here; no module downstream of this one should hardcode a
 dataset path, item count, threshold, or shot count.
 
-initial_state defaults to "uniform" for the public software release
-(see the README "Start state" section). "uniform"
-reproduces Eq. (4)'s theoretical success-probability curve exactly on
-simulators — this is the claim the package can verify end-to-end without
-any hardware run. "ansatz" (the companion paper's actual hardware-circuit
-start state) remains fully supported for anyone who wants to reproduce the
-paper's own circuit, but it is no longer the default, since its flat,
-noiseless-but-still-flat behaviour is not representative of the
-Grover-amplification result this package is built to demonstrate and
-would otherwise be mistaken for a simulator bug.
+initial_state defaults to "uniform". With the matched diffusion operator
+(diffusion="matched", the default) every start state, including the random
+EfficientSU2 "ansatz", follows the standard Grover curve sin^2((2r+1)theta),
+with theta set by the start state's marked probability. The flat curve seen in
+the companion paper's first analysis came from pairing the ansatz start with the
+Hadamard diffusion (diffusion="hadamard"), which reflects about the wrong state.
+That was an artefact of the mismatch, not a property of the ansatz. The paper's
+hardware campaign itself used the uniform start. grover_iterations=None (default)
+chooses r_opt from the classically known marked-set size.
 """
 
 from __future__ import annotations
@@ -25,7 +24,7 @@ class QFIMConfig:
     dataset_path: str
     top_k_items: int = 5
     oracle_threshold: int = 2       # Hamming-weight threshold t
-    grover_iterations: int | None = 2  # r; None means r_opt = floor(pi/(4 theta)) from the classically known M
+    grover_iterations: int | None = None  # r; None means r_opt = floor(pi/(4 theta)) from the classically known M
     shots: int = 8192
     min_support: float = 0.05       # sigma_min (post-processing threshold)
     alpha: float = 0.1              # post-processing threshold factor

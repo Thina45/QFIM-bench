@@ -19,7 +19,7 @@ fair classical baseline.
 
 ```bash
 pip install -e .            # simulator-only use: qiskit, qiskit-aer, mlxtend, pandas
-pip install -e ".[hardware]" # adds qiskit-ibm-runtime for IBM Quantum hardware (not yet implemented)
+pip install -e ".[hardware]" # adds nothing new: qiskit-ibm-runtime is a core dependency (needed for FakeMarrakesh); the extra is kept for compatibility
 pip install -e ".[dev]"      # adds pytest
 ```
 
@@ -46,7 +46,7 @@ dense regime where Grover cannot help.
 | `circuit.py` | Grover circuit `(D·O)^r·A`, oracles (support-driven, cardinality, explicit), matched/Hadamard diffusion, closed-form and exact success probability |
 | `marking.py` | Classically precomputed marked sets (`support`, `cardinality`, `explicit`) |
 | `statistics.py` | Run summaries (mean, SD, CV, CI), total variation distance, bootstrap TVD |
-| `backends.py` | `SimulatorBackend`, `NoisySimulatorBackend` (FakeMarrakesh), `HardwareBackend` (stub) |
+| `backends.py` | `SimulatorBackend`, `NoisySimulatorBackend` (FakeMarrakesh), `HardwareBackend` (IBM Quantum, guarded) |
 | `preprocessing.py` | Transaction loading (ragged rows), frequency ranking, reduction to top-k items |
 | `encoding.py` | Itemset ↔ qubit ↔ bitstring convention: `item_order[p]` ↔ qubit `p` ↔ bit `p` of the basis index |
 | `postprocessing.py` | Containment support, threshold τ = ⌈σ·S·α⌉, precision/recall/F1, trivial baselines, null-derived detection threshold |
@@ -104,10 +104,19 @@ these values.
 
 ## Hardware
 
-`HardwareBackend` currently raises `NotImplementedError`. The paper's hardware runs used
-`ibm_marrakesh`, `SamplerV2` in backend mode, optimization level 3, dynamical decoupling (XpXm), and
-8,192 shots. The hardware path will be implemented and tested against those settings in a later
-release; it costs real QPU time and needs `IBM_QUANTUM_TOKEN`.
+`HardwareBackend` submits to IBM Quantum through `SamplerV2` in backend mode (default target
+`ibm_marrakesh`, optimization level 3, transpiler seed 42, dynamical decoupling `XpXm`). It needs
+`IBM_QUANTUM_TOKEN` in the environment (never in a file) and optionally `instance=` (a CRN).
+
+Safety rules enforced in code:
+
+- `dry_run=True` transpiles and reports depth and gate counts; nothing is submitted.
+- A real submission is refused unless a campaign manifest with predictions already exists
+  (`write_campaign_manifest`, write-once).
+- Job cap per manifest (currently a fixed 5) and a fixed 8192 shots; the circuit must have no free
+  parameters. The cap and shot count will come from the preregistered manifest in a later change.
+
+The dashboard and the test suite never contact IBM Quantum; hardware tests use mocks.
 
 ## Generic layer demo (no QFIM code)
 
