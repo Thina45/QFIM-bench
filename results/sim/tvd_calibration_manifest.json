@@ -1,0 +1,21 @@
+{
+  "config": {
+    "script": "analysis/tvd_calibration.py"
+  },
+  "environment": {
+    "captured_utc": "2026-10-08T11:13:42.694525+00:00",
+    "python": "3.13.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "git_commit": "ee6a30f",
+    "packages": {
+      "qiskit": "2.1.2",
+      "qiskit_aer": "0.17.2",
+      "qiskit_ibm_runtime": "0.41.1",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "pandas": "3.0.6",
+      "mlxtend": "0.25.0",
+      "qfim_bench": "1.0.1"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "coverage": [
+    {
+      "true_tvd": 0.0,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.0,
+      "coverage_floor_corrected": 0.94
+    },
+    {
+      "true_tvd": 0.010000000000000009,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.0,
+      "coverage_floor_corrected": 0.022
+    },
+    {
+      "true_tvd": 0.020000000000000018,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.015,
+      "coverage_floor_corrected": 0.0
+    },
+    {
+      "true_tvd": 0.05000000000000002,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.923,
+      "coverage_floor_corrected": 0.0
+    },
+    {
+      "true_tvd": 0.09999999999999998,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.949,
+      "coverage_floor_corrected": 0.0
+    },
+    {
+      "true_tvd": 0.19999999999999996,
+      "null_floor": 0.024557861328125,
+      "nominal": 0.95,
+      "coverage_naive": 0.949,
+      "coverage_floor_corrected": 0.0
+    }
+  ],
+  "null_floor_vs_truth": 0.024513232421875,
+  "null_floor_two_runs": 0.0346966552734375,
+  "example_pvalue_same_distribution": {
+    "tvd": 0.0272216796875,
+    "null_floor": 0.024513232421875,
+    "bias_corrected_tvd": 0.0027084472656250004,
+    "p_value": 0.21275744851029793
+  }
+}

@@ -70,3 +70,10 @@
     about hardware scaling.
 13. **Phase 3 (hardware) is not started.** No job has been submitted. It needs your approval of a QPU
     budget. The v1 campaign (`campaigns/uniform_marrakesh/`) is untouched.
+14. **TVD interval calibration (Phase 2D, `results/sim/tvd_calibration.json`).** With 32 outcomes, 8192
+    shots and 5 repeats, the repeat-based t-interval reported by `tvd_with_uncertainty` covers the true
+    TVD 0.92-0.95 of the time when the true TVD is 0.05 or larger, but 0.00-0.015 when it is 0.02 or
+    smaller (the empirical TVD sits on the 0.0245 shot-noise floor). Subtracting the floor is NOT a
+    general fix: it works at true TVD 0 (coverage 0.94) and fails elsewhere because the bias shrinks as
+    the true distance grows. Use the interval only when the observed TVD is well above the floor; use
+    `tvd_pvalue` / `two_sample_tvd_pvalue` to decide whether a difference exists at all.
