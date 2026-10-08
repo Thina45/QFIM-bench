@@ -103,12 +103,13 @@ class NoisySimulatorBackend(Backend):
         self,
         fake_backend_name: str = "FakeMarrakesh",
         seed: int | None = None,
-        optimization_level: int | None = None,
+        optimization_level: int | None = 3,
     ):
         """
-        optimization_level=None keeps Qiskit's default (level 1), which reproduces the v1 noisy-
-        simulation numbers. The hardware runs used level 3, so pass optimization_level=3 when the
-        simulated circuit should match the hardware circuit.
+        optimization_level defaults to 3, the level HardwareBackend uses, so a noisy-simulator
+        circuit and a hardware circuit are transpiled the same way and can be compared. Pass 1 to
+        reproduce the archived v1 noisy-simulation numbers (examples/precompute_noisy_sim.py does),
+        or None for Qiskit's own default.
         """
         from qiskit_aer import AerSimulator
         from qiskit_ibm_runtime.fake_provider import FakeMarrakesh

@@ -152,7 +152,7 @@ def table2_reproduction(seed: int, shots: int, noisy: bool) -> dict:
         nz = {}
         for r in range(0, 5):
             qc, _ = build_grover_circuit(N_QUBITS, 2, r, initial_state="uniform", seed=seed)
-            nz[r] = NoisySimulatorBackend(seed=seed).run(qc, shots=shots).counts
+            nz[r] = NoisySimulatorBackend(seed=seed, optimization_level=1).run(qc, shots=shots).counts
         out["noisy_counts"] = nz
         out["noisy_p"] = {r: sum(c for b, c in cts.items() if b.count("1") >= 2) / shots for r, cts in nz.items()}
     return out

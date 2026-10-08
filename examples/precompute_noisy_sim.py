@@ -19,7 +19,7 @@ def main() -> None:
     values = {}
     for r in [1, 2, 3, 4]:
         qc, _ = build_grover_circuit(5, 2, r, initial_state="uniform", seed=42)
-        counts = NoisySimulatorBackend(seed=42).run(qc, shots=8192).counts
+        counts = NoisySimulatorBackend(seed=42, optimization_level=1).run(qc, shots=8192).counts
         values[str(r)] = sum(c for b, c in counts.items() if b.count("1") >= 2) / sum(counts.values())
         print(f"r={r}: {values[str(r)]:.4f}")
     OUT.write_text(json.dumps({"backend": "FakeMarrakesh", "seed": 42, "shots": 8192,
