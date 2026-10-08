@@ -322,6 +322,20 @@ class HardwareBackend(Backend):
 
     # ---- public API --------------------------------------------------------
 
+    @staticmethod
+    def _calibration_timestamp(backend) -> str | None:
+        try:
+            return str(backend.properties().last_update_date)
+        except Exception:
+            return None
+
+    @staticmethod
+    def _circuit_info(tq: QuantumCircuit) -> dict:
+        """Depth, two-qubit count and the physical qubits a transpiled circuit actually touches."""
+        used = {tq.find_bit(q).index for inst in tq.data if inst.operation.name != "barrier" for q in inst.qubits}
+        return {"depth": tq.depth(), "two_qubit_gates": sum(v for k, v in tq.count_ops().items() if k in ("cz", "ecr", "cx")),
+                "physical_qubits": sorted(used)}
+
     def cumulative_usage_seconds(self, manifest: dict | None = None) -> float:
         """Sum of the billed usage seconds recorded in the manifest's jobs."""
         manifest = manifest if manifest is not None else self._load_manifest()
@@ -402,6 +416,8 @@ class HardwareBackend(Backend):
             "job_id": job.job_id(),
             "target": target_label,
             "n_circuits": len(circuits),
+            "calibration_timestamp": self._calibration_timestamp(backend),
+            "circuits_info": [self._circuit_info(tq) for tq in transpiled],
         }
         manifest["jobs"] = manifest.get("jobs", []) + [entry]
         self._save_manifest(manifest)  # record the job id before waiting on it
