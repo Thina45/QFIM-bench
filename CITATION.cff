@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use qfim-bench, please cite it."
 title: "qfim-bench: reproducible benchmarking of Grover-based quantum frequent itemset mining"
 type: software
-version: 1.0.1
+version: 1.1.0
 authors:
   - family-names: P
     given-names: Thinakaran
@@ -13,8 +13,9 @@ authors:
     affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, Tamil Nadu, India"
 license: Apache-2.0
 repository-code: "https://github.com/Thina45/QFIM-bench"
+# NOTE: this DOI belongs to release v1.0.1. Replace it with the DOI Zenodo assigns to v1.1.0 when that release is made.
 doi: "10.5281/zenodo.23204243"
-date-released: "2026-10-07"
+# date-released: set when v1.1.0 is released (not yet released)
 keywords:
   - quantum computing
   - frequent itemset mining

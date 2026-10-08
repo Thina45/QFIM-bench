@@ -17,13 +17,25 @@ fair classical baseline.
 
 ## Install
 
+Fresh environment with the exact tested versions (recommended):
+
 ```bash
-pip install -e .            # simulator-only use: qiskit, qiskit-aer, mlxtend, pandas
-pip install -e ".[hardware]" # adds nothing new: qiskit-ibm-runtime is a core dependency (needed for FakeMarrakesh); the extra is kept for compatibility
-pip install -e ".[dev]"      # adds pytest
+python -m venv .venv && source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements-lock.txt
+pip install -e . --no-deps
 ```
 
-For an exact environment, use `requirements.txt` (versions used for the paper's software checks).
+Or let pip resolve versions (works, but is not the tested combination):
+
+```bash
+pip install -e .             # qiskit, qiskit-aer, qiskit-ibm-runtime, mlxtend, pandas, scipy
+pip install -e ".[dev]"      # adds pytest and pytest-cov
+pip install -e ".[dashboard]"  # adds streamlit for examples/dashboard.py
+```
+
+`qiskit-ibm-runtime` is a core dependency (it supplies the FakeMarrakesh noise model); the `[hardware]`
+extra is kept only for compatibility. A `Dockerfile` runs the tests and the quickstart in the pinned
+environment: `docker build -t qfim-bench . && docker run --rm qfim-bench`.
 
 ## Quickstart (no credentials)
 
