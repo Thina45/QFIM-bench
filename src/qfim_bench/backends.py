@@ -185,7 +185,9 @@ LEGACY_SHOTS = 8192  # shot count of the archived v1 campaign, used only if a ma
 
 # Manifest fields covered by the preregistration hash. "jobs" and "written_utc" are excluded: they
 # change as the campaign runs, so including them would make the hash unverifiable.
-HASHED_MANIFEST_FIELDS = ("predictions", "note", "max_jobs", "shots", "preregistration")
+HASHED_MANIFEST_FIELDS = (
+    "predictions", "note", "max_jobs", "shots", "usage_budget_seconds", "max_job_seconds", "preregistration",
+)
 
 
 def canonical_json(obj) -> str:
@@ -320,22 +322,58 @@ class HardwareBackend(Backend):
 
     # ---- public API --------------------------------------------------------
 
+    def cumulative_usage_seconds(self, manifest: dict | None = None) -> float:
+        """Sum of the billed usage seconds recorded in the manifest's jobs."""
+        manifest = manifest if manifest is not None else self._load_manifest()
+        return float(sum(j.get("usage_seconds") or 0.0 for j in manifest.get("jobs", [])))
+
+    @staticmethod
+    def _billed_seconds(job) -> float | None:
+        """Billed quantum seconds for a finished job, or None if the runtime does not report it."""
+        try:
+            return float(job.usage())
+        except Exception:
+            try:
+                return float(job.metrics()["usage"]["quantum_seconds"])
+            except Exception:
+                return None
+
     def run(self, circuit: QuantumCircuit, shots: int) -> ExecutionResult:
-        self._require_no_parameters(circuit)
+        return self.run_batch([circuit], shots)[0]
+
+    def run_batch(
+        self, circuits: list[QuantumCircuit], shots: int, labels: list[str] | None = None
+    ) -> list[ExecutionResult]:
+        """
+        Submit several circuits as ONE SamplerV2 job (one PUB each) and return one result per circuit,
+        in order. A job costs fixed overhead, so batching is what keeps a many-circuit campaign inside
+        a small QPU budget.
+
+        Manifest fields honoured: max_jobs, shots, usage_budget_seconds (refuse to submit once the
+        recorded billed seconds reach it), max_job_seconds (passed to the runtime as the hard
+        execution-time limit for this job). The billed seconds of every job are written back to the
+        manifest as usage_seconds, with the circuit labels.
+        """
+        if not circuits:
+            raise ValueError("no circuits to run")
+        for c in circuits:
+            self._require_no_parameters(c)
         backend, target_label = self._target()
-        transpiled = self._transpile(circuit, backend)
+        transpiled = [self._transpile(c, backend) for c in circuits]
 
         if self.dry_run:
-            self.last_report = {
-                "target": target_label,
-                "logical_depth": circuit.depth(),
-                "logical_gates": sum(circuit.count_ops().values()),
-                "transpiled_depth": transpiled.depth(),
-                "transpiled_gates": sum(transpiled.count_ops().values()),
-                "two_qubit_gates": sum(v for k, v in transpiled.count_ops().items() if k in ("cz", "ecr", "cx")),
-                "submitted": False,
-            }
-            return ExecutionResult(counts={}, shots=0, backend_name=f"{self.backend_name}:dry-run")
+            reports = [
+                {
+                    "logical_depth": c.depth(),
+                    "logical_gates": sum(c.count_ops().values()),
+                    "transpiled_depth": tq.depth(),
+                    "transpiled_gates": sum(tq.count_ops().values()),
+                    "two_qubit_gates": sum(v for k, v in tq.count_ops().items() if k in ("cz", "ecr", "cx")),
+                }
+                for c, tq in zip(circuits, transpiled)
+            ]
+            self.last_report = {"target": target_label, "submitted": False, **reports[0], "circuits": reports}
+            return [ExecutionResult(counts={}, shots=0, backend_name=f"{self.backend_name}:dry-run") for _ in circuits]
 
         manifest = self._load_manifest()
         job_cap = int(manifest.get("max_jobs", self.max_jobs))
@@ -344,22 +382,40 @@ class HardwareBackend(Backend):
             raise RuntimeError(f"Job cap reached: {job_cap} jobs already submitted for this manifest.")
         if shots != required_shots:
             raise ValueError(f"this campaign's manifest fixes {required_shots} shots; got {shots}")
+        budget = manifest.get("usage_budget_seconds")
+        used = self.cumulative_usage_seconds(manifest)
+        if budget is not None and used >= float(budget):
+            raise RuntimeError(f"Usage budget reached: {used:.1f} s used of {float(budget):.1f} s.")
 
         from qiskit_ibm_runtime import SamplerV2
 
         sampler = SamplerV2(mode=backend)
         sampler.options.dynamical_decoupling.enable = True
         sampler.options.dynamical_decoupling.sequence_type = self.dd_sequence
+        if manifest.get("max_job_seconds") is not None:
+            sampler.options.max_execution_time = int(manifest["max_job_seconds"])
 
-        job = sampler.run([transpiled], shots=shots)
-        manifest["jobs"] = manifest.get("jobs", []) + [
-            {"label": self.label, "job_id": job.job_id(), "target": target_label}
-        ]
+        job = sampler.run(transpiled, shots=shots)
+        entry = {
+            "label": self.label,
+            "labels": list(labels) if labels is not None else [self.label] * len(circuits),
+            "job_id": job.job_id(),
+            "target": target_label,
+            "n_circuits": len(circuits),
+        }
+        manifest["jobs"] = manifest.get("jobs", []) + [entry]
         self._save_manifest(manifest)  # record the job id before waiting on it
 
         result = job.result()
-        counts = result[0].data.c.get_counts()
-        return ExecutionResult(counts=dict(counts), shots=shots, backend_name=self.backend_name)
+        entry["usage_seconds"] = self._billed_seconds(job)
+        self._save_manifest(manifest)
+
+        out = []
+        for c, pub in zip(circuits, result):
+            reg = c.cregs[0].name
+            out.append(ExecutionResult(counts=dict(getattr(pub.data, reg).get_counts()), shots=shots,
+                                       backend_name=self.backend_name))
+        return out
 
 
 def write_campaign_manifest(
@@ -369,6 +425,8 @@ def write_campaign_manifest(
     max_jobs: int | None = None,
     shots: int | None = None,
     preregistration: dict | None = None,
+    usage_budget_seconds: float | None = None,
+    max_job_seconds: int | None = None,
 ) -> None:
     """
     Record predictions for a hardware campaign before any job is submitted.
@@ -394,6 +452,10 @@ def write_campaign_manifest(
         manifest["max_jobs"] = int(max_jobs)
     if shots is not None:
         manifest["shots"] = int(shots)
+    if usage_budget_seconds is not None:
+        manifest["usage_budget_seconds"] = float(usage_budget_seconds)
+    if max_job_seconds is not None:
+        manifest["max_job_seconds"] = int(max_job_seconds)
     if preregistration is not None:
         manifest["preregistration"] = preregistration
     manifest["sha256"] = manifest_hash(manifest)
