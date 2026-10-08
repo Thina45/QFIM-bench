@@ -1,17 +1,20 @@
 """
-backends.py — execution backends for qfim-bench.
+backends.py: execution backends for qfim-bench.
 
-One interface (`Backend.run`) is shared by every execution target, so the
-rest of the pipeline (and noise_analysis.py / reproducibility.py) never has
-to know or care whether a circuit ran on a simulator or real hardware.
+One interface (`Backend.run`) is shared by every execution target, so the rest of the pipeline (and
+noise_analysis.py / reproducibility.py) never has to know whether a circuit ran on a simulator or
+on real hardware.
 
-SimulatorBackend and NoisySimulatorBackend require no credentials and are
-the default path. HardwareBackend requires qiskit-ibm-runtime (an optional
-extra — see pyproject.toml's [hardware] group) and an IBM Quantum API
-token in the IBM_QUANTUM_TOKEN environment variable; it is not implemented
-in this phase (see Step 10 of the build plan) and currently raises
-NotImplementedError with a clear message rather than failing silently or
-half-working.
+SimulatorBackend and NoisySimulatorBackend need no credentials and are the default path. The
+noisy simulator uses the calibration snapshot FakeMarrakesh from qiskit-ibm-runtime, which is a
+core dependency.
+
+HardwareBackend submits to IBM Quantum through SamplerV2 in backend mode. It needs an API key in
+the IBM_QUANTUM_TOKEN environment variable (this package's own convention; the key is passed to
+QiskitRuntimeService explicitly) and, optionally, an instance CRN. Passing `instance` avoids a
+search across every instance on each call. Submission is refused unless a campaign manifest with
+predictions already exists and the job cap has not been reached; dry_run=True transpiles and
+reports without submitting anything.
 """
 
 from __future__ import annotations
@@ -155,6 +158,7 @@ class HardwareBackend(Backend):
         dry_run: bool = False,
         max_jobs: int = 5,
         manifest_path: str | None = None,
+        instance: str | None = None,
         optimization_level: int = 3,
         seed_transpiler: int = 42,
         dd_sequence: str = "XpXm",
@@ -163,6 +167,7 @@ class HardwareBackend(Backend):
         self.dry_run = dry_run
         self.max_jobs = max_jobs
         self.manifest_path = manifest_path
+        self.instance = instance
         self.optimization_level = optimization_level
         self.seed_transpiler = seed_transpiler
         self.dd_sequence = dd_sequence
@@ -177,7 +182,8 @@ class HardwareBackend(Backend):
         token = os.environ.get("IBM_QUANTUM_TOKEN")
         if not token:
             raise RuntimeError("IBM_QUANTUM_TOKEN is not set; cannot reach IBM Quantum.")
-        return QiskitRuntimeService(channel="ibm_quantum_platform", token=token)
+        kwargs = {"instance": self.instance} if self.instance else {}
+        return QiskitRuntimeService(channel="ibm_quantum_platform", token=token, **kwargs)
 
     def _target(self):
         """Return (backend_object, target_label). Dry runs fall back to a local calibration snapshot."""

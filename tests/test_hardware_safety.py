@@ -55,3 +55,25 @@ def test_dry_run_reports_without_submitting(uniform_circuit, monkeypatch):
     assert hb.last_report["submitted"] is False
     assert hb.last_report["transpiled_depth"] > 0
     assert "fallback" in hb.last_report["target"] or "FakeMarrakesh" in hb.last_report["target"]
+
+
+def test_instance_is_forwarded_to_the_service_when_given(monkeypatch):
+    """Mocked: no network, no credentials. The instance CRN must reach QiskitRuntimeService."""
+    import qiskit_ibm_runtime
+
+    seen = {}
+
+    class FakeService:
+        def __init__(self, **kwargs):
+            seen.update(kwargs)
+
+    monkeypatch.setattr(qiskit_ibm_runtime, "QiskitRuntimeService", FakeService)
+    monkeypatch.setenv("IBM_QUANTUM_TOKEN", "dummy-token-for-test")
+
+    HardwareBackend(instance="crn:v1:example")._service()
+    assert seen["instance"] == "crn:v1:example"
+    assert seen["channel"] == "ibm_quantum_platform"
+
+    seen.clear()
+    HardwareBackend()._service()
+    assert "instance" not in seen

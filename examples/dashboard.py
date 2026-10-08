@@ -42,9 +42,15 @@ CAMPAIGN_DIR = ROOT / "campaigns" / "uniform_marrakesh"
 
 
 @st.cache_data(show_spinner=False)
-def noiseless_p(n_items: int, threshold: int, r: int, init: str) -> tuple[float, float]:
-    """Return (theoretical_p, empirical_p) on the seeded noiseless simulator."""
-    qc, info = build_grover_circuit(n_items, threshold, r, initial_state=init, seed=42)
+def noiseless_p(
+    n_items: int, threshold: int, r: int, init: str, diffusion: str = "matched"
+) -> tuple[float, float]:
+    """Return (theoretical_p, empirical_p) on the seeded noiseless simulator.
+
+    theoretical_p is NaN for the mismatched case (ansatz start with Hadamard diffusion)."""
+    qc, info = build_grover_circuit(
+        n_items, threshold, r, initial_state=init, seed=42, diffusion=diffusion
+    )
     counts = SimulatorBackend(seed=42).run(qc, shots=8192).counts
     empirical = sum(c for b, c in counts.items() if b.count("1") >= threshold) / sum(counts.values())
     return info.theoretical_p, empirical
@@ -108,26 +114,33 @@ with tab1:
 # Panel 2: uniform vs. ansatz start state, noiseless
 # ---------------------------------------------------------------------------
 with tab2:
-    st.subheader("Start-state choice changes the noiseless curve entirely")
+    st.subheader("A mismatched diffusion operator flattens the curve")
     st.caption(
-        "Eq. (4) assumes a uniform start. The companion paper's hardware circuits used a random "
-        "EfficientSU2 ansatz start instead. This panel shows the difference with no hardware noise."
+        "Grover amplification needs the diffusion operator to reflect about the same state the "
+        "iteration starts from. From a uniform start the standard Hadamard diffusion does. From a "
+        "random EfficientSU2 ansatz start it does not: the Hadamard diffusion is mismatched and the "
+        "success probability stays flat. A diffusion matched to the ansatz restores the oscillating "
+        "curve. All curves below are noiseless; no hardware noise is involved."
     )
+    series = [
+        ("uniform start", "uniform", "matched"),
+        ("ansatz, Hadamard diffusion (mismatched)", "ansatz", "hadamard"),
+        ("ansatz, matched diffusion", "ansatz", "matched"),
+    ]
     rows2 = []
-    for r in range(1, 5):
-        for init in ["uniform", "ansatz"]:
-            theo, emp = noiseless_p(5, 2, r, init)
-            rows2.append({"r": r, "start": init, "noiseless empirical p": emp, "theory (Eq.4)": theo})
+    for r in range(0, 5):
+        for label, init, diffusion in series:
+            theo, emp = noiseless_p(5, 2, r, init, diffusion)
+            rows2.append({"r": r, "start": label, "noiseless empirical p": emp, "theory": theo})
 
     df2 = pd.DataFrame(rows2)
     pivot = df2.pivot(index="r", columns="start", values="noiseless empirical p")
-    pivot["theory (Eq.4)"] = df2.groupby("r")["theory (Eq.4)"].first()
     st.line_chart(pivot)
     st.dataframe(pivot.style.format("{:.4f}"))
     st.caption(
-        "The ansatz start is flat near 0.80 at every r, with no noise applied. The flatness is a "
-        "property of the start state, not of hardware noise. Use initial_state='uniform' to "
-        "reproduce the oscillating theoretical curve."
+        "Here M=26 of 32 states are marked, a dense regime where doing nothing (r=0) already gives "
+        "0.8125, so the mismatched curve's flatness near 0.80 is easy to mistake for noise. The "
+        "flatness is caused by the operator mismatch, not by the start state itself."
     )
 
 # ---------------------------------------------------------------------------
