@@ -28,14 +28,17 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .backends import Backend, ExecutionResult, get_backend
-from .circuit import CircuitInfo, build_grover_circuit
+from .circuit import CircuitInfo, build_grover_circuit, count_marked_states, optimal_iterations
 from .config import QFIMConfig
 from .encoding import all_nonempty_subsets
+from .marking import data_driven_marked_states
 from .postprocessing import (
+    BaselineMetrics,
     ClassificationMetrics,
     MinedItemset,
     mine_frequent_itemsets,
     precision_recall_f1,
+    trivial_baselines,
 )
 from .manifest import write_experiment_manifest
 from .preprocessing import load_transactions, reduce_to_selected_items, select_top_k_items
@@ -51,6 +54,7 @@ class QFIMBenchResult:
     backend: Backend  # kept so callers can reuse it for noise_analysis/reproducibility
     ground_truth_frequent: set[frozenset[str]] | None = None
     metrics: ClassificationMetrics | None = None
+    baselines: dict[str, BaselineMetrics] | None = None
 
 
 def run_qfim_bench(
@@ -80,17 +84,29 @@ def run_qfim_bench(
     # Stage 2 (encoding) has no separate step here — item_order IS the
     # encoding; circuit.py and postprocessing.py both take it directly.
 
-    # Stage 3: circuit construction. initial_state and seed are threaded
-    # through explicitly: "uniform" (default) reproduces Eq. (4) exactly in
-    # simulation; "ansatz" reproduces the companion paper's hardware
-    # circuit (flat even without noise — see README).
+    # Stage 3: circuit construction. The marked set is precomputed classically (see marking.py).
+    n_states = 2 ** config.top_k_items
+    if config.marking == "support":
+        marked = data_driven_marked_states(reduced_transactions, item_order, config.min_support)
+    elif config.marking == "explicit":
+        marked = [int(i) for i in config.marked_states]
+    else:
+        marked = None  # v1 cardinality oracle, driven by config.oracle_threshold
+
+    n_marked = len(marked) if marked is not None else count_marked_states(
+        config.top_k_items, config.oracle_threshold
+    )
+    r = config.grover_iterations if config.grover_iterations is not None else optimal_iterations(n_marked, n_states)
+
     circuit, circuit_info = build_grover_circuit(
         n_items=config.top_k_items,
         threshold=config.oracle_threshold,
-        r=config.grover_iterations,
+        r=r,
         reps=config.ansatz_reps,
         initial_state=config.initial_state,
         seed=config.seed,
+        diffusion=config.diffusion,
+        marked_states=marked,
     )
 
     # Stage 4: execution. Only aer_simulator and noisy_simulator accept a
@@ -122,6 +138,9 @@ def run_qfim_bench(
     if ground_truth_frequent is not None:
         predicted = {frozenset(m.itemset) for m in mined if m.is_frequent}
         result.metrics = precision_recall_f1(predicted, ground_truth_frequent)
+        result.baselines = trivial_baselines(
+            [frozenset(m.itemset) for m in mined], ground_truth_frequent, seed=config.seed
+        )
 
     if manifest_path is not None:
         write_experiment_manifest(
