@@ -1,0 +1,69 @@
+n=2 M=1 mcx        r=0: analytical 0.250 noisy 0.252 [0.249,0.256] depth 4 2Q 0
+n=2 M=1 mcx        r=1: analytical 1.000 noisy 0.972 [0.969,0.974] depth 39 2Q 9
+n=2 M=1 mcx        r=2: analytical 0.250 noisy 0.252 [0.249,0.256] depth 69 2Q 24
+n=2 M=1 mcx        r=3: analytical 0.250 noisy 0.252 [0.249,0.255] depth 99 2Q 39
+   criterion n=2 M=1 mcx: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=2 M=1 mcz        r=0: analytical 0.250 noisy 0.252 [0.249,0.256] depth 4 2Q 0
+n=2 M=1 mcz        r=1: analytical 1.000 noisy 0.987 [0.987,0.988] depth 10 2Q 2
+n=2 M=1 mcz        r=2: analytical 0.250 noisy 0.252 [0.249,0.255] depth 8 2Q 2
+n=2 M=1 mcz        r=3: analytical 0.250 noisy 0.252 [0.249,0.256] depth 4 2Q 0
+   criterion n=2 M=1 mcz: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=2 M=1 mcx_vchain r=0: analytical 0.250 noisy 0.252 [0.249,0.256] depth 4 2Q 0
+n=2 M=1 mcx_vchain r=1: analytical 1.000 noisy 0.972 [0.969,0.974] depth 39 2Q 9
+n=2 M=1 mcx_vchain r=2: analytical 0.250 noisy 0.252 [0.249,0.256] depth 69 2Q 24
+n=2 M=1 mcx_vchain r=3: analytical 0.250 noisy 0.252 [0.249,0.255] depth 99 2Q 39
+   criterion n=2 M=1 mcx_vchain: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=3 M=1 mcx        r=0: analytical 0.125 noisy 0.126 [0.122,0.129] depth 4 2Q 0
+n=3 M=1 mcx        r=1: analytical 0.781 noisy 0.712 [0.709,0.714] depth 102 2Q 28
+n=3 M=1 mcx        r=2: analytical 0.945 noisy 0.754 [0.750,0.757] depth 214 2Q 72
+n=3 M=1 mcx        r=3: analytical 0.330 noisy 0.270 [0.266,0.274] depth 323 2Q 116
+n=3 M=1 mcx        r=4: analytical 0.012 noisy 0.070 [0.066,0.075] depth 428 2Q 158
+   criterion n=3 M=1 mcx: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=3 M=1 mcz        r=0: analytical 0.125 noisy 0.126 [0.122,0.129] depth 4 2Q 0
+n=3 M=1 mcz        r=1: analytical 0.781 noisy 0.732 [0.729,0.736] depth 72 2Q 19
+n=3 M=1 mcz        r=2: analytical 0.945 noisy 0.848 [0.844,0.851] depth 142 2Q 39
+n=3 M=1 mcz        r=3: analytical 0.330 noisy 0.312 [0.309,0.315] depth 206 2Q 57
+n=3 M=1 mcz        r=4: analytical 0.012 noisy 0.042 [0.040,0.044] depth 284 2Q 79
+   criterion n=3 M=1 mcz: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=3 M=1 mcx_vchain r=0: analytical 0.125 noisy 0.126 [0.122,0.129] depth 4 2Q 0
+n=3 M=1 mcx_vchain r=1: analytical 0.781 noisy 0.715 [0.712,0.718] depth 98 2Q 23
+n=3 M=1 mcx_vchain r=2: analytical 0.945 noisy 0.823 [0.820,0.826] depth 220 2Q 83
+n=3 M=1 mcx_vchain r=3: analytical 0.330 noisy 0.282 [0.276,0.288] depth 313 2Q 122
+n=3 M=1 mcx_vchain r=4: analytical 0.012 noisy 0.079 [0.076,0.081] depth 410 2Q 155
+   criterion n=3 M=1 mcx_vchain: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=4 M=2 mcx        r=0: analytical 0.125 noisy 0.123 [0.115,0.130] depth 4 2Q 0
+n=4 M=2 mcx        r=1: analytical 0.781 noisy 0.545 [0.539,0.552] depth 454 2Q 165
+n=4 M=2 mcx        r=2: analytical 0.945 noisy 0.502 [0.498,0.505] depth 934 2Q 325
+n=4 M=2 mcx        r=3: analytical 0.330 noisy 0.237 [0.231,0.244] depth 1372 2Q 478
+n=4 M=2 mcx        r=4: analytical 0.012 noisy 0.143 [0.139,0.147] depth 1833 2Q 646
+   criterion n=4 M=2 mcx: pass=False {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': False}
+n=4 M=2 mcz        r=0: analytical 0.125 noisy 0.123 [0.115,0.130] depth 4 2Q 0
+n=4 M=2 mcz        r=1: analytical 0.781 noisy 0.666 [0.662,0.671] depth 213 2Q 56
+n=4 M=2 mcz        r=2: analytical 0.945 noisy 0.710 [0.707,0.712] depth 431 2Q 113
+n=4 M=2 mcz        r=3: analytical 0.330 noisy 0.263 [0.260,0.266] depth 647 2Q 170
+n=4 M=2 mcz        r=4: analytical 0.012 noisy 0.094 [0.090,0.097] depth 862 2Q 227
+   criterion n=4 M=2 mcz: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=4 M=2 mcx_vchain r=0: analytical 0.125 noisy 0.123 [0.115,0.130] depth 4 2Q 0
+n=4 M=2 mcx_vchain r=1: analytical 0.781 noisy 0.626 [0.619,0.633] depth 269 2Q 85
+n=4 M=2 mcx_vchain r=2: analytical 0.945 noisy 0.659 [0.653,0.665] depth 553 2Q 202
+n=4 M=2 mcx_vchain r=3: analytical 0.330 noisy 0.275 [0.269,0.281] depth 836 2Q 330
+n=4 M=2 mcx_vchain r=4: analytical 0.012 noisy 0.151 [0.148,0.153] depth 1102 2Q 443
+   criterion n=4 M=2 mcx_vchain: pass=True {'1_ratio_ge_3': True, '2_floor_ge_0.40': True, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': True}
+n=5 M=4 mcx        r=0: analytical 0.125 noisy 0.122 [0.117,0.128] depth 4 2Q 0
+n=5 M=4 mcx        r=1: analytical 0.781 noisy 0.201 [0.194,0.207] depth 2065 2Q 802
+n=5 M=4 mcx        r=2: analytical 0.945 noisy 0.158 [0.150,0.165] depth 3830 2Q 1661
+n=5 M=4 mcx        r=3: analytical 0.330 noisy 0.131 [0.124,0.139] depth 5770 2Q 2498
+n=5 M=4 mcx        r=4: analytical 0.012 noisy 0.120 [0.117,0.123] depth 7716 2Q 3325
+   criterion n=5 M=4 mcx: pass=False {'1_ratio_ge_3': False, '2_floor_ge_0.40': False, '3_gap_over_M/N_ge_0.20': False, '4_is_max_within_sd': False}
+n=5 M=4 mcz        r=0: analytical 0.125 noisy 0.122 [0.117,0.128] depth 4 2Q 0
+n=5 M=4 mcz        r=1: analytical 0.781 noisy 0.387 [0.381,0.392] depth 880 2Q 329
+n=5 M=4 mcz        r=2: analytical 0.945 noisy 0.279 [0.271,0.287] depth 1761 2Q 668
+n=5 M=4 mcz        r=3: analytical 0.330 noisy 0.165 [0.159,0.171] depth 2636 2Q 1011
+n=5 M=4 mcz        r=4: analytical 0.012 noisy 0.139 [0.138,0.140] depth 3525 2Q 1354
+   criterion n=5 M=4 mcz: pass=False {'1_ratio_ge_3': False, '2_floor_ge_0.40': False, '3_gap_over_M/N_ge_0.20': False, '4_is_max_within_sd': False}
+n=5 M=4 mcx_vchain r=0: analytical 0.125 noisy 0.122 [0.117,0.128] depth 4 2Q 0
+n=5 M=4 mcx_vchain r=1: analytical 0.781 noisy 0.415 [0.411,0.420] depth 624 2Q 227
+n=5 M=4 mcx_vchain r=2: analytical 0.945 noisy 0.360 [0.358,0.363] depth 1345 2Q 465
+n=5 M=4 mcx_vchain r=3: analytical 0.330 noisy 0.234 [0.228,0.240] depth 2107 2Q 802
+n=5 M=4 mcx_vchain r=4: analytical 0.012 noisy 0.183 [0.178,0.188] depth 2713 2Q 963
+   criterion n=5 M=4 mcx_vchain: pass=False {'1_ratio_ge_3': False, '2_floor_ge_0.40': False, '3_gap_over_M/N_ge_0.20': True, '4_is_max_within_sd': False}
