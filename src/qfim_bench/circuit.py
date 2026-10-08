@@ -1,38 +1,54 @@
 """
-circuit.py — Grover-based Quantum Apriori circuit construction for qfim-bench.
+circuit.py: Grover-based frequent-itemset search circuits for qfim-bench.
 
-Implements the construction described in the companion hardware-characterization
-paper (Methodology section):
+What this circuit is, exactly: a one-shot Grover search over all 2^n candidate itemsets. A set of
+basis states is marked by an oracle that is *precomputed classically* (from classical support, from
+a Hamming-weight rule, or given explicitly); Grover iterations then amplify that set and the
+measured bitstrings are scored classically. It is not level-wise Apriori (no downward-closure
+pruning, no quantum support evaluation), and it carries no claim of quantum advantage: classically
+precomputing the marked set already solves the mining problem.
 
-    U_QA = (D . O)^r . U_init
+    U = (D . O)^r . A
 
-where:
-    U_init : EfficientSU2 ansatz (linear entanglement) state preparation
-    O      : Hamming-weight threshold oracle, phase kickback on an ancilla in |->
-    D      : diffusion operator, D = 2|psi_0><psi_0| - I
+    A : start-state preparation (H^n, or a bound EfficientSU2 ansatz)
+    O : oracle, phase kickback on an ancilla in |->, one multi-controlled X per marked state
+    D : diffusion, a reflection about the start state A|0>
 
-Theoretical (noiseless) success probability after r Grover iterations:
+Grover theory requires D to reflect about the SAME state the iteration starts from:
 
-    P_r(marked) = sin^2((2r + 1) * theta),   theta = arcsin(sqrt(M / N))
+    diffusion="matched"   D = A (2|0><0| - I) A^dagger     (correct for any start state)
+    diffusion="hadamard"  D = H^n (2|0><0| - I) H^n        (reflection about the uniform state)
 
-M = number of oracle-marked basis states (Hamming weight >= threshold)
-N = 2^n_items (total basis states, excluding ancilla)
+The two coincide for the uniform start. For the ansatz start, "hadamard" is MISMATCHED: it does not
+amplify the marked subspace, and the success probability stays flat. The v1 paper's ansatz
+experiments used the mismatched operator; it is kept (and labelled) so that pitfall stays
+reproducible. See review/AUDIT.md.
+
+With a matched diffusion, the noiseless success probability after r iterations is
+
+    P_r = sin^2((2r + 1) theta),   theta = arcsin(sqrt(P_0)),   P_0 = P(marked | start state)
+
+P_0 = M/N for the uniform start. For the mismatched case there is no closed form
+(CircuitInfo.theoretical_p is NaN); use exact_success_probability() instead.
+
+Qubit/bit convention: see encoding.py (item_order[p] <-> qubit p <-> bit p of the basis index).
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from itertools import combinations
-from math import asin, comb, sqrt
+from math import asin, comb, floor, nan, pi, sin, sqrt
+from typing import Sequence
 
 import numpy as np
 from qiskit import QuantumCircuit
 from qiskit.circuit.library import efficient_su2
+from qiskit.quantum_info import Statevector
 
 
 # --------------------------------------------------------------------------
-# Theoretical quantities (pure math, no circuit needed — useful for tests
-# and for sanity-checking a hardware/simulator run against theory)
+# Theoretical quantities (pure math, no circuit needed)
 # --------------------------------------------------------------------------
 
 def count_marked_states(n_items: int, threshold: int) -> int:
@@ -57,35 +73,44 @@ def rotation_angle(M: int, N: int) -> float:
 
 def theoretical_success_probability(M: int, N: int, r: int) -> float:
     """
-    Noiseless success probability after r Grover iterations.
+    Noiseless success probability after r Grover iterations from the uniform start with a matched
+    diffusion: P_r = sin^2((2r + 1) theta), theta = arcsin(sqrt(M / N)).
 
-    P_r(marked) = sin^2((2r + 1) * theta), theta = arcsin(sqrt(M / N))
-
-    Matches Eq. (4) in the companion paper. For M=26, N=32:
-        r=1 -> 0.0508
-        r=2 -> 0.3840
-        r=3 -> 0.99995
-        r=4 -> 0.3972
+    For M=26, N=32: r=1 -> 0.0508, r=2 -> 0.3840, r=3 -> 0.99995, r=4 -> 0.3972.
     """
     if r < 0:
         raise ValueError("r must be non-negative")
-    theta = rotation_angle(M, N)
-    from math import sin
-    return sin((2 * r + 1) * theta) ** 2
+    return sin((2 * r + 1) * rotation_angle(M, N)) ** 2
+
+
+def success_probability_from_start(p_start: float, r: int) -> float:
+    """P_r = sin^2((2r + 1) asin(sqrt(p_start))): Grover with a matched diffusion from any start state."""
+    if r < 0:
+        raise ValueError("r must be non-negative")
+    if not (0.0 <= p_start <= 1.0):
+        raise ValueError("p_start must be in [0, 1]")
+    return sin((2 * r + 1) * asin(sqrt(p_start))) ** 2
+
+
+def optimal_iterations(M: int, N: int) -> int:
+    """r_opt = floor(pi / (4 theta)). Requires M, the number of marked states, to be known."""
+    if M < 1:
+        raise ValueError("M must be at least 1")
+    return floor(pi / (4.0 * rotation_angle(M, N)))
 
 
 # --------------------------------------------------------------------------
-# Circuit construction
+# Start-state preparation
 # --------------------------------------------------------------------------
 
 INITIAL_STATES = ("ansatz", "uniform")
+DIFFUSIONS = ("matched", "hadamard")
 
 
 def bind_parameters(qc: QuantumCircuit, seed: int = 42) -> QuantumCircuit:
     """
-    Bind every free parameter to a value drawn uniformly from [-pi, pi] with
-    NumPy seed `seed`, in qc.parameters order. This reproduces the angle
-    protocol used for the paper's hardware runs (seed 42). Returns a new,
+    Bind every free parameter to a value drawn uniformly from [-pi, pi] with NumPy seed `seed`, in
+    qc.parameters order (the angle protocol of the paper's hardware runs, seed 42). Returns a new,
     fully bound circuit.
     """
     if not qc.parameters:
@@ -95,6 +120,28 @@ def bind_parameters(qc: QuantumCircuit, seed: int = 42) -> QuantumCircuit:
     return qc.assign_parameters(dict(zip(qc.parameters, values)))
 
 
+def build_start_preparation(
+    n_items: int, reps: int = 1, kind: str = "ansatz", seed: int = 42
+) -> QuantumCircuit:
+    """
+    The start-state unitary A on n_items qubits (no ancilla).
+
+    kind="uniform": H on every qubit.
+    kind="ansatz":  EfficientSU2 (linear entanglement, `reps` repetitions) with parameters bound
+                    by bind_parameters(seed).
+    """
+    if n_items < 1:
+        raise ValueError("n_items must be >= 1")
+    if kind not in INITIAL_STATES:
+        raise ValueError(f"kind must be one of {INITIAL_STATES}")
+    if kind == "uniform":
+        qc = QuantumCircuit(n_items, name="A_uniform")
+        qc.h(range(n_items))
+        return qc
+    ansatz = efficient_su2(n_items, entanglement="linear", reps=reps).decompose()
+    return bind_parameters(ansatz, seed=seed)
+
+
 def build_initial_state(
     n_items: int,
     reps: int = 1,
@@ -102,29 +149,19 @@ def build_initial_state(
     seed: int = 42,
 ) -> QuantumCircuit:
     """
-    Initial-state preparation on n_items qubits; returns n_items + 1 qubits
-    (the last is the oracle's ancilla, left untouched here).
-
-    kind="ansatz":  EfficientSU2 (linear entanglement) with parameters bound
-                    by bind_parameters(seed). This is what the paper's
-                    hardware circuits used.
-    kind="uniform": H on every item qubit, i.e. |psi_0> = H^{⊗n}|0>^{⊗n}.
-                    This is the start state assumed by Eq. (4).
+    The start state on n_items + 1 qubits (the last is the oracle's ancilla, left untouched) with
+    classical bits for the item qubits only.
     """
-    if n_items < 1:
-        raise ValueError("n_items must be >= 1")
-    if kind not in INITIAL_STATES:
-        raise ValueError(f"kind must be one of {INITIAL_STATES}")
-
-    qc = QuantumCircuit(n_items + 1, n_items)  # +1 ancilla, classical bits for item qubits only
-    if kind == "uniform":
-        qc.h(range(n_items))
-        return qc
-
-    ansatz = efficient_su2(n_items, entanglement="linear", reps=reps).decompose()
-    ansatz = bind_parameters(ansatz, seed=seed)
-    qc.compose(ansatz, qubits=range(n_items), inplace=True)
+    prep = build_start_preparation(n_items, reps=reps, kind=kind, seed=seed)
+    qc = QuantumCircuit(n_items + 1, n_items)
+    qc.compose(prep, qubits=range(n_items), inplace=True)
     return qc
+
+
+def start_marked_probability(preparation: QuantumCircuit, marked_indices: Sequence[int]) -> float:
+    """P_0 = P(marked | A|0>), from the exact statevector of the preparation."""
+    probs = Statevector.from_instruction(preparation).probabilities()
+    return float(sum(probs[i] for i in marked_indices))
 
 
 def prepare_ancilla_minus(qc: QuantumCircuit, ancilla_index: int) -> None:
@@ -133,10 +170,20 @@ def prepare_ancilla_minus(qc: QuantumCircuit, ancilla_index: int) -> None:
     qc.h(ancilla_index)
 
 
+# --------------------------------------------------------------------------
+# Oracles
+# --------------------------------------------------------------------------
+
+def cardinality_marked_indices(n_items: int, threshold: int) -> list[int]:
+    """Basis-state indices with Hamming weight >= threshold (the v1 cardinality oracle's marked set)."""
+    count_marked_states(n_items, threshold)  # validates the arguments
+    return [i for i in range(2**n_items) if bin(i).count("1") >= threshold]
+
+
 def _marked_bitstrings(n_items: int, threshold: int) -> list[str]:
     """
-    All n_items-bit strings (MSB-first) with Hamming weight >= threshold,
-    i.e. the basis states the oracle must mark.
+    All n_items-bit patterns (string index p <-> qubit p) with Hamming weight >= threshold: the
+    basis states the v1 oracle marks. Kept as-is so v1 circuits are reproduced gate for gate.
     """
     marked = []
     for weight in range(threshold, n_items + 1):
@@ -150,16 +197,14 @@ def _marked_bitstrings(n_items: int, threshold: int) -> list[str]:
 
 def build_oracle(n_items: int, threshold: int) -> QuantumCircuit:
     """
-    Hamming-weight threshold oracle on n_items + 1 qubits (qubit n_items is
-    the ancilla, assumed already prepared in |-> by the caller).
+    Hamming-weight (cardinality) oracle on n_items + 1 qubits (qubit n_items is the ancilla,
+    assumed already in |->):
 
-    O|b>|-> = -|b>|->  if |b| >= threshold
-             |b>|->   if |b| < threshold
+        O|b>|-> = -|b>|->  if |b| >= threshold,   |b>|->  otherwise.
 
-    Implemented by enumerating every qualifying basis state and applying a
-    multi-controlled-X (targeting the ancilla) gated on that exact bit
-    pattern, using X gates to flip the "0" control qubits before and after
-    each multi-controlled-X (standard basis-state-marking construction).
+    One multi-controlled X per marked state, X gates flipping the zero-valued controls. This marks
+    states by itemset SIZE only; it never looks at transactions. Special case of
+    build_oracle_for_states.
     """
     ancilla = n_items
     qc = QuantumCircuit(n_items + 1, name="oracle")
@@ -181,18 +226,43 @@ def build_oracle(n_items: int, threshold: int) -> QuantumCircuit:
     return qc
 
 
-def build_diffusion(n_items: int) -> QuantumCircuit:
+def build_oracle_for_states(n_items: int, marked_indices: Sequence[int]) -> QuantumCircuit:
     """
-    Diffusion operator D = 2|psi_0><psi_0| - I over the n_items item qubits,
-    implemented as H^xn X^xn C^(n-1)Z X^xn H^xn. Acts only on the first
-    n_items qubits; the ancilla (qubit n_items, if present in the composed
-    circuit) is untouched.
+    Oracle marking exactly the given basis-state indices (bit p of an index is qubit p), on
+    n_items + 1 qubits with the ancilla assumed in |->. The marked set is supplied by the caller,
+    i.e. precomputed classically; the circuit only applies the phase flip.
+
+    Cost: one multi-controlled X per marked state, so oracle size grows linearly in M.
     """
-    qc = QuantumCircuit(n_items, name="diffusion")
+    indices = [int(i) for i in marked_indices]
+    if len(set(indices)) != len(indices):
+        raise ValueError("marked_indices contains duplicates")
+    if not indices:
+        raise ValueError("marked_indices is empty; Grover search needs at least one marked state")
+    if any(not (0 <= i < 2**n_items) for i in indices):
+        raise ValueError(f"marked index out of range for {n_items} qubits")
 
-    qc.h(range(n_items))
-    qc.x(range(n_items))
+    ancilla = n_items
+    qc = QuantumCircuit(n_items + 1, name="oracle_states")
+    for i in sorted(indices):
+        zero_positions = [p for p in range(n_items) if not (i >> p) & 1]
+        for p in zero_positions:
+            qc.x(p)
+        if n_items == 1:
+            qc.cx(0, ancilla)
+        else:
+            qc.mcx(list(range(n_items)), ancilla)
+        for p in zero_positions:
+            qc.x(p)
+    return qc
 
+
+# --------------------------------------------------------------------------
+# Diffusion
+# --------------------------------------------------------------------------
+
+def _phase_flip_all_ones(qc: QuantumCircuit, n_items: int) -> None:
+    """Flip the sign of |1...1> (C^{n-1}Z)."""
     if n_items == 1:
         qc.z(0)
     else:
@@ -200,15 +270,49 @@ def build_diffusion(n_items: int) -> QuantumCircuit:
         qc.mcx(list(range(n_items - 1)), n_items - 1)
         qc.h(n_items - 1)
 
-    qc.x(range(n_items))
-    qc.h(range(n_items))
 
+def build_diffusion(n_items: int, preparation: QuantumCircuit | None = None) -> QuantumCircuit:
+    """
+    Diffusion over the n_items item qubits (ancilla untouched).
+
+    preparation=None: the Hadamard diffusion H^n X^n C^{n-1}Z X^n H^n, i.e. a reflection about the
+    UNIFORM state (equal to 2|s><s| - I up to a global phase). Correct only for the uniform start.
+
+    preparation=A: the matched diffusion A X^n C^{n-1}Z X^n A^dagger, a reflection about A|0>
+    (up to a global phase). Correct for any start state; reduces to the Hadamard form when A = H^n.
+    """
+    qc = QuantumCircuit(n_items, name="diffusion")
+    if preparation is None:
+        qc.h(range(n_items))
+        qc.x(range(n_items))
+        _phase_flip_all_ones(qc, n_items)
+        qc.x(range(n_items))
+        qc.h(range(n_items))
+        return qc
+
+    if preparation.num_qubits != n_items:
+        raise ValueError("preparation must act on exactly n_items qubits")
+    qc.compose(preparation.inverse(), inplace=True)
+    qc.x(range(n_items))
+    _phase_flip_all_ones(qc, n_items)
+    qc.x(range(n_items))
+    qc.compose(preparation, inplace=True)
     return qc
 
 
+# --------------------------------------------------------------------------
+# Full circuit
+# --------------------------------------------------------------------------
+
 @dataclass
 class CircuitInfo:
-    """Metadata about a built circuit, useful for scaling studies and reports."""
+    """
+    Metadata about a built circuit.
+
+    theta is the rotation angle of the actual start state, asin(sqrt(P_0)); for the uniform start
+    this is asin(sqrt(M/N)). theoretical_p is the closed-form noiseless success probability and is
+    NaN when no closed form applies (ansatz start with the mismatched Hadamard diffusion).
+    """
     n_items: int
     threshold: int
     r: int
@@ -216,6 +320,10 @@ class CircuitInfo:
     N: int
     theta: float
     theoretical_p: float
+    initial_state: str = "uniform"
+    diffusion: str = "matched"
+    start_marked_probability: float = nan
+    marked_indices: tuple[int, ...] = field(default_factory=tuple)
 
 
 def build_grover_circuit(
@@ -226,46 +334,81 @@ def build_grover_circuit(
     measure: bool = True,
     initial_state: str = "ansatz",
     seed: int = 42,
+    diffusion: str = "matched",
+    marked_states: Sequence[int] | None = None,
 ) -> tuple[QuantumCircuit, CircuitInfo]:
     """
-    Compose the full circuit: U_QA = (D . O)^r . U_init, then measure the
-    n_items item qubits (ancilla is not measured).
+    Compose U = (D . O)^r . A on n_items + 1 qubits and measure the item qubits.
 
-    initial_state="ansatz" reproduces the paper's hardware circuits (bound
-    EfficientSU2 start state). initial_state="uniform" uses H^{⊗n}|0>, the
-    start state for which Eq. (4) is exact. The returned circuit has no free
-    parameters, so it can be run directly on any backend.
+    marked_states: basis-state indices to mark (precomputed classically). If None, the v1
+    cardinality oracle marks every state of Hamming weight >= threshold; if given, `threshold` is
+    ignored.
 
-    Returns (circuit, info) where info carries the theoretical quantities
-    (M, N, theta, theoretical success probability) for this configuration.
+    initial_state: "uniform" (H^n) or "ansatz" (bound EfficientSU2, parameters from `seed`).
+
+    diffusion: "matched" (reflection about A|0>, correct for every start state) or "hadamard"
+    (reflection about the uniform state; MISMATCHED for the ansatz start, kept to reproduce v1).
+
+    The returned circuit has no free parameters and runs on any backend. info carries M, N and the
+    closed-form noiseless probability where one exists.
     """
     if r < 0:
         raise ValueError("r must be non-negative")
+    if diffusion not in DIFFUSIONS:
+        raise ValueError(f"diffusion must be one of {DIFFUSIONS}")
 
-    ancilla = n_items
-    qc = build_initial_state(n_items, reps=reps, kind=initial_state, seed=seed)
-    prepare_ancilla_minus(qc, ancilla)
+    prep = build_start_preparation(n_items, reps=reps, kind=initial_state, seed=seed)
+    qc = QuantumCircuit(n_items + 1, n_items)
+    qc.compose(prep, qubits=range(n_items), inplace=True)
+    prepare_ancilla_minus(qc, n_items)
 
-    oracle = build_oracle(n_items, threshold)
-    diffusion = build_diffusion(n_items)
+    if marked_states is None:
+        indices = cardinality_marked_indices(n_items, threshold)
+        oracle = build_oracle(n_items, threshold)
+    else:
+        indices = sorted(int(i) for i in marked_states)
+        oracle = build_oracle_for_states(n_items, indices)
+
+    matched = diffusion == "matched" or initial_state == "uniform"
+    d_circuit = build_diffusion(n_items, preparation=prep if diffusion == "matched" else None)
 
     for _ in range(r):
         qc.compose(oracle, qubits=range(n_items + 1), inplace=True)
-        qc.compose(diffusion, qubits=range(n_items), inplace=True)
+        qc.compose(d_circuit, qubits=range(n_items), inplace=True)
 
     if measure:
         qc.measure(range(n_items), range(n_items))
 
-    M = count_marked_states(n_items, threshold)
-    N = 2 ** n_items
-    theta = rotation_angle(M, N)
+    M = len(indices)
+    N = 2**n_items
+    p0 = start_marked_probability(prep, indices)
     info = CircuitInfo(
         n_items=n_items,
         threshold=threshold,
         r=r,
         M=M,
         N=N,
-        theta=theta,
-        theoretical_p=theoretical_success_probability(M, N, r),
+        theta=asin(sqrt(min(max(p0, 0.0), 1.0))),
+        theoretical_p=success_probability_from_start(p0, r) if matched else nan,
+        initial_state=initial_state,
+        diffusion=diffusion,
+        start_marked_probability=p0,
+        marked_indices=tuple(indices),
     )
     return qc, info
+
+
+def exact_success_probability(
+    n_items: int,
+    threshold: int,
+    r: int,
+    **kwargs,
+) -> float:
+    """
+    Exact noiseless P(marked) of the circuit build_grover_circuit would build, from its
+    statevector (no shot noise). Valid for any start state and either diffusion, including the
+    mismatched case where no closed form exists. Practical up to about n_items = 10.
+    """
+    qc, info = build_grover_circuit(n_items, threshold, r, measure=False, **kwargs)
+    probs = Statevector.from_instruction(qc).probabilities(qargs=list(range(n_items)))
+    return float(sum(probs[i] for i in info.marked_indices))

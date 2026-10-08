@@ -11,7 +11,8 @@ from qfim_bench.scaling import growth_factors, sweep_item_counts
 
 @pytest.fixture(scope="module")
 def r1_circuit():
-    qc, _ = build_grover_circuit(5, 2, 1, initial_state="ansatz", seed=42)
+    # v1 hardware used the mismatched Hadamard diffusion, so reproduce that circuit explicitly
+    qc, _ = build_grover_circuit(5, 2, 1, initial_state="ansatz", seed=42, diffusion="hadamard")
     return qc
 
 
