@@ -99,7 +99,17 @@ class NoisySimulatorBackend(Backend):
 
     name = "noisy_simulator"
 
-    def __init__(self, fake_backend_name: str = "FakeMarrakesh", seed: int | None = None):
+    def __init__(
+        self,
+        fake_backend_name: str = "FakeMarrakesh",
+        seed: int | None = None,
+        optimization_level: int | None = None,
+    ):
+        """
+        optimization_level=None keeps Qiskit's default (level 1), which reproduces the v1 noisy-
+        simulation numbers. The hardware runs used level 3, so pass optimization_level=3 when the
+        simulated circuit should match the hardware circuit.
+        """
         from qiskit_aer import AerSimulator
         from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
 
@@ -115,15 +125,37 @@ class NoisySimulatorBackend(Backend):
         self._sim = AerSimulator.from_backend(fake_backend)
         self.name = f"noisy_simulator[{fake_backend_name}]"
         self._seed = seed
+        self._optimization_level = optimization_level
 
-    def run(self, circuit: QuantumCircuit, shots: int) -> ExecutionResult:
+    def _transpile(self, circuit: QuantumCircuit):
         from qiskit import transpile
 
-        transpiled = transpile(circuit, self._sim, seed_transpiler=self._seed)
+        kwargs = {"seed_transpiler": self._seed}
+        if self._optimization_level is not None:
+            kwargs["optimization_level"] = self._optimization_level
+        return transpile(circuit, self._sim, **kwargs)
+
+    def run(self, circuit: QuantumCircuit, shots: int) -> ExecutionResult:
+        transpiled = self._transpile(circuit)
         job = self._sim.run(transpiled, shots=shots, seed_simulator=self._seed)
         result = job.result()
         counts = result.get_counts()
         return ExecutionResult(counts=counts, shots=shots, backend_name=self.name)
+
+    def run_repeats(
+        self, circuit: QuantumCircuit, shots: int, seeds: list[int]
+    ) -> list[ExecutionResult]:
+        """
+        Transpile once, then sample once per simulator seed. Repeats differ only in shot noise
+        (the transpiled circuit is identical), which is what a repeat-run study needs, and it
+        avoids paying the transpile cost per repeat.
+        """
+        transpiled = self._transpile(circuit)
+        results = []
+        for seed in seeds:
+            counts = self._sim.run(transpiled, shots=shots, seed_simulator=seed).result().get_counts()
+            results.append(ExecutionResult(counts=counts, shots=shots, backend_name=self.name))
+        return results
 
 
 # --------------------------------------------------------------------------

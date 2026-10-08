@@ -1,13 +1,19 @@
 # qfim-bench
 
-Reproducible benchmarking of Grover-based quantum frequent itemset mining (QFIM).
+Reproducible benchmarking of Grover-based frequent itemset search.
 
-`qfim-bench` builds the Grover-based search circuit used in our hardware-characterization study,
-runs it on a simulator (or, later, IBM Quantum hardware), mines frequent itemsets from the measured
-bitstrings, and scores them against exact classical ground truth. It also provides the statistics,
-noise-comparison, reproducibility, and complexity-scaling tools used in the accompanying paper.
+## What this is, exactly
 
-**This package does not claim quantum advantage.** It is a measurement and reproducibility tool.
+`qfim-bench` runs a **one-shot Grover search over all 2^n candidate itemsets**. The set of basis
+states to amplify (the oracle's marked set) is **precomputed classically**, from classical support,
+from an itemset-size rule, or given explicitly. Grover iterations amplify that set on a simulator
+(or IBM hardware), and the measured bitstrings are **scored classically**. It is not level-wise
+Apriori: there is no downward-closure pruning, and support is never evaluated by the quantum
+circuit. Because the marked set is already the answer, **this package does not offer a quantum
+advantage**; it demonstrates and benchmarks the search step and provides the measurement tooling
+(statistics, noise comparison, repeat-run checks, circuit-cost accounting, manifest-gated hardware
+submission) around it. For small item counts, brute-force enumeration of the 2^n subsets is the
+fair classical baseline.
 
 ## Install
 
@@ -26,73 +32,67 @@ python examples/quickstart.py
 ```
 
 Runs the full pipeline on `data/sample_transactions.csv` (synthetic, 300 baskets) on the Aer
-simulator and prints the theoretical and empirical success probability and precision/recall/F1.
+simulator in a sparse regime (`min_support=0.25` marks 6 of 32 states, `r_opt = 1`). It prints the
+theoretical and empirical success probability (about 0.95) and precision/recall/F1 **next to the
+trivial baselines** ("everything frequent", random guess), so a score is never read without
+knowing what doing nothing clever achieves. The default `min_support=0.05` marks 27 of 32 states, a
+dense regime where Grover cannot help.
 
 ## Modules
 
 | Module | Purpose |
 |---|---|
 | `config.py` | `QFIMConfig`: every run parameter, validated |
-| `circuit.py` | Grover circuit `(D·O)^r·U_init`, oracle, diffusion, theoretical success probability (Eq. 4) |
+| `circuit.py` | Grover circuit `(D·O)^r·A`, oracles (support-driven, cardinality, explicit), matched/Hadamard diffusion, closed-form and exact success probability |
+| `marking.py` | Classically precomputed marked sets (`support`, `cardinality`, `explicit`) |
 | `statistics.py` | Run summaries (mean, SD, CV, CI), total variation distance, bootstrap TVD |
 | `backends.py` | `SimulatorBackend`, `NoisySimulatorBackend` (FakeMarrakesh), `HardwareBackend` (stub) |
 | `preprocessing.py` | Transaction loading (ragged rows), frequency ranking, reduction to top-k items |
-| `encoding.py` | Itemset ↔ bitstring encoding |
-| `postprocessing.py` | Containment support, threshold τ = ⌈σ·S·α⌉, precision/recall/F1 |
+| `encoding.py` | Itemset ↔ qubit ↔ bitstring convention: `item_order[p]` ↔ qubit `p` ↔ bit `p` of the basis index |
+| `postprocessing.py` | Containment support, threshold τ = ⌈σ·S·α⌉, precision/recall/F1, trivial baselines, null-derived detection threshold |
 | `classical.py` | Brute force, Apriori, ECLAT, FP-Growth, with runtime and peak memory |
 | `noise_analysis.py` | Pairwise distribution comparison across backends |
 | `reproducibility.py` | Repeated-run check with summary statistics |
-| `scaling.py` | Circuit-size sweep over candidate-item count, with timeout recording |
+| `scaling.py` | Circuit-size sweep and oracle accounting (depth, two-qubit gates per M) with hard, process-killing timeouts |
 | `pipeline.py` | `run_qfim_bench(config)` end-to-end |
 
-## Start state: simulator release vs. hardware study
+## Diffusion and start state: a pitfall this package detects
 
-`qfim-bench` ships with **`initial_state="uniform"` as the default**. This is a deliberate
-scope decision for the public software release, not an oversight:
+Grover amplification needs the diffusion operator to reflect about **the state the iteration starts
+from**. `diffusion="matched"` (the default) is `A(2|0><0|-I)A†`, correct for any start state `A`.
+`diffusion="hadamard"` is `H^n(2|0><0|-I)H^n`, a reflection about the *uniform* state. The two are
+identical for `initial_state="uniform"`. For `initial_state="ansatz"` (a bound EfficientSU2) the
+Hadamard diffusion is **mismatched**: it does not amplify the marked set, and the success
+probability stays flat.
 
-- The uniform start $H^{\otimes n}|0\rangle$ is what Eq. (4)'s theoretical success-probability
-  formula assumes. On a noiseless simulator, `qfim-bench` reproduces that curve to within
-  sampling noise — this is a claim the package can verify completely, with no QPU access, and
-  the test suite checks it (`tests/test_circuit.py`).
-- The companion paper's *hardware* runs instead start from a random EfficientSU2 ansatz
-  (`initial_state="ansatz"`, seed 42), which is still fully supported here for reproducing that
-  paper's exact circuit. But that start state gives a flat ~0.80–0.82 success probability across
-  Grover iterations **even on the noiseless simulator** — before any hardware noise is
-  introduced. That is a property of the circuit's start state, not of NISQ noise, so shipping it
-  as the package's default/example would make `qfim-bench`'s own documented behaviour look like
-  a bug (a flat curve with no amplification) rather than the honest, reproducible result it is.
+Exact noiseless values, N = 32, M = 26 marked (the v1 cardinality oracle), ansatz seed 42:
 
-| r | Eq. (4) theory | uniform start, noiseless sim | ansatz start (paper's hardware circuit), noiseless sim |
+| r | uniform start (= theory) | ansatz, Hadamard diffusion (mismatched) | ansatz, matched diffusion |
 |---|---|---|---|
-| 1 | 0.0508 | 0.0507 | 0.7965 |
-| 2 | 0.3840 | 0.3839 | 0.8193 |
-| 3 | 0.99995 | 0.9999 | 0.8202 |
-| 4 | 0.3972 | 0.3938 | 0.7980 |
+| 0 | 0.8125 | 0.8087 | 0.8087 |
+| 1 | 0.0508 | 0.8000 | 0.0446 |
+| 2 | 0.3840 | 0.8215 | 0.4078 |
+| 3 | 1.0000 | 0.8208 | 0.9993 |
+| 4 | 0.3972 | 0.7996 | 0.3549 |
 
-**What this means for using the package:**
+The flat curve is therefore caused by the operator mismatch, not by the start state or by hardware
+noise. The v1 ansatz experiments used the mismatched operator; it remains available
+(`diffusion="hadamard"`) so that behaviour is reproducible, and `tests/test_circuit.py` pins it.
+With a matched diffusion the ansatz follows `sin²((2r+1)θ_A)`, `θ_A = asin(√P_A)`, exactly.
 
-- `QFIMConfig()` (default) and `examples/quickstart.py` use `initial_state="uniform"` and
-  demonstrate genuine Grover amplification on the simulator, matching Eq. (4).
-- `QFIMConfig(initial_state="ansatz", seed=42)` reproduces the companion paper's actual hardware
-  circuit for anyone validating or extending that paper's results.
-- A hardware characterization run with `initial_state="uniform"` has not yet been performed (it
-  requires QPU time and is planned as follow-up work) — only that run would test the paper's
-  original "NISQ noise erases the amplification signal" claim as stated, since that claim
-  presumes the uniform-start/Eq.-4 regime. The ansatz-start hardware results already collected
-  do not test that claim; they characterize a different (flat-by-construction) circuit under
-  noise, which is still a valid and useful result (see `NoisySimulatorBackend` and the
-  `noisy_closer_to_hardware_reference_than_ideal` test), just not the amplification-vs-noise one.
-
-This separation — a fully simulator-verified default behaviour, with the paper's hardware-study
-configuration available but explicitly opt-in — is also why `HardwareBackend` stays a stub in
-this release: shipping a software package should not imply a hardware claim that hasn't been
-run under the configuration the claim requires.
+The v1 operating point (M = 26 of 32) is also **degenerate**: r = 0 already gives 0.8125, so r = 2
+(0.384) is worse than not running Grover at all, and a noisy device that drifts toward the uniform
+distribution also lands near 0.80. Use a sparse marked set (for example M = 1–4 of 32, r near
+`optimal_iterations(M, N)`) to make amplification observable. See `review/AUDIT.md`.
 
 ## Configuration
 
-All run parameters live in `QFIMConfig` (`config.py`): dataset path, `top_k_items`,
-`oracle_threshold`, `grover_iterations`, `shots`, `min_support`, `alpha`, `ansatz_reps`,
-`initial_state`, `backend`, `seed`. Nothing downstream hardcodes these values.
+All run parameters live in `QFIMConfig` (`config.py`): dataset path, `top_k_items`, `marking`
+(`"support"` data-driven, the default; `"cardinality"` the v1 size rule; `"explicit"` with
+`marked_states`), `oracle_threshold` (cardinality only), `grover_iterations` (`None` means
+`r_opt` from the classically known M), `diffusion` (`"matched"` or `"hadamard"`), `initial_state`,
+`ansatz_reps`, `shots`, `min_support`, `alpha`, `backend`, `seed`. Nothing downstream hardcodes
+these values.
 
 ## Reproducibility
 

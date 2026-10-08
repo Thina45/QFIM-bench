@@ -189,3 +189,150 @@ def growth_factors(report: ScalingReport, field: str = "logical_gate_count") -> 
         else:
             factors.append(curr / prev)
     return factors
+
+
+# --------------------------------------------------------------------------
+# Oracle accounting and item-count sweep with a hard (process-killing) timeout
+# --------------------------------------------------------------------------
+
+import multiprocessing as _mp
+import queue as _queue
+
+_TWO_QUBIT_GATES = ("cz", "cx", "ecr")
+
+
+def _transpile_worker(out, circuit, basis_gates, backend_name, optimization_level, seed):
+    """Runs in a child process so a timeout can kill it."""
+    try:
+        from qiskit import transpile
+
+        t0 = time.perf_counter()
+        if backend_name == "FakeMarrakesh":
+            from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
+
+            tc = transpile(circuit, backend=FakeMarrakesh(), optimization_level=optimization_level,
+                           seed_transpiler=seed)
+        else:
+            tc = transpile(circuit, basis_gates=basis_gates, optimization_level=optimization_level,
+                           seed_transpiler=seed)
+        ops = tc.count_ops()
+        out.put(("ok", {
+            "depth": tc.depth(),
+            "gates": int(sum(ops.values())),
+            "two_qubit_gates": int(sum(v for k, v in ops.items() if k in _TWO_QUBIT_GATES)),
+            "seconds": time.perf_counter() - t0,
+        }))
+    except Exception as exc:  # reported to the parent, never swallowed
+        out.put(("error", f"{type(exc).__name__}: {exc}"))
+
+
+def transpile_hard_timeout(
+    circuit: "QuantumCircuit",
+    timeout_seconds: float,
+    *,
+    backend_name: str | None = None,
+    basis_gates: list[str] | None = None,
+    optimization_level: int = 1,
+    seed: int = 42,
+) -> dict:
+    """
+    Transpile in a child process and terminate it if it exceeds timeout_seconds. Returns
+    {"status": "ok", depth, gates, two_qubit_gates, seconds}, {"status": "timeout"} or
+    {"status": "error", "error": ...}. A timeout is a recorded non-completion, never an estimate.
+
+    backend_name="FakeMarrakesh" transpiles to that device (routing included); otherwise the
+    circuit is transpiled all-to-all to `basis_gates` (default cz, id, rz, sx, x), which isolates
+    the circuit's own cost from connectivity.
+    """
+    basis = basis_gates or ["cz", "id", "rz", "sx", "x"]
+    ctx = _mp.get_context("spawn")
+    out = ctx.Queue()
+    proc = ctx.Process(
+        target=_transpile_worker,
+        args=(out, circuit, basis, backend_name, optimization_level, seed),
+        daemon=True,
+    )
+    proc.start()
+    try:
+        status, payload = out.get(timeout=timeout_seconds)
+    except _queue.Empty:
+        proc.terminate()
+        proc.join()
+        return {"status": "timeout", "timeout_seconds": timeout_seconds}
+    proc.join()
+    if status == "error":
+        return {"status": "error", "error": payload}
+    return {"status": "ok", **payload}
+
+
+@dataclass
+class OracleCost:
+    """One row of the oracle-accounting / item-count tables (figure-ready via oracle_costs_to_dataframe)."""
+    n_items: int
+    M: int
+    marking: str
+    component: str  # "oracle" or "iteration" (oracle + diffusion)
+    target: str     # "all_to_all" or a device name
+    logical_depth: int
+    logical_gates: int
+    transpile_status: str  # "ok", "timeout" or "error"
+    transpiled_depth: int | None = None
+    transpiled_gates: int | None = None
+    transpiled_two_qubit_gates: int | None = None
+    transpile_seconds: float | None = None
+
+
+def oracle_costs(
+    n_items: int,
+    marked_indices: list[int],
+    marking: str,
+    *,
+    components: tuple[str, ...] = ("oracle", "iteration"),
+    targets: tuple[str, ...] = ("all_to_all",),
+    timeout_seconds: float = 120.0,
+) -> list[OracleCost]:
+    """
+    Logical and transpiled depth / gate / two-qubit-gate counts for the oracle alone and for one
+    full Grover iteration (oracle + Hadamard diffusion, uniform start) with the given marked set.
+    Each transpile has a hard timeout; a timeout is recorded explicitly.
+    """
+    from qiskit import QuantumCircuit
+
+    from .circuit import build_diffusion, build_oracle_for_states
+
+    rows = []
+    oracle = build_oracle_for_states(n_items, marked_indices)
+    for component in components:
+        if component == "oracle":
+            circuit = oracle
+        elif component == "iteration":
+            circuit = QuantumCircuit(n_items + 1)
+            circuit.compose(oracle, inplace=True)
+            circuit.compose(build_diffusion(n_items), qubits=range(n_items), inplace=True)
+        else:
+            raise ValueError(f"unknown component {component!r}")
+        for target in targets:
+            res = transpile_hard_timeout(
+                circuit,
+                timeout_seconds,
+                backend_name=None if target == "all_to_all" else target,
+            )
+            row = OracleCost(
+                n_items=n_items, M=len(marked_indices), marking=marking, component=component,
+                target=target, logical_depth=circuit.depth(), logical_gates=_count_gates(circuit),
+                transpile_status=res["status"],
+            )
+            if res["status"] == "ok":
+                row.transpiled_depth = res["depth"]
+                row.transpiled_gates = res["gates"]
+                row.transpiled_two_qubit_gates = res["two_qubit_gates"]
+                row.transpile_seconds = res["seconds"]
+            rows.append(row)
+    return rows
+
+
+def oracle_costs_to_dataframe(rows: list[OracleCost]):
+    """Figure-ready pandas DataFrame, one row per OracleCost."""
+    import pandas as pd
+
+    return pd.DataFrame([r.__dict__ for r in rows])

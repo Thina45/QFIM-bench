@@ -76,3 +76,14 @@ def test_scaling_sweep_logical_and_growth():
     assert depths is not None and depths == sorted(depths)
     factors = growth_factors(report, field="logical_depth")
     assert len(factors) == 2 and all(f > 1 for f in factors)
+
+
+def test_run_repeats_same_circuit_different_shot_noise():
+    """Repeats share one transpiled circuit and differ only in the sampling seed."""
+    qc, _ = build_grover_circuit(3, 0, 1, initial_state="uniform", marked_states=[3])
+    backend = NoisySimulatorBackend(seed=7, optimization_level=3)
+    a = backend.run_repeats(qc, 1024, [1, 2])
+    again = backend.run_repeats(qc, 1024, [1])
+    assert a[0].counts != a[1].counts          # different seeds -> different samples
+    assert a[0].counts == again[0].counts      # same seed -> identical sample
+    assert all(sum(x.counts.values()) == 1024 for x in a)
