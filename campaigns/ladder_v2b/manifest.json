@@ -1,0 +1,186 @@
+{
+  "written_utc": "2026-10-08T13:01:14.292562+00:00",
+  "note": "ADOPTED. Tiers B and C of the ladder (mcz oracle, uniform start, matched diffusion, r=0..4, echo and readout controls).",
+  "predictions": {
+    "ladder_n4_M2_r0": 0.12256,
+    "ladder_n4_M2_r1": 0.66602,
+    "ladder_n4_M2_r2": 0.70962,
+    "ladder_n4_M2_r3": 0.26296,
+    "ladder_n4_M2_r4": 0.09355,
+    "echo_n4_M2_r2": 0.53433,
+    "readout_n4_zeros": 0.98767,
+    "readout_n4_ones": 0.98757,
+    "ladder_n5_M4_r0": 0.12239,
+    "ladder_n5_M4_r1": 0.38682,
+    "ladder_n5_M4_r2": 0.27898,
+    "ladder_n5_M4_r3": 0.16499,
+    "ladder_n5_M4_r4": 0.13931,
+    "echo_n5_M4_r2": 0.05786,
+    "readout_n5_zeros": 0.98459,
+    "readout_n5_ones": 0.98423
+  },
+  "jobs": [],
+  "max_jobs": 10,
+  "shots": 8192,
+  "usage_budget_seconds": 225.0,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "ADOPTED - no job submitted at the time of writing",
+    "adopted_utc_date": "2026-10-08",
+    "unlocks": "Tiers B (n=4, M=2) and C (n=5, M=4) of campaigns/ladder_v2; approved in writing by the user after the Tier A analysis",
+    "parent_manifest_sha256": "6dcfc075d5e4af26a786ca2ee2cc911955f0104e6fb228da5c51bdd783bef3b9",
+    "tier_A_results_commit": "ec88c30",
+    "predictions_note": "identical to review/preregistration/ladder_predictions.json, generated before any Tier A data; not revised after Tier A",
+    "criterion": {
+      "file": "review/OPERATING_POINT_CRITERION.md",
+      "commit": "c25b1b0",
+      "addendum": "review/OPERATING_POINT_ADDENDUM.md"
+    },
+    "hypotheses": {
+      "H2": "n=4: criterion rules 1-4 met at r_opt=2 (simulator predicts 0.710)",
+      "H3": "n=5: criterion rules not met (simulator predicts 0.279 at r_opt)",
+      "H4": "echo P(all zeros) ordering n=3 > n=4 > n=5 (Tier A echo missed its band: 0.671 vs 0.806)"
+    },
+    "transpile": {
+      "optimization_level": 3,
+      "seed_transpiler": 42,
+      "dd_sequence": "XpXm"
+    },
+    "layout": "chosen by the transpiler per job; physical qubits, calibration timestamp, depth and 2Q counts recorded per job",
+    "tolerance_rule": "band half-width = 5*sqrt(p(1-p)/8192) + 0.05; misses are reported",
+    "design": {
+      "runs_per_tier": 5,
+      "circuits_per_run": 8,
+      "one_job_per_run": true,
+      "order": {
+        "method": "numpy default_rng(seed).permutation per run",
+        "seed_base": {
+          "B": 20261108,
+          "C": 20261208
+        },
+        "schedule": {
+          "B_run_1": [
+            "ladder_n4_M2_r0",
+            "echo_n4_M2_r2",
+            "readout_n4_zeros",
+            "ladder_n4_M2_r3",
+            "ladder_n4_M2_r1",
+            "ladder_n4_M2_r4",
+            "ladder_n4_M2_r2",
+            "readout_n4_ones"
+          ],
+          "B_run_2": [
+            "ladder_n4_M2_r4",
+            "ladder_n4_M2_r2",
+            "readout_n4_ones",
+            "ladder_n4_M2_r1",
+            "ladder_n4_M2_r3",
+            "echo_n4_M2_r2",
+            "ladder_n4_M2_r0",
+            "readout_n4_zeros"
+          ],
+          "B_run_3": [
+            "ladder_n4_M2_r4",
+            "echo_n4_M2_r2",
+            "readout_n4_ones",
+            "ladder_n4_M2_r0",
+            "ladder_n4_M2_r3",
+            "readout_n4_zeros",
+            "ladder_n4_M2_r1",
+            "ladder_n4_M2_r2"
+          ],
+          "B_run_4": [
+            "ladder_n4_M2_r4",
+            "readout_n4_zeros",
+            "echo_n4_M2_r2",
+            "ladder_n4_M2_r2",
+            "ladder_n4_M2_r1",
+            "readout_n4_ones",
+            "ladder_n4_M2_r3",
+            "ladder_n4_M2_r0"
+          ],
+          "B_run_5": [
+            "ladder_n4_M2_r3",
+            "ladder_n4_M2_r2",
+            "ladder_n4_M2_r1",
+            "readout_n4_zeros",
+            "readout_n4_ones",
+            "ladder_n4_M2_r4",
+            "echo_n4_M2_r2",
+            "ladder_n4_M2_r0"
+          ],
+          "C_run_1": [
+            "readout_n5_zeros",
+            "echo_n5_M4_r2",
+            "ladder_n5_M4_r0",
+            "ladder_n5_M4_r4",
+            "readout_n5_ones",
+            "ladder_n5_M4_r3",
+            "ladder_n5_M4_r1",
+            "ladder_n5_M4_r2"
+          ],
+          "C_run_2": [
+            "ladder_n5_M4_r4",
+            "readout_n5_ones",
+            "ladder_n5_M4_r2",
+            "readout_n5_zeros",
+            "ladder_n5_M4_r3",
+            "ladder_n5_M4_r1",
+            "echo_n5_M4_r2",
+            "ladder_n5_M4_r0"
+          ],
+          "C_run_3": [
+            "ladder_n5_M4_r4",
+            "ladder_n5_M4_r2",
+            "ladder_n5_M4_r3",
+            "echo_n5_M4_r2",
+            "ladder_n5_M4_r1",
+            "readout_n5_zeros",
+            "readout_n5_ones",
+            "ladder_n5_M4_r0"
+          ],
+          "C_run_4": [
+            "ladder_n5_M4_r1",
+            "readout_n5_zeros",
+            "ladder_n5_M4_r3",
+            "readout_n5_ones",
+            "ladder_n5_M4_r2",
+            "ladder_n5_M4_r0",
+            "echo_n5_M4_r2",
+            "ladder_n5_M4_r4"
+          ],
+          "C_run_5": [
+            "ladder_n5_M4_r1",
+            "readout_n5_ones",
+            "echo_n5_M4_r2",
+            "ladder_n5_M4_r2",
+            "ladder_n5_M4_r4",
+            "ladder_n5_M4_r0",
+            "readout_n5_zeros",
+            "ladder_n5_M4_r3"
+          ]
+        }
+      },
+      "order_of_tiers": "all of B, then all of C"
+    },
+    "budget": {
+      "tier_B_cap_s": 105,
+      "tier_C_cap_s": 120,
+      "total_cap_s": 225,
+      "reserve_min_s": 200,
+      "max_job_seconds": 30,
+      "enforcement": "usage_budget_seconds and max_job_seconds in this manifest, HardwareBackend.run_batch"
+    },
+    "analysis": {
+      "primary_uncertainty": "t-interval (95%, 4 d.f.) across the 5 runs; Wilson on pooled shots alongside",
+      "secondary": "fitted hardware fidelity per two-qubit gate vs simulator, per tier",
+      "reporting": "tolerance misses, null and negative results reported; a collapse at n=5 is a valid outcome"
+    },
+    "deviations_inherited": [
+      "D1: the 5 runs per tier share one sitting (no day-to-day drift)",
+      "D2: no git tag",
+      "D3: CI not awaited"
+    ]
+  },
+  "sha256": "ac2958ceca952f82955ad6e5bbc67b9327aa046e85691a3dfee36a685828c145"
+}
