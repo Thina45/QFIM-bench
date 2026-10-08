@@ -1,0 +1,213 @@
+{
+  "dataset": "online_retail_baskets.csv",
+  "baskets": 14301,
+  "items5": [
+    "WHITE HANGING HEART T-LIGHT HOLDER",
+    "JUMBO BAG RED RETROSPOT",
+    "REGENCY CAKESTAND 3 TIER",
+    "PARTY BUNTING",
+    "LUNCH BAG RED RETROSPOT"
+  ],
+  "rows": [
+    {
+      "min_support": 0.02,
+      "true_frequent": 16,
+      "classical": {
+        "apriori": {
+          "itemsets": 16,
+          "matches_brute_force": true,
+          "runtime_s": 0.02328340001986362,
+          "peak_kb": 10.2890625
+        },
+        "eclat": {
+          "itemsets": 16,
+          "matches_brute_force": true,
+          "runtime_s": 0.021492800005944446,
+          "peak_kb": 947.4609375
+        },
+        "fpgrowth": {
+          "itemsets": 16,
+          "matches_brute_force": true,
+          "runtime_s": 0.5644680999976117,
+          "peak_kb": 742.689453125
+        }
+      },
+      "quantum_noiseless": {
+        "M": 16,
+        "r": 0,
+        "theoretical_p": 0.4999999999999998,
+        "containment_rule": {
+          "precision": 0.5161290322580645,
+          "recall": 1.0,
+          "f1": 0.6808510638297872
+        },
+        "detected_states": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "everything_frequent_f1": 0.6808510638297872
+    },
+    {
+      "min_support": 0.03,
+      "true_frequent": 15,
+      "classical": {
+        "apriori": {
+          "itemsets": 15,
+          "matches_brute_force": true,
+          "runtime_s": 0.03024550000554882,
+          "peak_kb": 10.2890625
+        },
+        "eclat": {
+          "itemsets": 15,
+          "matches_brute_force": true,
+          "runtime_s": 0.025556800013873726,
+          "peak_kb": 947.25
+        },
+        "fpgrowth": {
+          "itemsets": 15,
+          "matches_brute_force": true,
+          "runtime_s": 0.49669729999732226,
+          "peak_kb": 742.291015625
+        }
+      },
+      "quantum_noiseless": {
+        "M": 15,
+        "r": 1,
+        "theoretical_p": 0.5932617187500009,
+        "containment_rule": {
+          "precision": 0.4838709677419355,
+          "recall": 1.0,
+          "f1": 0.6521739130434783
+        },
+        "detected_states": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.888888888888889
+        }
+      },
+      "everything_frequent_f1": 0.6521739130434783
+    },
+    {
+      "min_support": 0.05,
+      "true_frequent": 10,
+      "classical": {
+        "apriori": {
+          "itemsets": 10,
+          "matches_brute_force": true,
+          "runtime_s": 0.04242089999024756,
+          "peak_kb": 7.5703125
+        },
+        "eclat": {
+          "itemsets": 10,
+          "matches_brute_force": true,
+          "runtime_s": 0.04812500000116415,
+          "peak_kb": 903.703125
+        },
+        "fpgrowth": {
+          "itemsets": 10,
+          "matches_brute_force": true,
+          "runtime_s": 0.45926969998981804,
+          "peak_kb": 742.283203125
+        }
+      },
+      "quantum_noiseless": {
+        "M": 10,
+        "r": 1,
+        "theoretical_p": 0.9570312500000003,
+        "containment_rule": {
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1": 0.5714285714285715
+        },
+        "detected_states": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "everything_frequent_f1": 0.4878048780487805
+    },
+    {
+      "min_support": 0.08,
+      "true_frequent": 6,
+      "classical": {
+        "apriori": {
+          "itemsets": 6,
+          "matches_brute_force": true,
+          "runtime_s": 0.02705679999780841,
+          "peak_kb": 6.56640625
+        },
+        "eclat": {
+          "itemsets": 6,
+          "matches_brute_force": true,
+          "runtime_s": 0.027022700000088662,
+          "peak_kb": 903.703125
+        },
+        "fpgrowth": {
+          "itemsets": 6,
+          "matches_brute_force": true,
+          "runtime_s": 0.5140264999936335,
+          "peak_kb": 742.275390625
+        }
+      },
+      "quantum_noiseless": {
+        "M": 6,
+        "r": 1,
+        "theoretical_p": 0.9492187499999999,
+        "containment_rule": {
+          "precision": 0.3157894736842105,
+          "recall": 1.0,
+          "f1": 0.4799999999999999
+        },
+        "detected_states": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "everything_frequent_f1": 0.3243243243243243
+    },
+    {
+      "min_support": 0.12,
+      "true_frequent": 5,
+      "classical": {
+        "apriori": {
+          "itemsets": 5,
+          "matches_brute_force": true,
+          "runtime_s": 0.03435830000671558,
+          "peak_kb": 6.56640625
+        },
+        "eclat": {
+          "itemsets": 5,
+          "matches_brute_force": true,
+          "runtime_s": 0.04015889999573119,
+          "peak_kb": 895.125
+        },
+        "fpgrowth": {
+          "itemsets": 5,
+          "matches_brute_force": true,
+          "runtime_s": 0.4176092999987304,
+          "peak_kb": 742.267578125
+        }
+      },
+      "quantum_noiseless": {
+        "M": 5,
+        "r": 1,
+        "theoretical_p": 0.8813476562499998,
+        "containment_rule": {
+          "precision": 0.2,
+          "recall": 1.0,
+          "f1": 0.33333333333333337
+        },
+        "detected_states": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "everything_frequent_f1": 0.27777777777777773
+    }
+  ]
+}
