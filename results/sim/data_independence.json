@@ -1,0 +1,180 @@
+{
+  "seed": 42,
+  "cardinality_oracle_v1": {
+    "counts_identical": true,
+    "tvd_between_datasets": 0.0,
+    "dataset_A": {
+      "item_order": [
+        "item_1",
+        "item_0",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "ground_truth_size": 30,
+      "M": 26,
+      "marked_indices": [
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "r": 2,
+      "predicted_frequent_size": 31,
+      "n_candidates": 31,
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1": 0.9836065573770492,
+      "everything_frequent_baseline": {
+        "precision": 0.967741935483871,
+        "recall": 1.0,
+        "f1": 0.9836065573770492
+      }
+    },
+    "dataset_B": {
+      "item_order": [
+        "item_0",
+        "item_2",
+        "item_1",
+        "item_3",
+        "item_5"
+      ],
+      "ground_truth_size": 10,
+      "M": 26,
+      "marked_indices": [
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "r": 2,
+      "predicted_frequent_size": 31,
+      "n_candidates": 31,
+      "precision": 0.3225806451612903,
+      "recall": 1.0,
+      "f1": 0.4878048780487805,
+      "everything_frequent_baseline": {
+        "precision": 0.3225806451612903,
+        "recall": 1.0,
+        "f1": 0.4878048780487805
+      }
+    }
+  },
+  "data_driven_oracle": {
+    "counts_identical": false,
+    "tvd_between_datasets": 0.278076171875,
+    "dataset_A": {
+      "item_order": [
+        "item_1",
+        "item_0",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "ground_truth_size": 11,
+      "M": 11,
+      "marked_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        16,
+        17
+      ],
+      "r": 1,
+      "predicted_frequent_size": 15,
+      "n_candidates": 31,
+      "precision": 0.7333333333333333,
+      "recall": 1.0,
+      "f1": 0.846153846153846,
+      "everything_frequent_baseline": {
+        "precision": 0.3548387096774194,
+        "recall": 1.0,
+        "f1": 0.5238095238095238
+      }
+    },
+    "dataset_B": {
+      "item_order": [
+        "item_0",
+        "item_2",
+        "item_1",
+        "item_3",
+        "item_5"
+      ],
+      "ground_truth_size": 10,
+      "M": 10,
+      "marked_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        16,
+        24
+      ],
+      "r": 1,
+      "predicted_frequent_size": 10,
+      "n_candidates": 31,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "everything_frequent_baseline": {
+        "precision": 0.3225806451612903,
+        "recall": 1.0,
+        "f1": 0.4878048780487805
+      }
+    }
+  }
+}
