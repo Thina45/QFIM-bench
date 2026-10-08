@@ -105,6 +105,7 @@ def optimal_iterations(M: int, N: int) -> int:
 
 INITIAL_STATES = ("ansatz", "uniform")
 DIFFUSIONS = ("matched", "hadamard")
+ORACLE_STYLES = ("mcx", "mcz", "mcx_vchain")
 
 
 def bind_parameters(qc: QuantumCircuit, seed: int = 42) -> QuantumCircuit:
@@ -257,6 +258,59 @@ def build_oracle_for_states(n_items: int, marked_indices: Sequence[int]) -> Quan
     return qc
 
 
+def oracle_width(n_items: int, style: str) -> int:
+    """Number of qubits the oracle of the given style acts on (items, then target/ancillas)."""
+    if style == "mcx":
+        return n_items + 1
+    if style == "mcz":
+        return n_items
+    if style == "mcx_vchain":
+        return n_items + 1 + max(n_items - 2, 0)
+    raise ValueError(f"oracle_style must be one of {ORACLE_STYLES}")
+
+
+def build_oracle_variant(n_items: int, marked_indices: Sequence[int], style: str = "mcx") -> QuantumCircuit:
+    """
+    Phase oracle marking exactly marked_indices, synthesised in one of three ways. All three apply
+    the same unitary to the item register (a -1 phase on each marked state); they differ in
+    qubits and gates:
+
+      "mcx"        one multi-controlled X per marked state onto an ancilla held in |->
+                   (phase kickback). n+1 qubits. The reference oracle.
+      "mcz"        one multi-controlled Z per marked state directly on the item qubits, so no
+                   ancilla and no |-> preparation. n qubits.
+      "mcx_vchain" as "mcx" but each multi-controlled X uses a V-chain of n-2 extra clean
+                   ancillas (more qubits, fewer two-qubit gates before routing). n+1+max(n-2,0).
+    """
+    indices = sorted(int(i) for i in marked_indices)
+    if style == "mcx":
+        return build_oracle_for_states(n_items, indices)
+    if style not in ORACLE_STYLES:
+        raise ValueError(f"oracle_style must be one of {ORACLE_STYLES}")
+    if not indices or len(set(indices)) != len(indices) or any(not (0 <= i < 2**n_items) for i in indices):
+        raise ValueError("marked_indices must be a non-empty set of distinct in-range indices")
+
+    qc = QuantumCircuit(oracle_width(n_items, style), name=f"oracle_{style}")
+    for i in indices:
+        zero_positions = [p for p in range(n_items) if not (i >> p) & 1]
+        for p in zero_positions:
+            qc.x(p)
+        if style == "mcz":
+            _phase_flip_all_ones(qc, n_items)
+        else:
+            target = n_items
+            controls = list(range(n_items))
+            if n_items == 1:
+                qc.cx(0, target)
+            elif n_items == 2:
+                qc.ccx(0, 1, target)
+            else:
+                qc.mcx(controls, target, ancilla_qubits=list(range(n_items + 1, n_items + 1 + n_items - 2)), mode="v-chain")
+        for p in zero_positions:
+            qc.x(p)
+    return qc
+
+
 # --------------------------------------------------------------------------
 # Diffusion
 # --------------------------------------------------------------------------
@@ -322,6 +376,7 @@ class CircuitInfo:
     theoretical_p: float
     initial_state: str = "uniform"
     diffusion: str = "matched"
+    oracle_style: str = "mcx"
     start_marked_probability: float = nan
     marked_indices: tuple[int, ...] = field(default_factory=tuple)
 
@@ -336,6 +391,7 @@ def build_grover_circuit(
     seed: int = 42,
     diffusion: str = "matched",
     marked_states: Sequence[int] | None = None,
+    oracle_style: str = "mcx",
 ) -> tuple[QuantumCircuit, CircuitInfo]:
     """
     Compose U = (D . O)^r . A on n_items + 1 qubits and measure the item qubits.
@@ -349,6 +405,9 @@ def build_grover_circuit(
     diffusion: "matched" (reflection about A|0>, correct for every start state) or "hadamard"
     (reflection about the uniform state; MISMATCHED for the ansatz start, kept to reproduce v1).
 
+    oracle_style: "mcx" (reference, ancilla in |->), "mcz" (no ancilla) or "mcx_vchain" (extra
+    clean ancillas); see build_oracle_variant. "mcx" with marked_states=None is the v1 circuit.
+
     The returned circuit has no free parameters and runs on any backend. info carries M, N and the
     closed-form noiseless probability where one exists.
     """
@@ -356,24 +415,28 @@ def build_grover_circuit(
         raise ValueError("r must be non-negative")
     if diffusion not in DIFFUSIONS:
         raise ValueError(f"diffusion must be one of {DIFFUSIONS}")
+    if oracle_style not in ORACLE_STYLES:
+        raise ValueError(f"oracle_style must be one of {ORACLE_STYLES}")
 
     prep = build_start_preparation(n_items, reps=reps, kind=initial_state, seed=seed)
-    qc = QuantumCircuit(n_items + 1, n_items)
+    width = oracle_width(n_items, oracle_style)
+    qc = QuantumCircuit(width, n_items)
     qc.compose(prep, qubits=range(n_items), inplace=True)
-    prepare_ancilla_minus(qc, n_items)
+    if oracle_style != "mcz":
+        prepare_ancilla_minus(qc, n_items)
 
     if marked_states is None:
         indices = cardinality_marked_indices(n_items, threshold)
-        oracle = build_oracle(n_items, threshold)
+        oracle = build_oracle(n_items, threshold) if oracle_style == "mcx" else build_oracle_variant(n_items, indices, oracle_style)
     else:
         indices = sorted(int(i) for i in marked_states)
-        oracle = build_oracle_for_states(n_items, indices)
+        oracle = build_oracle_variant(n_items, indices, oracle_style)
 
     matched = diffusion == "matched" or initial_state == "uniform"
     d_circuit = build_diffusion(n_items, preparation=prep if diffusion == "matched" else None)
 
     for _ in range(r):
-        qc.compose(oracle, qubits=range(n_items + 1), inplace=True)
+        qc.compose(oracle, qubits=range(width), inplace=True)
         qc.compose(d_circuit, qubits=range(n_items), inplace=True)
 
     if measure:
@@ -392,6 +455,7 @@ def build_grover_circuit(
         theoretical_p=success_probability_from_start(p0, r) if matched else nan,
         initial_state=initial_state,
         diffusion=diffusion,
+        oracle_style=oracle_style,
         start_marked_probability=p0,
         marked_indices=tuple(indices),
     )

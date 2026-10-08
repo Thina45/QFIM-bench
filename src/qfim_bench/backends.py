@@ -151,7 +151,14 @@ class NoisySimulatorBackend(Backend):
         (the transpiled circuit is identical), which is what a repeat-run study needs, and it
         avoids paying the transpile cost per repeat.
         """
-        transpiled = self._transpile(circuit)
+        return self.sample(self._transpile(circuit), shots, seeds)
+
+    def transpile(self, circuit: QuantumCircuit) -> QuantumCircuit:
+        """Transpile exactly as run() does (target FakeMarrakesh, this backend's optimization level)."""
+        return self._transpile(circuit)
+
+    def sample(self, transpiled: QuantumCircuit, shots: int, seeds: list[int]) -> list[ExecutionResult]:
+        """Sample an already transpiled circuit once per simulator seed."""
         results = []
         for seed in seeds:
             counts = self._sim.run(transpiled, shots=shots, seed_simulator=seed).result().get_counts()
