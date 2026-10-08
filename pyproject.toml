@@ -23,7 +23,7 @@ dependencies = [
 
 [project.optional-dependencies]
 hardware = []  # IBM Quantum access uses the core qiskit-ibm-runtime install; set IBM_QUANTUM_TOKEN to use it
-dev = ["pytest>=7.0"]
+dev = ["pytest>=7.0", "pytest-cov"]
 dashboard = ["streamlit>=1.40"]
 
 [tool.setuptools.packages.find]
@@ -31,3 +31,6 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["qfim_bench"]
