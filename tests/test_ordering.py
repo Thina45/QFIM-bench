@@ -1,21 +1,22 @@
-"""Bit-ordering regression tests (AUDIT item 4).
+"""Bit-ordering regression tests (AUDIT item 4; fixed in v1.0.2).
 
-Convention in the oracle and in encode_itemset_to_bitstring: item_order[p] <-> qubit p.
-Qiskit count strings print clbit 0 as the RIGHTMOST character, so qubit p appears at
-string index n-1-p. decode_bitstring_to_itemset currently maps string index p to
-item_order[p], i.e. it reverses the convention.
-
-The Hamming-weight oracle is permutation symmetric, so the reversal has no effect on any
-success probability reported so far. It becomes live as soon as marking or labelling is
-asymmetric, which is why this test is kept even though the symmetric experiments are
-unaffected.
+Convention (encoding.py): item_order[p] <-> qubit p <-> bit p of the basis-state index. Qiskit
+count keys print qubit 0 as the rightmost character. The Hamming-weight oracle is permutation
+symmetric, so a reversed mapping is invisible in the original experiments; these tests exercise
+the mapping directly, on every qubit (the middle qubit of 5 is a fixed point of reversal, so a
+single-qubit test on it would miss the bug).
 """
 
 import pytest
 from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 
-from qfim_bench.encoding import decode_bitstring_to_itemset
+from qfim_bench.encoding import (
+    decode_bitstring_to_itemset,
+    encode_itemset_to_bitstring,
+    index_to_itemset,
+    itemset_to_index,
+)
 
 ORDER = [f"item_{i}" for i in range(5)]
 
@@ -30,23 +31,27 @@ def _count_key_for_flipped_qubit(qubit: int) -> str:
 
 
 def test_qiskit_count_key_is_little_endian():
-    """Pins the Qiskit convention this package relies on: flipping qubit 0 sets the last character."""
+    """Pins the Qiskit convention this package relies on."""
     assert _count_key_for_flipped_qubit(0) == "00001"
     assert _count_key_for_flipped_qubit(4) == "10000"
 
 
-_REVERSAL = pytest.mark.xfail(
-    strict=True,
-    reason="AUDIT item 4: decode maps string index p to item_order[p]; qubit p sits at index n-1-p. "
-    "Fix after Phase 1 approval, then remove this marker.",
-)
-
-
-@pytest.mark.parametrize(
-    "qubit",
-    # With 5 qubits the middle index maps to itself under reversal, so qubit 2 is unaffected.
-    [pytest.param(q, marks=_REVERSAL) if q != 2 else q for q in range(5)],
-)
+@pytest.mark.parametrize("qubit", range(5))
 def test_flipped_qubit_decodes_to_matching_item(qubit):
     key = _count_key_for_flipped_qubit(qubit)
     assert decode_bitstring_to_itemset(key, ORDER) == {ORDER[qubit]}
+
+
+@pytest.mark.parametrize("qubit", range(5))
+def test_encode_matches_what_qiskit_reports(qubit):
+    assert encode_itemset_to_bitstring({ORDER[qubit]}, ORDER) == _count_key_for_flipped_qubit(qubit)
+
+
+def test_index_round_trip_all_itemsets():
+    for index in range(2**5):
+        assert itemset_to_index(index_to_itemset(index, ORDER), ORDER) == index
+
+
+def test_unknown_item_rejected():
+    with pytest.raises(ValueError):
+        itemset_to_index({"not_an_item"}, ORDER)
