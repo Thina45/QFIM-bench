@@ -104,12 +104,16 @@ class NoisySimulatorBackend(Backend):
         fake_backend_name: str = "FakeMarrakesh",
         seed: int | None = None,
         optimization_level: int | None = 3,
+        noise_scales=None,
     ):
         """
         optimization_level defaults to 3, the level HardwareBackend uses, so a noisy-simulator
         circuit and a hardware circuit are transpiled the same way and can be compared. Pass 1 to
         reproduce the archived v1 noisy-simulation numbers (examples/precompute_noisy_sim.py does),
         or None for Qiskit's own default.
+
+        noise_scales (a qfim_bench.noise_scaling.NoiseScales) rescales the 1Q, 2Q, readout and
+        relaxation error sources independently; None leaves the calibration snapshot unchanged.
         """
         from qiskit_aer import AerSimulator
         from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
@@ -122,7 +126,14 @@ class NoisySimulatorBackend(Backend):
                 "Add more entries to _FAKE_BACKENDS in backends.py as needed."
             )
 
-        fake_backend = _FAKE_BACKENDS[fake_backend_name]()
+        if noise_scales is not None:
+            if fake_backend_name != "FakeMarrakesh":
+                raise ValueError("noise_scales is implemented for FakeMarrakesh only")
+            from qfim_bench.noise_scaling import scaled_fake_marrakesh
+
+            fake_backend = scaled_fake_marrakesh(noise_scales)
+        else:
+            fake_backend = _FAKE_BACKENDS[fake_backend_name]()
         self._sim = AerSimulator.from_backend(fake_backend)
         self.name = f"noisy_simulator[{fake_backend_name}]"
         self._seed = seed

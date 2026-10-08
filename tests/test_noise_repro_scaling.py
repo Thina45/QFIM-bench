@@ -87,3 +87,30 @@ def test_run_repeats_same_circuit_different_shot_noise():
     assert a[0].counts != a[1].counts          # different seeds -> different samples
     assert a[0].counts == again[0].counts      # same seed -> identical sample
     assert all(sum(x.counts.values()) == 1024 for x in a)
+
+
+def test_noise_scaling_is_monotone_and_zero_is_ideal():
+    """Scale 0 reproduces the ideal curve within shot noise; stronger noise lowers P(marked)."""
+    from qfim_bench.circuit import build_grover_circuit, theoretical_success_probability
+    from qfim_bench.noise_scaling import NoiseScales
+
+    marked = [3]
+    qc, _ = build_grover_circuit(3, 0, 1, initial_state="uniform", marked_states=marked)
+    shots = 8192
+
+    def p(scale):
+        b = NoisySimulatorBackend(seed=5, noise_scales=NoiseScales.uniform(scale))
+        return b.run(qc, shots).counts.get("011", 0) / shots
+
+    ideal = theoretical_success_probability(1, 8, 1)
+    sigma = (ideal * (1 - ideal) / shots) ** 0.5
+    p0, p1, p4 = p(0.0), p(1.0), p(4.0)
+    assert abs(p0 - ideal) < 5 * sigma
+    assert p0 > p1 > p4
+
+
+def test_noise_scales_rejects_other_fake_backends():
+    from qfim_bench.noise_scaling import NoiseScales
+
+    with pytest.raises(ValueError):
+        NoisySimulatorBackend(fake_backend_name="Nope", noise_scales=NoiseScales())
