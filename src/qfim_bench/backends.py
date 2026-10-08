@@ -170,6 +170,36 @@ class NoisySimulatorBackend(Backend):
 # Hardware backend — NOT implemented yet (Step 10 of the build plan)
 # --------------------------------------------------------------------------
 
+LEGACY_SHOTS = 8192  # shot count of the archived v1 campaign, used only if a manifest has no "shots"
+
+# Manifest fields covered by the preregistration hash. "jobs" and "written_utc" are excluded: they
+# change as the campaign runs, so including them would make the hash unverifiable.
+HASHED_MANIFEST_FIELDS = ("predictions", "note", "max_jobs", "shots", "preregistration")
+
+
+def canonical_json(obj) -> str:
+    """Deterministic JSON: sorted keys, no whitespace, ASCII only."""
+    import json
+
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+
+def manifest_hash(manifest: dict) -> str:
+    """SHA-256 (hex) of the canonical JSON of the preregistered fields of a manifest."""
+    import hashlib
+
+    body = {k: manifest[k] for k in HASHED_MANIFEST_FIELDS if k in manifest}
+    return hashlib.sha256(canonical_json(body).encode("ascii")).hexdigest()
+
+
+def verify_manifest_hash(manifest: dict) -> bool:
+    """True if the manifest carries a "sha256" field and it matches its preregistered content.
+
+    DESIGN ONLY: HardwareBackend.run does not call this yet. Phase 3 will make a submission
+    refuse unless this returns True and the hash matches the value tagged in git."""
+    return "sha256" in manifest and manifest["sha256"] == manifest_hash(manifest)
+
+
 class HardwareBackend(Backend):
     """
     Real IBM Quantum hardware via qiskit-ibm-runtime SamplerV2 in backend mode.
@@ -183,8 +213,9 @@ class HardwareBackend(Backend):
       * A real submission is refused unless a campaign manifest already exists
         and holds the theoretical predictions, so predictions are always recorded
         before any job runs.
-      * At most max_jobs jobs may be submitted through one manifest (default 5,
-        matching the original r=1..4 plus one repeat design).
+      * The job cap and the shot count come from the manifest ("max_jobs", "shots") when it
+        carries them. A manifest without those keys (the archived v1 campaign) falls back to the
+        legacy 5 jobs and 8192 shots, so a preregistered manifest, not the code, fixes the budget.
       * The circuit must have no free parameters (the uniform start has none).
 
     The token is read from the IBM_QUANTUM_TOKEN environment variable only.
@@ -296,10 +327,12 @@ class HardwareBackend(Backend):
             return ExecutionResult(counts={}, shots=0, backend_name=f"{self.backend_name}:dry-run")
 
         manifest = self._load_manifest()
-        if len(manifest.get("jobs", [])) >= self.max_jobs:
-            raise RuntimeError(f"Job cap reached: {self.max_jobs} jobs already submitted for this manifest.")
-        if shots != 8192:
-            raise ValueError("this campaign is fixed at 8192 shots to match the original protocol")
+        job_cap = int(manifest.get("max_jobs", self.max_jobs))
+        required_shots = int(manifest.get("shots", LEGACY_SHOTS))
+        if len(manifest.get("jobs", [])) >= job_cap:
+            raise RuntimeError(f"Job cap reached: {job_cap} jobs already submitted for this manifest.")
+        if shots != required_shots:
+            raise ValueError(f"this campaign's manifest fixes {required_shots} shots; got {shots}")
 
         from qiskit_ibm_runtime import SamplerV2
 
@@ -318,11 +351,22 @@ class HardwareBackend(Backend):
         return ExecutionResult(counts=dict(counts), shots=shots, backend_name=self.backend_name)
 
 
-def write_campaign_manifest(path: str, predictions: dict[str, float], note: str = "") -> None:
+def write_campaign_manifest(
+    path: str,
+    predictions: dict[str, float],
+    note: str = "",
+    max_jobs: int | None = None,
+    shots: int | None = None,
+    preregistration: dict | None = None,
+) -> None:
     """
     Record predictions for a hardware campaign before any job is submitted.
     Refuses to overwrite an existing manifest, so predictions cannot be edited
     after data exists.
+
+    max_jobs and shots, when given, become the campaign's job cap and shot count (enforced by
+    HardwareBackend). preregistration is free-form JSON (design, criteria, schedule). A "sha256"
+    of the canonical JSON of these fields is stored for later verification.
     """
     import datetime
     import json
@@ -335,6 +379,13 @@ def write_campaign_manifest(path: str, predictions: dict[str, float], note: str 
         "predictions": predictions,
         "jobs": [],
     }
+    if max_jobs is not None:
+        manifest["max_jobs"] = int(max_jobs)
+    if shots is not None:
+        manifest["shots"] = int(shots)
+    if preregistration is not None:
+        manifest["preregistration"] = preregistration
+    manifest["sha256"] = manifest_hash(manifest)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 

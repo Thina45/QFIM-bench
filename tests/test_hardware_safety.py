@@ -77,3 +77,89 @@ def test_instance_is_forwarded_to_the_service_when_given(monkeypatch):
     seen.clear()
     HardwareBackend()._service()
     assert "instance" not in seen
+
+
+# ---- manifest-driven budget and preregistration hash (no network, no submission) ----
+
+def _fake_hardware(monkeypatch, tmp_path, **manifest_kw):
+    """HardwareBackend with the IBM service and sampler mocked; calls records each submission's shots."""
+    import qiskit_ibm_runtime
+    from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
+
+    calls = []
+    monkeypatch.setenv("IBM_QUANTUM_TOKEN", "dummy-token-for-test")
+
+    class FakeJob:
+        def job_id(self):
+            return "job-test"
+
+        def result(self):
+            class D:
+                class data:
+                    class c:
+                        @staticmethod
+                        def get_counts():
+                            return {"00000": 1}
+            return [D]
+
+    class FakeSampler:
+        class options:
+            class dynamical_decoupling:
+                enable = False
+                sequence_type = ""
+
+        def __init__(self, mode):
+            pass
+
+        def run(self, pubs, shots):
+            calls.append(shots)
+            return FakeJob()
+
+    class FakeService:
+        def __init__(self, **kw):
+            pass
+
+        def backend(self, name):
+            return FakeMarrakesh()
+
+    monkeypatch.setattr(qiskit_ibm_runtime, "QiskitRuntimeService", FakeService)
+    monkeypatch.setattr(qiskit_ibm_runtime, "SamplerV2", FakeSampler)
+    path = tmp_path / "m.json"
+    write_campaign_manifest(str(path), {"x": 0.5}, **manifest_kw)
+    return HardwareBackend(manifest_path=str(path)), calls
+
+
+def test_shot_count_and_cap_come_from_the_manifest(monkeypatch, tmp_path, uniform_circuit):
+    hb, calls = _fake_hardware(monkeypatch, tmp_path, max_jobs=2, shots=1000)
+    with pytest.raises(ValueError, match="1000"):
+        hb.run(uniform_circuit, shots=8192)
+    hb.run(uniform_circuit, shots=1000)
+    hb.run(uniform_circuit, shots=1000)
+    assert calls == [1000, 1000]
+    with pytest.raises(RuntimeError, match="Job cap reached: 2"):
+        hb.run(uniform_circuit, shots=1000)
+
+
+def test_manifest_without_budget_falls_back_to_legacy_limits(monkeypatch, tmp_path, uniform_circuit):
+    hb, calls = _fake_hardware(monkeypatch, tmp_path)
+    with pytest.raises(ValueError, match="8192"):
+        hb.run(uniform_circuit, shots=1000)
+    hb.run(uniform_circuit, shots=8192)
+    assert calls == [8192]
+
+
+def test_manifest_hash_is_stable_and_detects_edits(tmp_path):
+    import json
+
+    from qfim_bench.backends import manifest_hash, verify_manifest_hash
+
+    path = tmp_path / "m.json"
+    write_campaign_manifest(str(path), {"a": 1, "b": 2}, max_jobs=3, shots=4096, preregistration={"k": [1, 2]})
+    m = json.loads(path.read_text())
+    assert verify_manifest_hash(m)
+    reordered = {k: m[k] for k in reversed(list(m))}
+    reordered["jobs"] = [{"job_id": "x"}]  # job bookkeeping must not change the hash
+    assert manifest_hash(reordered) == m["sha256"]
+    m["predictions"]["a"] = 99  # editing a prediction must
+    assert not verify_manifest_hash(m)
+    assert not verify_manifest_hash({"predictions": {"a": 1}})  # no hash recorded
