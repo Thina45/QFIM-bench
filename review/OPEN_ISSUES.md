@@ -77,3 +77,11 @@
     general fix: it works at true TVD 0 (coverage 0.94) and fails elsewhere because the bias shrinks as
     the true distance grows. Use the interval only when the observed TVD is well above the floor; use
     `tvd_pvalue` / `two_sample_tvd_pvalue` to decide whether a difference exists at all.
+15. **Earlier test environment was inconsistent (found 2026-10-09).** The environment used for every earlier
+    local test run had `mlxtend 0.25.0` alongside `numpy 2.3.2`, `pandas 2.3.2`, `matplotlib 3.10.6`, which it
+    does not allow (`pip check` failed there); a lock file copied from it could not be installed. The lock
+    was rebuilt from a fresh venv (qiskit 2.1.2 / aer 0.17.2 / runtime 0.41.1 pinned, everything else
+    resolved, `pip check` clean) in which the full suite also passes: 184 passed, 90% line coverage
+    (1377 statements). The earlier results were produced under the older numpy/pandas; the suite passing
+    in both suggests no dependence on that, but it is two environments, not a proof. The new lock file
+    itself was not re-installed into a second empty venv.
