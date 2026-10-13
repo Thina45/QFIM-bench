@@ -2,7 +2,7 @@
 
 Reads results/hardware/ladder_v2/analysis.json and ladder_v2b/analysis.json. Hardware points are the
 mean of 5 jobs with the 95% t-interval across those jobs (one sitting, one calibration window, so no
-drift). Writes PNG (300 dpi), PDF and SVG to figures/.
+drift). Writes a PNG (300 dpi) to figures/.
 
     python analysis/make_ladder_figure.py            # as in the paper figure
     python analysis/make_ladder_figure.py --prediction   # also draw the simulator prediction and its band
@@ -80,9 +80,8 @@ def main() -> None:
 
     OUT.mkdir(exist_ok=True)
     stem = "ladder_ideal_vs_hardware" + ("_with_prediction" if args.prediction else "")
-    for ext, kw in (("png", {"dpi": 300}), ("pdf", {}), ("svg", {})):
-        fig.savefig(OUT / f"{stem}.{ext}", **kw)
-        print("saved", OUT / f"{stem}.{ext}")
+    fig.savefig(OUT / f"{stem}.png", dpi=300)
+    print("saved", OUT / f"{stem}.png")
 
 
 if __name__ == "__main__":
