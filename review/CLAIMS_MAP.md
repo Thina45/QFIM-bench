@@ -2,7 +2,7 @@
 
 Each row is a claim the evidence supports, with the file that holds the number, the exact figure, and
 the limit that must travel with it. "Not supported" rows are claims the paper must not make. Paths are
-relative to the `qfim-bench` folder. Manuscript sentences are not mapped yet: they were not provided.
+relative to the `qfim-bench` folder.
 
 ## A. What the software is
 
@@ -40,7 +40,7 @@ relative to the `qfim-bench` folder. Manuscript sentences are not mapped yet: th
 |---|---|---|---|---|
 | D1 | The noise model predicts the shape of the amplification curve but overestimates the success probability where amplification matters. | `review/preregistration/ladder_predictions.json`, both analysis.json files, `results/hardware/echo_fidelity_exploratory.json` | Shortfall (simulator minus hardware) at r=1, 2: n=3 0.039, 0.052; n=4 0.084, 0.141; n=5 0.120, 0.085. Range **0.04 to 0.14** over r=1,2 at all sizes (0.05 to 0.14 at r=2 only). Below band: n=4 r=1,2; n=5 r=1,2; echo at n=3,4. TVD to simulator 0.04-0.14, floor under 0.02, p=0.002 | FakeMarrakesh is one calibration snapshot. Always say which r the range covers. |
 | D2a | The success criterion, the operating-point addendum and the Tier A manifest were committed and pushed to GitHub before any hardware job. | `review/OPERATING_POINT_CRITERION.md` (c25b1b0), `review/OPERATING_POINT_ADDENDUM.md` (dd01e6e), `campaigns/ladder_v2/manifest.json` (ec08f12, hash 6dcfc075...) | push of `main` confirmed by the user before the probe | Exact push time is not recorded here; take it from GitHub's commit view. **No git tag exists.** Write "committed and pushed before the experiment", never "tagged". |
-| D2b | The Tier B and C manifest (hash ac2958ce...) was committed before those jobs ran. | `campaigns/ladder_v2b/manifest.json` (0c57027) | commit exists locally | **Not claimable as pushed before the data** unless the user confirms a push time earlier than the first tier B job. Until then say "committed locally before the runs". Its predictions are the same file written before any Tier A data. |
+| D2b | The Tier B and C manifest (hash ac2958ce...) was committed before those jobs ran. | `campaigns/ladder_v2b/manifest.json` (0c57027) | on `origin/main` (checked 2026-10-15) | The commit's author date (2026-10-08 18:32 +05:30) is a local timestamp, not a push time. Read the push time from GitHub's commit view before claiming it was pushed before the first tier B job; otherwise say "committed before the runs". Its predictions are the same file written before any Tier A data. |
 | D3 | The simulator discriminates weak from strong noise, and two-qubit gate error dominates. | `results/sim/noise_sensitivity.json` | n=5, M=2, r=2: 0.905 (no noise), 0.587 (x0.25), 0.187 (x1), 0.081 (x2); 2Q off 0.396, other sources off 0.19-0.21 | Simulation only. |
 
 ## E. Engineering findings

@@ -2,17 +2,14 @@
 
 ## Needs your decision or action
 
-1. **Push status.** `main` was pushed by you at `fce4b0e`. Every later commit is local only. The
-   shell this work runs in has credentials for a different GitHub account and gets a 403, so you push:
-   `git push origin main`. No tags have been created by this work.
-2. **Version.** `pyproject.toml` and `__version__` were 0.1.0; `CITATION.cff` and the paper say 1.0.1.
-   All three now say 1.0.1. The code on `main` is well ahead of the released v1.0.1 (new circuit
-   builders, new defaults), so the next real release should be 1.1.0. Decide before tagging.
-3. **Contradiction in `manuscript/manuscript_scope_note.md`** (not edited, as instructed). It says the
-   paper's hardware used the ansatz start. The campaign manifest
-   (`campaigns/uniform_marrakesh/manifest.json`) says "Uniform start H^5|0>". The hardware used the
-   uniform start. The note also says the ansatz "does not exhibit the amplification signal"; that was a
-   mismatched-diffusion artefact (AUDIT). Delete or rewrite the note.
+1. **Push status (checked 2026-10-15).** `origin/main` holds every commit up to the Tier B/C data and the claims map
+   (a2b708e). Later commits (packaging, lock file, dashboard panel, figures) are local until you run
+   `git push origin main`. The shell this work runs in has credentials for a different GitHub account and gets a
+   403, so you push. Tags that exist: v1.0.0 and v1.0.1 only.
+2. **Version.** `pyproject.toml`, `__version__` and `CITATION.cff` all say 1.1.0, set for the coming release. It is
+   not tagged. The DOI in `CITATION.cff` belongs to v1.0.1 and must be replaced with the DOI Zenodo assigns to v1.1.0.
+3. **Contradictory scope note removed.** A note that described the hardware as using the ansatz start contradicted
+   the campaign manifest (uniform start) and has been deleted.
 4. **`SoftwareX_guide_for_authors.txt` does not exist anywhere under `Software_X_journal`.** The Action
    Plan `.docx` is in `review/`. The word limit (3,000 or 4,000) is still unknown.
 5. **Operating-point decision (Stop-Gate 3).** The preregistered rule, applied mechanically, selects

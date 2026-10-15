@@ -1,7 +1,7 @@
 """
 examples/bootstrap_ci_uniform_campaign.py — computes a bootstrap CI for
 each hardware run's empirical success probability, turning the five point
-estimates into numbers with real uncertainty for the manuscript table.
+estimates into numbers with real uncertainty for the results table.
 
 Run from the qfim-bench root:
     PYTHONPATH=src python examples/bootstrap_ci_uniform_campaign.py
