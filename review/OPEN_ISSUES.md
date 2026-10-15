@@ -2,12 +2,11 @@
 
 ## Needs your decision or action
 
-1. **Push status (checked 2026-10-15).** `origin/main` holds every commit up to the Tier B/C data and the claims map
-   (a2b708e). Later commits (packaging, lock file, dashboard panel, figures) are local until you run
-   `git push origin main`. The shell this work runs in has credentials for a different GitHub account and gets a
-   403, so you push. Tags that exist: v1.0.0 and v1.0.1 only.
-2. **Version.** `pyproject.toml`, `__version__` and `CITATION.cff` all say 1.1.0, set for the coming release. It is
-   not tagged. The DOI in `CITATION.cff` belongs to v1.0.1 and must be replaced with the DOI Zenodo assigns to v1.1.0.
+1. **Push status (checked 2026-10-15).** `origin/main` and the local `main` were identical at c8eadce, which is the
+   commit the v1.1.0 tag points to. Tags: v1.0.0, v1.0.1, v1.1.0. The shell this work runs in has credentials for a
+   different GitHub account and gets a 403, so pushes are done by you.
+2. **Version.** `pyproject.toml`, `__version__` and `CITATION.cff` all say 1.1.0, set for this release. It is
+   tagged as v1.1.0 and archived on Zenodo (version DOI 10.5281/zenodo.23396363, concept DOI 10.5281/zenodo.23204242).
 3. **Contradictory scope note removed.** A note that described the hardware as using the ansatz start contradicted
    the campaign manifest (uniform start) and has been deleted.
 4. **`SoftwareX_guide_for_authors.txt` does not exist anywhere under `Software_X_journal`.** The Action

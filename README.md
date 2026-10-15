@@ -159,7 +159,11 @@ against brute force, and the noisy backend's ordering relative to the paper's ha
 
 ## Citation
 
-See `CITATION.cff`.
+See `CITATION.cff`. Archived on Zenodo:
+
+- v1.1.0: https://doi.org/10.5281/zenodo.23396363
+- all versions (concept DOI, always the latest): https://doi.org/10.5281/zenodo.23204242
+- v1.0.1: https://doi.org/10.5281/zenodo.23204243
 
 ## License
 
