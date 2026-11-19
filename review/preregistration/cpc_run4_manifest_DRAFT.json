@@ -1,0 +1,21 @@
+{
+  "note": "DRAFT. Not adopted, not submitted. Run 4 (second device): identical ladder to Run 1 (n=3,4,5; r=0..4; echo+readout; DD on; 8192 shots; 5 repeats per tier), on ibm_kingston instead of ibm_marrakesh. Candidate chosen from the read-only device survey this session: ibm_kingston (0 pending jobs, median 2Q gate error 0.00192) over ibm_fez (0 pending jobs, median 2Q gate error 0.00253); both are Heron r2, same family as ibm_marrakesh. ibm_fez is dropped per the user's revised plan.",
+  "predictions_fakemarrakesh": "same as review/preregistration/cpc_run1_manifest_DRAFT.json predictions_fakemarrakesh -- FakeMarrakesh is a marrakesh-specific snapshot, so these are a cross-device reference only, not a same-device prediction; kingston may transpile to a different physical layout even with seed_transpiler=42 fixed, since its calibration differs",
+  "predictions_phase1b_fit": "same as review/preregistration/cpc_run1_manifest_DRAFT.json predictions_phase1b_fit, same cross-device caveat",
+  "tolerance_rule": "same band formula as Run 1, applied to predictions_fakemarrakesh as the best available prior; results are reported as a device comparison (kingston vs marrakesh Run 1), not scored primarily against the band",
+  "max_jobs": 15,
+  "shots": 8192,
+  "usage_budget_seconds": 350,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "DRAFT - not adopted, not submitted",
+    "backend": "ibm_kingston",
+    "transpile": {"optimization_level": 3, "seed_transpiler": 42, "dd_sequence": "XpXm"},
+    "layout": "chosen by the transpiler from ibm_kingston's live calibration at submission time; will differ from ibm_marrakesh's (5,6,7)/(98,110,111,112)/(91,98,110,111,112) layouts since it is a different chip",
+    "record_per_job": ["job_id", "calibration_timestamp", "backend_properties_snapshot (T1/T2/readout_error/gate_error for used qubits, saved at submission)", "physical_qubits", "transpiled_depth", "transpiled_2q_count", "billed_usage_seconds"],
+    "projected_usage_seconds": {
+      "basis": "assumed equal to Run 1's per-job billed seconds (20.0/21.0/24.0 for A/B/C) -- an assumption, not a measurement, since this device has not been used by this project before; actual billed time will be recorded for every job and may differ",
+      "tier_A_5_jobs": 100.0, "tier_B_5_jobs": 105.0, "tier_C_5_jobs": 120.0, "total_estimate": 325.0, "budget_allocated": 350.0
+    }
+  }
+}

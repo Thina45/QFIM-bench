@@ -1,0 +1,26 @@
+{
+  "note": "DRAFT. Not adopted, not submitted. Run 2 (DD-off ablation): n=4 only (M=2,N=16), mcz oracle, uniform start, r=0..4, echo + readout controls, DD OFF, otherwise identical to Run 1's Tier B (ibm_marrakesh, 8192 shots, 5 repeats, same layout target).",
+  "predictions": {
+    "caveat": "No simulator model exists for DD-off hardware behaviour (FakeMarrakesh and the Phase1B fit were both built from DD-on data). This run is comparative, not point-predicted: H2 compares Run 2's r=1/r=2 means against Run 1 Tier B's r=1/r=2 means (DD on), not against a fixed number.",
+    "fakemarrakesh_dd_on_reference_only": {
+      "ladder_n4_M2_r0": 0.12256, "ladder_n4_M2_r1": 0.66602, "ladder_n4_M2_r2": 0.70962, "ladder_n4_M2_r3": 0.26296, "ladder_n4_M2_r4": 0.09355,
+      "echo_n4_M2_r2": 0.53433, "readout_n4_zeros": 0.98767, "readout_n4_ones": 0.98757
+    }
+  },
+  "tolerance_rule": "no fixed band; outcome is read by comparing Run 2 (DD off) vs Run 1 Tier B (DD on) means with t-intervals (5 vs 5), consistent with the campaign's own primary_uncertainty convention",
+  "max_jobs": 5,
+  "shots": 8192,
+  "usage_budget_seconds": 120,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "DRAFT - not adopted, not submitted",
+    "backend": "ibm_marrakesh",
+    "transpile": {"optimization_level": 3, "seed_transpiler": 42, "dd_sequence": "NONE (dynamical_decoupling.enable = False)"},
+    "record_per_job": ["job_id", "calibration_timestamp", "backend_properties_snapshot", "physical_qubits", "transpiled_depth", "transpiled_2q_count", "billed_usage_seconds"],
+    "projected_usage_seconds": {
+      "basis": "campaigns/ladder_v2b tierB_run1-5 billed 21.0s each (DD on); DD off is not expected to change execution time materially since gate count and shots are unchanged",
+      "tier_B_5_jobs": 105.0, "budget_allocated": 120.0
+    }
+  },
+  "hypothesis": "H2: DD improves n=4 hardware success at r=1 and r=2 (Run 1 Tier B mean > Run 2 mean, lower CI of the difference > 0)"
+}

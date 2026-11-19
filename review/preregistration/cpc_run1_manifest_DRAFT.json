@@ -1,0 +1,34 @@
+{
+  "note": "DRAFT. Not adopted, not submitted. Run 1 (replication) of the CPC revision addendum: identical ladder to campaigns/ladder_v2 + ladder_v2b (n=3,4,5; M/N=1/8; mcz oracle; uniform start; r=0..4; echo + readout controls), on ibm_marrakesh, 5 repeats per tier, DD on, 8192 shots. SAME physical qubit layout the transpiler chose for ladder_v2/v2b, enforced by seed_transpiler=42 against current calibration.",
+  "predictions_fakemarrakesh": {
+    "ladder_n3_M1_r0": 0.12561, "ladder_n3_M1_r1": 0.73223, "ladder_n3_M1_r2": 0.84753, "ladder_n3_M1_r3": 0.31187, "ladder_n3_M1_r4": 0.0416,
+    "echo_n3_M1_r2": 0.80642, "readout_n3_zeros": 0.99124, "readout_n3_ones": 0.99094,
+    "ladder_n4_M2_r0": 0.12256, "ladder_n4_M2_r1": 0.66602, "ladder_n4_M2_r2": 0.70962, "ladder_n4_M2_r3": 0.26296, "ladder_n4_M2_r4": 0.09355,
+    "echo_n4_M2_r2": 0.53433, "readout_n4_zeros": 0.98767, "readout_n4_ones": 0.98757,
+    "ladder_n5_M4_r0": 0.12239, "ladder_n5_M4_r1": 0.38682, "ladder_n5_M4_r2": 0.27898, "ladder_n5_M4_r3": 0.16499, "ladder_n5_M4_r4": 0.13931,
+    "echo_n5_M4_r2": 0.05786, "readout_n5_zeros": 0.98459, "readout_n5_ones": 0.98423
+  },
+  "predictions_phase1b_fit": {
+    "source": "results/cpc_revision/phase2_fit_predictions.csv, from results/cpc_revision/phase1b_global_fit.json (per-size f, p_noise fit to campaigns/ladder_v2 + ladder_v2b)",
+    "ladder_n3_M1_r0": 0.125, "ladder_n3_M1_r1": 0.71218, "ladder_n3_M1_r2": 0.77788, "ladder_n3_M1_r3": 0.27193, "ladder_n3_M1_r4": 0.05402,
+    "ladder_n4_M2_r0": 0.125, "ladder_n4_M2_r1": 0.6074, "ladder_n4_M2_r2": 0.56459, "ladder_n4_M2_r3": 0.22888, "ladder_n4_M2_r4": 0.13086,
+    "ladder_n5_M4_r0": 0.125, "ladder_n5_M4_r1": 0.28059, "ladder_n5_M4_r2": 0.17635, "ladder_n5_M4_r3": 0.1407, "ladder_n5_M4_r4": 0.13861,
+    "caveat": "fit predictions exist only for the 15 ladder cells (not echo/readout); use FakeMarrakesh predictions for echo/readout"
+  },
+  "tolerance_rule": "band half-width = 5*sqrt(p(1-p)/8192) + 0.05, evaluated against predictions_fakemarrakesh (unchanged convention from ladder_v2/v2b); predictions_phase1b_fit bands are in results/cpc_revision/phase2_fit_predictions.csv for secondary comparison",
+  "max_jobs": 15,
+  "shots": 8192,
+  "usage_budget_seconds": 350,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "DRAFT - not adopted, not submitted",
+    "backend": "ibm_marrakesh",
+    "transpile": {"optimization_level": 3, "seed_transpiler": 42, "dd_sequence": "XpXm"},
+    "record_per_job": ["job_id", "calibration_timestamp", "backend_properties_snapshot (T1/T2/readout_error/gate_error for used qubits)", "physical_qubits", "transpiled_depth", "transpiled_2q_count", "billed_usage_seconds"],
+    "projected_usage_seconds": {
+      "basis": "campaigns/ladder_v2 (tierA_day1-5: 20.0s each) and campaigns/ladder_v2b (tierB_run1-5: 21.0s each, tierC_run1-5: 24.0s each), all read via QiskitRuntimeService.job(...).metrics() this session",
+      "tier_A_5_jobs": 100.0, "tier_B_5_jobs": 105.0, "tier_C_5_jobs": 120.0, "total_estimate": 325.0, "budget_allocated": 350.0
+    }
+  },
+  "sha256_of_this_file_content": "COMPUTED_AT_WRITE_TIME"
+}

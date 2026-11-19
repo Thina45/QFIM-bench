@@ -1,0 +1,22 @@
+{
+  "note": "DRAFT. Not adopted, not submitted. Run 3 (replication, day B): identical to Run 1 (n=3,4,5; r=0..4; echo+readout; ibm_marrakesh; DD on; 8192 shots), but only 3 repeats per tier, submitted at least 12 hours after Run 1 completes.",
+  "predictions_fakemarrakesh": "same as review/preregistration/cpc_run1_manifest_DRAFT.json predictions_fakemarrakesh",
+  "predictions_phase1b_fit": "same as review/preregistration/cpc_run1_manifest_DRAFT.json predictions_phase1b_fit",
+  "tolerance_rule": "same band formula as Run 1; additionally, H1 compares Run 1 vs Run 3 r=2 (n=3) means directly: day-to-day variation vs within-sitting CI width",
+  "max_jobs": 9,
+  "shots": 8192,
+  "usage_budget_seconds": 220,
+  "max_job_seconds": 30,
+  "preregistration": {
+    "status": "DRAFT - not adopted, not submitted",
+    "backend": "ibm_marrakesh",
+    "transpile": {"optimization_level": 3, "seed_transpiler": 42, "dd_sequence": "XpXm"},
+    "min_gap_after_run1_hours": 12,
+    "record_per_job": ["job_id", "calibration_timestamp", "backend_properties_snapshot", "physical_qubits", "transpiled_depth", "transpiled_2q_count", "billed_usage_seconds"],
+    "projected_usage_seconds": {
+      "basis": "3 repeats/tier at the same per-job billed seconds as Run 1 (20.0/21.0/24.0 for A/B/C)",
+      "tier_A_3_jobs": 60.0, "tier_B_3_jobs": 63.0, "tier_C_3_jobs": 72.0, "total_estimate": 195.0, "budget_allocated": 220.0
+    }
+  },
+  "hypothesis": "H1: day-to-day variation of the r=2 success probability (n=3) is larger than the within-sitting CI (compare Run 1's 5-value spread against |Run 1 mean - Run 3 mean|)"
+}
