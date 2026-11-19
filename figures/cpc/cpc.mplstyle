@@ -1,0 +1,33 @@
+# Shared style for Computer Physics Communications revision figures.
+# Serif (Times-like), small labels, colour-blind-safe palette, no in-plot titles (captions in the
+# paper text), 95% CI error bars drawn by each figure script.
+
+font.family: serif
+font.serif: Times New Roman, Nimbus Roman, DejaVu Serif, serif
+font.size: 8.5
+axes.titlesize: 0
+axes.labelsize: 9
+xtick.labelsize: 8
+ytick.labelsize: 8
+legend.fontsize: 7.5
+
+axes.prop_cycle: cycler('color', ['0072B2', 'D55E00', '009E73', 'CC79A7', 'E69F00', '56B4E9', '000000'])
+
+axes.spines.top: False
+axes.spines.right: False
+axes.linewidth: 0.6
+xtick.major.width: 0.6
+ytick.major.width: 0.6
+xtick.direction: out
+ytick.direction: out
+
+figure.dpi: 300
+savefig.dpi: 300
+savefig.bbox: tight
+savefig.pad_inches: 0.02
+
+lines.linewidth: 1.0
+lines.markersize: 3.5
+errorbar.capsize: 2
+
+legend.frameon: False

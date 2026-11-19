@@ -1,0 +1,50 @@
+{
+  "A": {
+    "n": 3,
+    "M": 1,
+    "N": 8,
+    "r_opt": 2,
+    "P_r_opt": 0.8417724609375,
+    "P_r0": 0.12421875,
+    "ratio": 6.776533018867925,
+    "rules": {
+      "1_ratio_ge_3": true,
+      "2_floor_ge_0.40": true,
+      "3_gap_over_M/N_ge_0.20": true,
+      "4_is_max_within_sd": true
+    },
+    "pass": true
+  },
+  "B": {
+    "n": 4,
+    "M": 2,
+    "N": 16,
+    "r_opt": 2,
+    "P_r_opt": 0.6830810546875,
+    "P_r0": 0.1257080078125,
+    "ratio": 5.433870654496019,
+    "rules": {
+      "1_ratio_ge_3": true,
+      "2_floor_ge_0.40": true,
+      "3_gap_over_M/N_ge_0.20": true,
+      "4_is_max_within_sd": true
+    },
+    "pass": true
+  },
+  "C": {
+    "n": 5,
+    "M": 4,
+    "N": 32,
+    "r_opt": 1,
+    "P_r_opt": 0.343994140625,
+    "P_r0": 0.1294921875,
+    "ratio": 2.656485671191554,
+    "rules": {
+      "1_ratio_ge_3": false,
+      "2_floor_ge_0.40": false,
+      "3_gap_over_M/N_ge_0.20": true,
+      "4_is_max_within_sd": true
+    },
+    "pass": false
+  }
+}

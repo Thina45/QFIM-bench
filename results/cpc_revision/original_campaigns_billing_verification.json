@@ -1,0 +1,125 @@
+{
+  "ladder_v2": {
+    "n_jobs": 6,
+    "total_true_s": 104.0,
+    "rows": [
+      [
+        "probe",
+        4.0,
+        4
+      ],
+      [
+        "tierA_day1",
+        20.0,
+        20
+      ],
+      [
+        "tierA_day2",
+        20.0,
+        20
+      ],
+      [
+        "tierA_day3",
+        20.0,
+        20
+      ],
+      [
+        "tierA_day4",
+        20.0,
+        20
+      ],
+      [
+        "tierA_day5",
+        20.0,
+        20
+      ]
+    ]
+  },
+  "ladder_v2b": {
+    "n_jobs": 10,
+    "total_true_s": 225.0,
+    "rows": [
+      [
+        "tierB_run1",
+        21.0,
+        21
+      ],
+      [
+        "tierB_run2",
+        21.0,
+        21
+      ],
+      [
+        "tierB_run3",
+        21.0,
+        21
+      ],
+      [
+        "tierB_run4",
+        21.0,
+        21
+      ],
+      [
+        "tierB_run5",
+        21.0,
+        21
+      ],
+      [
+        "tierC_run1",
+        24.0,
+        24
+      ],
+      [
+        "tierC_run2",
+        24.0,
+        24
+      ],
+      [
+        "tierC_run3",
+        24.0,
+        24
+      ],
+      [
+        "tierC_run4",
+        24.0,
+        24
+      ],
+      [
+        "tierC_run5",
+        24.0,
+        24
+      ]
+    ]
+  },
+  "uniform_marrakesh": {
+    "n_jobs": 5,
+    "total_true_s": 68.0,
+    "rows": [
+      [
+        "r=1",
+        null,
+        8
+      ],
+      [
+        "r=2",
+        null,
+        12
+      ],
+      [
+        "r=3",
+        null,
+        16
+      ],
+      [
+        "r=4",
+        null,
+        20
+      ],
+      [
+        "r=2 (repeat)",
+        null,
+        12
+      ]
+    ]
+  }
+}

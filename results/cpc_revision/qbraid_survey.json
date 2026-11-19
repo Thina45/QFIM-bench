@@ -1,0 +1,36 @@
+{
+  "note": "Read-only qBraid survey for Phase 2 planning. No job submitted on any provider.",
+  "credit_balance_qbraid_credits": 454.8458,
+  "credit_balance_aws_credits": 0,
+  "ibm_devices_via_qbraid": {
+    "marrakesh": {"status": "ONLINE", "queue_depth": 1, "pricing_model": "dynamic", "estimate_cost_result": "pricingAvailable=False, reason=dynamic_pricing_unavailable"},
+    "kingston": {"status": "ONLINE", "queue_depth": 1, "pricing_model": "dynamic", "estimate_cost_result": "pricingAvailable=False, reason=dynamic_pricing_unavailable"},
+    "fez": {"status": "ONLINE", "queue_depth": 2, "pricing_model": "dynamic", "estimate_cost_result": "pricingAvailable=False, reason=dynamic_pricing_unavailable"},
+    "conclusion": "qBraid cannot quote a credit cost for any of the three Heron-family IBM devices for this account right now (estimate_cost returns pricingAvailable=False / dynamic_pricing_unavailable for all three, at 1000/2000/8192 shots). This is a genuine API limitation, not a computed number -- do not treat any IBM-via-qBraid credit figure as real unless requoted successfully."
+  },
+  "local_transpile_check_ibm_devices": {
+    "method": "transpile(circuit, backend=<live ibm_* backend via qiskit_ibm_runtime>, optimization_level=3, seed_transpiler=42); NO submission",
+    "n3_r2_mcz_grover": {"ibm_marrakesh": {"two_qubit_gates": 39, "depth": 142}, "ibm_kingston": {"two_qubit_gates": 39, "depth": 139}, "ibm_fez": {"two_qubit_gates": 39, "depth": 142}},
+    "n4_r2_mcz_grover": {"ibm_marrakesh": {"two_qubit_gates": 113, "depth": 430}, "ibm_kingston": {"two_qubit_gates": 113, "depth": 429}, "ibm_fez": {"two_qubit_gates": 113, "depth": 430}},
+    "conclusion": "All three IBM devices are the same Heron r2 heavy-hex architecture; 2Q gate counts match the original campaign (39 for n=3 r=2, matching ladder_v2 manifest) within +/-1 of depth from layout differences. Native-gate transpile is not a blocker on any of the three."
+  },
+  "fixed_price_qpus_available_on_qbraid": {
+    "note": "These are NOT the IBM Heron devices and use different architectures (trapped ion / different superconducting topology); listed only because the user asked for pricing on every QPU qBraid exposes. mcz oracle transpilation to their native basis was NOT attempted locally (would need amazon-braket-sdk / pyquil, not installed) because the credit-cost numbers below already rule all of them out for the requested scenario.",
+    "pricing_credits": {
+      "IBEX Q1 (AWS, trapped ion, 12q)": {"per_task": 30, "per_shot": 2.35},
+      "Forte 1 (AWS, trapped ion, 36q)": {"per_task": 30, "per_shot": 8},
+      "Forte Enterprise 1 (AWS, trapped ion, 36q)": {"per_task": 30, "per_shot": 8},
+      "Cepheus-1-108Q (AWS, superconducting, 107q)": {"per_task": 30, "per_shot": 0.0425}
+    },
+    "cost_model": "credits = n_circuits * repeats * (per_task + per_shot * shots); batchJobSupport=False on all of these so each circuit is a separate task (unlike IBM SamplerV2 batching)",
+    "scenario_a_n3_7_circuits": {
+      "1000_shots_1_repeat": {"IBEX_Q1": 16660.0, "Forte_1": 56210.0, "Forte_Enterprise_1": 56210.0, "Cepheus_108Q": 507.5},
+      "8192_shots_1_repeat": {"IBEX_Q1": 134968.4, "Forte_1": 458962.0, "Forte_Enterprise_1": 458962.0, "Cepheus_108Q": 2647.12}
+    },
+    "scenario_b_n4_7_circuits": "identical cost model/numbers (circuit count is the same: 7), since qBraid's fixed per-shot pricing does not depend on circuit size -- only the IBM dynamic price would, and that's unquotable",
+    "conclusion": "No fixed-priced QPU on qBraid can deliver the full 7-circuit ladder scenario at >=1000 shots within 430 credits. The cheapest option (Cepheus-1-108Q) already needs 507.5 credits for just 1000 shots x 1 repeat x 7 circuits -- over budget before any repeats. A single circuit alone (not the full ladder) would fit (72.50 credits at 1000 shots), but that is not what was asked for."
+  },
+  "free_simulators_online": ["Simulator (ionq, 29q, ideal + noisy presets)", "QIR Simulator (qbraid, 30q)", "Alloy Forge Emulator (qbraid/quobly, 10q)", "QPerfect MIMIQ State Vector (32q)", "QPerfect MIMIQ MPS"],
+  "flagged_anomaly": "The 'openquantum' (OQ) vendor listings for IBEX Q1, Forte 1, Forte Enterprise 1, Emerald and Garnet, Cepheus-1-108Q all report perTask=0, perShot=0, perMinute=0 (i.e. apparently free real-hardware access). This is NOT verified or recommended -- it looks like an unconfigured/placeholder pricing field on an aggregator listing, not a confirmed free-hardware offer. Do not rely on this without separately confirming with qBraid support/docs; no credits were spent to test it and none should be without that confirmation.",
+  "recommendation": "No device/shot-count combination surveyed here meets '>=1000 shots per circuit, full ladder, within 430 credits' with verified real pricing. The IBM route is unquotable via qBraid's API right now; the only priced non-IBM QPU that comes close (Cepheus-1-108Q) is a different architecture and still exceeds budget by ~18% at the minimum requested shot count. Recommend NOT pursuing qBraid for Run 4 -- stick with the direct IBM Quantum Platform channel (ibm_kingston, already confirmed empty queue and lowest 2Q error of the three Heron candidates) for which real seconds-based pricing and budget enforcement already exist via HardwareBackend."
+}

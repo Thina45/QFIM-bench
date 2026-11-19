@@ -20,7 +20,7 @@ def fake(monkeypatch, tmp_path):
     """Returns make(usage_per_job=..., **manifest_kw) -> (backend, record); record collects submissions."""
     monkeypatch.setenv("IBM_QUANTUM_TOKEN", "dummy-token-for-test")
 
-    def make(usage_per_job=None, **manifest_kw):
+    def make(usage_per_job=None, metrics_quantum_seconds=None, **manifest_kw):
         record = {"n_pubs": [], "max_execution_time": []}
 
         class FakeJob:
@@ -31,6 +31,11 @@ def fake(monkeypatch, tmp_path):
                 if usage_per_job is None:
                     raise AttributeError("not reported")
                 return usage_per_job
+
+            def metrics(self):
+                if metrics_quantum_seconds is None:
+                    raise AttributeError("not reported")
+                return {"usage": {"quantum_seconds": metrics_quantum_seconds}}
 
             def result(self):
                 n = record["n_pubs"][-1]
@@ -70,6 +75,7 @@ def fake(monkeypatch, tmp_path):
         monkeypatch.setattr(qiskit_ibm_runtime, "SamplerV2", FakeSampler)
         path = tmp_path / f"m{len(list(tmp_path.iterdir()))}.json"
         write_campaign_manifest(str(path), {"x": 0.5}, shots=1000, **manifest_kw)
+        record["sampler_options"] = FakeSampler.options
         return HardwareBackend(manifest_path=str(path)), record, path
 
     return make
@@ -91,6 +97,15 @@ def test_billed_usage_is_recorded_per_job(fake):
     m = json.loads(path.read_text())
     assert [j["usage_seconds"] for j in m["jobs"]] == [12.5, 12.5]
     assert hb.cumulative_usage_seconds() == 25.0
+
+
+def test_metrics_quantum_seconds_is_preferred_over_a_stale_zero_from_usage(fake):
+    """Regression: job.usage() has been observed to report 0 (not raise) right after
+    job.result() returns, before the runtime finalizes billing -- metrics() is the
+    source of truth and must win even when usage() returns a (wrong) value."""
+    hb, _, path = fake(usage_per_job=0.0, metrics_quantum_seconds=20.0, max_jobs=1)
+    hb.run_batch(_circuits(1), shots=1000)
+    assert json.loads(path.read_text())["jobs"][0]["usage_seconds"] == 20.0
 
 
 def test_unreported_usage_is_recorded_as_none(fake):
@@ -121,6 +136,20 @@ def test_batch_respects_shots_and_job_cap(fake):
     hb.run_batch(_circuits(1), shots=1000)
     with pytest.raises(RuntimeError, match="Job cap reached"):
         hb.run_batch(_circuits(1), shots=1000)
+
+
+def test_dd_enabled_defaults_to_true_and_sets_the_sequence(fake):
+    hb, rec, _ = fake(max_jobs=1)
+    hb.run_batch(_circuits(1), shots=1000)
+    assert rec["sampler_options"].dynamical_decoupling.enable is True
+    assert rec["sampler_options"].dynamical_decoupling.sequence_type == "XpXm"
+
+
+def test_dd_enabled_false_disables_dynamical_decoupling(fake):
+    hb, rec, _ = fake(max_jobs=1)
+    hb.dd_enabled = False
+    hb.run_batch(_circuits(1), shots=1000)
+    assert rec["sampler_options"].dynamical_decoupling.enable is False
 
 
 def test_batch_dry_run_reports_each_circuit_and_submits_nothing(monkeypatch):

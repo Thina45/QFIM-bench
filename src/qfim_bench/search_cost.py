@@ -16,11 +16,43 @@ Quantum counting is the other standard remedy (estimate M first, then use r_opt)
 
 from __future__ import annotations
 
-from math import ceil, pi, sqrt
+from math import ceil, comb, pi, sqrt
 
 import numpy as np
 
 from qfim_bench.circuit import optimal_iterations, theoretical_success_probability
+
+
+def classical_query_success_probability(M: int, N: int, q: int) -> float:
+    """
+    Optimal classical success probability of finding at least one marked item by drawing q
+    distinct items uniformly without replacement (q classical oracle queries), out of M marked
+    items among N total:
+
+        P_c(q) = 1 - [C(N-M, q) / C(N, q)] * (1 - M / (N - q))
+
+    q counts queries the same way r counts Grover iterations in this project (one comparison
+    point per iteration), so P_c(r) is the baseline to compare against the hardware success
+    probability at r Grover iterations.
+
+    At q = N - M, drawing all non-marked items is still possible with C(N-M, q)/C(N, q) > 0, but
+    M / (N - q) is undefined (division by zero); every draw of q = N - M items that misses all M
+    marked ones is impossible once q > N - M (C(N-M, q) is 0), so P_c(q) = 1 for q > N - M. At
+    q = N - M exactly, the second factor's limit is handled as 0 (no items left unseen that could
+    still be marked), giving P_c(N - M) = 1 - C(N-M, N-M)/C(N, N-M) = 1 - 1/C(N, N-M).
+    """
+    if not (0 < M <= N):
+        raise ValueError("M must satisfy 0 < M <= N")
+    if q < 0:
+        raise ValueError("q must be non-negative")
+    if q == 0:
+        return M / N
+    if q >= N:
+        return 1.0
+    miss_all = comb(N - M, q) / comb(N, q) if N - M >= q else 0.0
+    if q == N - M:
+        return 1.0 - miss_all
+    return 1.0 - miss_all * (1.0 - M / (N - q))
 
 
 def wrong_m_curve(true_M: int, assumed_M: int, N: int, r_max: int | None = None) -> dict:

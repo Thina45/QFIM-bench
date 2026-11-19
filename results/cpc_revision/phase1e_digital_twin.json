@@ -1,0 +1,127 @@
+{
+  "note": "Calibration-day digital twin: NoiseModel.from_backend_properties() on the exact live ibm_marrakesh BackendProperties at each campaign calibration timestamp (re-fetched read-only this pass via backend.properties(datetime=...), same method validated in results/cpc_revision/historical_calibration.json). qiskit-aer 0.17.2 provides from_backend_properties. LIMITATION: thermal_relaxation=False was required -- this device BackendProperties object has no 'frequency' field for any qubit (confirmed: props.qubit_property(0) has no frequency key), and NoiseModel.from_backend_properties unconditionally calls backend_properties.frequency(q) when thermal_relaxation=True, raising BackendPropertyError. So this twin includes gate_error + readout_error only, NOT T1/T2 thermal relaxation -- it is a partial noise model, not a full replication of hardware noise sources.",
+  "caveat_tier_C": "Tier C runs 4-5 used a later calibration window (2026-10-08 18:32:55+05:30); this twin uses the run1-3 window (18:13:43+05:30) shared with Tier B, since 3 of 5 Tier C runs used it.",
+  "rows": [
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 0,
+      "window": "tierA",
+      "tvd_hw_vs_digital_twin": 0.013525390624999994,
+      "hellinger_hw_vs_digital_twin": 0.01189536035007987
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 1,
+      "window": "tierA",
+      "tvd_hw_vs_digital_twin": 0.0303955078125,
+      "hellinger_hw_vs_digital_twin": 0.03524705695679608
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 2,
+      "window": "tierA",
+      "tvd_hw_vs_digital_twin": 0.04545898437500001,
+      "hellinger_hw_vs_digital_twin": 0.0502507802278275
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 3,
+      "window": "tierA",
+      "tvd_hw_vs_digital_twin": 0.099755859375,
+      "hellinger_hw_vs_digital_twin": 0.08371866871071224
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 4,
+      "window": "tierA",
+      "tvd_hw_vs_digital_twin": 0.036108398437499994,
+      "hellinger_hw_vs_digital_twin": 0.039263227442189574
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 0,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.015258789062500007,
+      "hellinger_hw_vs_digital_twin": 0.014042666989322298
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 1,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.036303710937500004,
+      "hellinger_hw_vs_digital_twin": 0.035455236439401155
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 2,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.031225585937500012,
+      "hellinger_hw_vs_digital_twin": 0.029772559077010565
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 3,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.0553955078125,
+      "hellinger_hw_vs_digital_twin": 0.04927651014679048
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 4,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.057373046875,
+      "hellinger_hw_vs_digital_twin": 0.049545851455412286
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 0,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.029125976562500003,
+      "hellinger_hw_vs_digital_twin": 0.02705242400724524
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 1,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.042041015625000004,
+      "hellinger_hw_vs_digital_twin": 0.0371762867425637
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 2,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.04184570312500001,
+      "hellinger_hw_vs_digital_twin": 0.03577182102770483
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 3,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.041357421874999994,
+      "hellinger_hw_vs_digital_twin": 0.036334746600626126
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 4,
+      "window": "tierB_tierC_run1-3",
+      "tvd_hw_vs_digital_twin": 0.0493896484375,
+      "hellinger_hw_vs_digital_twin": 0.04271814517515883
+    }
+  ],
+  "comparison_vs_generic_fakemarrakesh": "results/cpc_revision/phase1d_distances.csv (tvd_hw_vs_noisy_sim column, same cells). The calibration-day twin TVD is smaller than the generic-FakeMarrakesh TVD at every one of the 15 ladder cells, most dramatically at Tier B r=2 (twin 0.0312 vs generic 0.1414) and Tier C r=1 (twin 0.0420 vs generic 0.1198) -- the calibration-specific gate/readout error model tracks hardware noticeably better than the generic snapshot, even without a thermal-relaxation term."
+}

@@ -1,0 +1,179 @@
+{
+  "label": "A_run1",
+  "job": {
+    "label": "A_run1",
+    "labels": [
+      "ladder_n3_M1_r4",
+      "ladder_n3_M1_r1",
+      "ladder_n3_M1_r0",
+      "ladder_n3_M1_r3",
+      "readout_n3_ones",
+      "ladder_n3_M1_r2",
+      "echo_n3_M1_r2",
+      "readout_n3_zeros"
+    ],
+    "job_id": "dbvbvf782tmc73dup1c0",
+    "target": "ibm_marrakesh (live calibration)",
+    "n_circuits": 8,
+    "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+    "circuits_info": [
+      {
+        "depth": 284,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 72,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          10,
+          139,
+          140
+        ]
+      },
+      {
+        "depth": 209,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          10,
+          139,
+          140
+        ]
+      },
+      {
+        "depth": 142,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 288,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          10,
+          139,
+          140
+        ]
+      }
+    ],
+    "usage_seconds": 20.0
+  },
+  "order": [
+    "ladder_n3_M1_r4",
+    "ladder_n3_M1_r1",
+    "ladder_n3_M1_r0",
+    "ladder_n3_M1_r3",
+    "readout_n3_ones",
+    "ladder_n3_M1_r2",
+    "echo_n3_M1_r2",
+    "readout_n3_zeros"
+  ],
+  "counts": {
+    "ladder_n3_M1_r4": {
+      "100": 1024,
+      "010": 1093,
+      "001": 1378,
+      "011": 432,
+      "111": 1094,
+      "101": 1136,
+      "000": 1075,
+      "110": 960
+    },
+    "ladder_n3_M1_r1": {
+      "010": 396,
+      "011": 5883,
+      "100": 353,
+      "110": 339,
+      "000": 360,
+      "001": 322,
+      "111": 282,
+      "101": 257
+    },
+    "ladder_n3_M1_r0": {
+      "100": 1017,
+      "101": 993,
+      "000": 1060,
+      "001": 1029,
+      "010": 1048,
+      "111": 1020,
+      "110": 997,
+      "011": 1028
+    },
+    "ladder_n3_M1_r3": {
+      "001": 917,
+      "010": 809,
+      "110": 890,
+      "111": 716,
+      "101": 887,
+      "011": 2283,
+      "000": 829,
+      "100": 861
+    },
+    "readout_n3_ones": {
+      "111": 7916,
+      "110": 166,
+      "101": 80,
+      "011": 30
+    },
+    "ladder_n3_M1_r2": {
+      "011": 6701,
+      "010": 264,
+      "111": 234,
+      "000": 157,
+      "110": 207,
+      "101": 185,
+      "001": 256,
+      "100": 188
+    },
+    "echo_n3_M1_r2": {
+      "000": 6508,
+      "001": 325,
+      "100": 250,
+      "111": 198,
+      "011": 208,
+      "110": 215,
+      "010": 295,
+      "101": 193
+    },
+    "readout_n3_zeros": {
+      "000": 8154,
+      "001": 7,
+      "010": 9,
+      "100": 22
+    }
+  }
+}

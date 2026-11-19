@@ -1,0 +1,257 @@
+{
+  "cpc_run1": [
+    {
+      "label": "A_run1",
+      "job_id": "dbvbvf782tmc73dup1c0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run2",
+      "job_id": "dbvbvo6ps3fc73bk70s0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run3",
+      "job_id": "dbvc00ups3fc73bk71c0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run4",
+      "job_id": "dbvc09vf8rhs73bnl6cg",
+      "recorded_usage_seconds": 0.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": true
+    },
+    {
+      "label": "A_run5",
+      "job_id": "dbvc0i6ps3fc73bk725g",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run1",
+      "job_id": "dbvc0uf82tmc73dup440",
+      "recorded_usage_seconds": 21.0,
+      "true_usage_seconds_from_metrics": 21,
+      "mismatch": false
+    },
+    {
+      "label": "B_run2",
+      "job_id": "dbvc186ps3fc73bk72v0",
+      "recorded_usage_seconds": 21.0,
+      "true_usage_seconds_from_metrics": 21,
+      "mismatch": false
+    },
+    {
+      "label": "B_run3",
+      "job_id": "dbvc1i6ps3fc73bk73eg",
+      "recorded_usage_seconds": 21.0,
+      "true_usage_seconds_from_metrics": 21,
+      "mismatch": false
+    },
+    {
+      "label": "B_run4",
+      "job_id": "dbvc1rlarooc73fla4g0",
+      "recorded_usage_seconds": 21.0,
+      "true_usage_seconds_from_metrics": 21,
+      "mismatch": false
+    },
+    {
+      "label": "B_run5",
+      "job_id": "dbvc24ups3fc73bk74fg",
+      "recorded_usage_seconds": 21.0,
+      "true_usage_seconds_from_metrics": 21,
+      "mismatch": false
+    },
+    {
+      "label": "C_run1",
+      "job_id": "dbvc2etarooc73fla5t0",
+      "recorded_usage_seconds": 24.0,
+      "true_usage_seconds_from_metrics": 24,
+      "mismatch": false
+    },
+    {
+      "label": "C_run2",
+      "job_id": "dbvc2vlarooc73fla78g",
+      "recorded_usage_seconds": 24.0,
+      "true_usage_seconds_from_metrics": 24,
+      "mismatch": false
+    },
+    {
+      "label": "C_run3",
+      "job_id": "dbvc3evf8rhs73bnlc8g",
+      "recorded_usage_seconds": 24.0,
+      "true_usage_seconds_from_metrics": 24,
+      "mismatch": false
+    },
+    {
+      "label": "C_run4",
+      "job_id": "dbvc3peps3fc73bk77s0",
+      "recorded_usage_seconds": 24.0,
+      "true_usage_seconds_from_metrics": 24,
+      "mismatch": false
+    },
+    {
+      "label": "C_run5",
+      "job_id": "dbvc45f82tmc73dupbeg",
+      "recorded_usage_seconds": 24.0,
+      "true_usage_seconds_from_metrics": 24,
+      "mismatch": false
+    }
+  ],
+  "cpc_run2": [
+    {
+      "label": "B_run1",
+      "job_id": "dbvc4gtarooc73flaasg",
+      "recorded_usage_seconds": 0.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": true
+    },
+    {
+      "label": "B_run2",
+      "job_id": "dbvc56larooc73flacg0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run3",
+      "job_id": "dbvc5fv82tmc73dupemg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run4",
+      "job_id": "dbvc5pvf8rhs73bnlhfg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run5",
+      "job_id": "dbvc63f82tmc73dupfqg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    }
+  ],
+  "cpc_run4": [
+    {
+      "label": "A_run1",
+      "job_id": "dbvc3av82tmc73dup9b0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run2",
+      "job_id": "dbvc3jtarooc73fla8rg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run3",
+      "job_id": "dbvc3smps3fc73bk786g",
+      "recorded_usage_seconds": 0.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": true
+    },
+    {
+      "label": "A_run4",
+      "job_id": "dbvc4nnf8rhs73bnlf2g",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "A_run5",
+      "job_id": "dbvc506ps3fc73bk7aqg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run1",
+      "job_id": "dbvc58vf8rhs73bnlg80",
+      "recorded_usage_seconds": 0.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": true
+    },
+    {
+      "label": "B_run2",
+      "job_id": "dbvc5hmps3fc73bk7bvg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run3",
+      "job_id": "dbvc5t5arooc73flae9g",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run4",
+      "job_id": "dbvc65larooc73flaetg",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "B_run5",
+      "job_id": "dbvc6elarooc73flafg0",
+      "recorded_usage_seconds": 20.0,
+      "true_usage_seconds_from_metrics": 20,
+      "mismatch": false
+    },
+    {
+      "label": "C_run1",
+      "job_id": "dbvc6odarooc73flagag",
+      "recorded_usage_seconds": 23.0,
+      "true_usage_seconds_from_metrics": 23,
+      "mismatch": false
+    },
+    {
+      "label": "C_run2",
+      "job_id": "dbvc73mps3fc73bk7ffg",
+      "recorded_usage_seconds": 23.0,
+      "true_usage_seconds_from_metrics": 23,
+      "mismatch": false
+    },
+    {
+      "label": "C_run3",
+      "job_id": "dbvc7enf8rhs73bnll5g",
+      "recorded_usage_seconds": 23.0,
+      "true_usage_seconds_from_metrics": 23,
+      "mismatch": false
+    },
+    {
+      "label": "C_run4",
+      "job_id": "dbvc7pnf8rhs73bnlm40",
+      "recorded_usage_seconds": 23.0,
+      "true_usage_seconds_from_metrics": 23,
+      "mismatch": false
+    },
+    {
+      "label": "C_run5",
+      "job_id": "dbvc83v82tmc73dupko0",
+      "recorded_usage_seconds": 23.0,
+      "true_usage_seconds_from_metrics": 23,
+      "mismatch": false
+    }
+  ],
+  "totals": {
+    "grand_total_recorded": 660.0,
+    "grand_total_true": 740.0
+  }
+}

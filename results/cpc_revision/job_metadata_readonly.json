@@ -1,0 +1,1657 @@
+[
+  {
+    "campaign": "ladder_v2",
+    "label": "probe",
+    "job_id": "db3p1ckvf2bc73ctibpg",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 4.0,
+    "circuits_info": [
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:16:42.441266+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:46:42.441266Z",
+        "finished": "2026-10-08T12:48:37.519606Z",
+        "running": "2026-10-08T12:48:08.379663Z"
+      },
+      "bss": {
+        "seconds": 4
+      },
+      "usage": {
+        "quantum_seconds": 4,
+        "seconds": 4,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2",
+    "label": "tierA_day1",
+    "job_id": "db3p2kklf4us73c1mp30",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 20.0,
+    "circuits_info": [
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:19:22.541299+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:49:22.541299Z",
+        "finished": "2026-10-08T12:49:47.512206Z",
+        "running": "2026-10-08T12:49:23.624679Z"
+      },
+      "bss": {
+        "seconds": 20
+      },
+      "usage": {
+        "quantum_seconds": 20,
+        "seconds": 20,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2",
+    "label": "tierA_day2",
+    "job_id": "db3p3jsvf2bc73ctifrg",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 20.0,
+    "circuits_info": [
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:21:27.546309+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:51:27.546309Z",
+        "finished": "2026-10-08T12:51:55.392975Z",
+        "running": "2026-10-08T12:51:28.776252Z"
+      },
+      "bss": {
+        "seconds": 20
+      },
+      "usage": {
+        "quantum_seconds": 20,
+        "seconds": 20,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2",
+    "label": "tierA_day3",
+    "job_id": "db3p4404qg6s73c14qig",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 20.0,
+    "circuits_info": [
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:22:32.899860+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:52:32.89986Z",
+        "finished": "2026-10-08T12:55:03.297623Z",
+        "running": "2026-10-08T12:52:34.859659Z"
+      },
+      "bss": {
+        "seconds": 20
+      },
+      "usage": {
+        "quantum_seconds": 20,
+        "seconds": 20,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2",
+    "label": "tierA_day4",
+    "job_id": "db3p5oo4qg6s73c14u7g",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 20.0,
+    "circuits_info": [
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:26:03.442868+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:56:03.442868Z",
+        "finished": "2026-10-08T12:56:28.706976Z",
+        "running": "2026-10-08T12:56:04.825741Z"
+      },
+      "bss": {
+        "seconds": 20
+      },
+      "usage": {
+        "quantum_seconds": 20,
+        "seconds": 20,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2",
+    "label": "tierA_day5",
+    "job_id": "db3p6do4qg6s73c14veg",
+    "calibration_timestamp": "2026-10-08 17:49:07+05:30",
+    "usage_seconds": 20.0,
+    "circuits_info": [
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 283,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          153
+        ]
+      },
+      {
+        "depth": 281,
+        "two_qubit_gates": 79,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 139,
+        "two_qubit_gates": 39,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 71,
+        "two_qubit_gates": 19,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "depth": 206,
+        "two_qubit_gates": 57,
+        "physical_qubits": [
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:27:27.472620+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T12:57:27.47262Z",
+        "finished": "2026-10-08T12:57:52.706108Z",
+        "running": "2026-10-08T12:57:28.785898Z"
+      },
+      "bss": {
+        "seconds": 20
+      },
+      "usage": {
+        "quantum_seconds": 20,
+        "seconds": 20,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierB_run1",
+    "job_id": "db3p9lsvf2bc73ctiq6g",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 21.0,
+    "circuits_info": [
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 869,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 647,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 216,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 863,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 431,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:34:23.607453+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:04:23.607453Z",
+        "finished": "2026-10-08T13:05:14.578125Z",
+        "running": "2026-10-08T13:04:25.080324Z"
+      },
+      "bss": {
+        "seconds": 21
+      },
+      "usage": {
+        "quantum_seconds": 21,
+        "seconds": 21,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierB_run2",
+    "job_id": "db3pa584qg6s73c15420",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 21.0,
+    "circuits_info": [
+      {
+        "depth": 863,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 431,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 216,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 647,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 869,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:35:25.117155+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:05:25.117155Z",
+        "finished": "2026-10-08T13:06:40.883812Z",
+        "running": "2026-10-08T13:05:26.245977Z"
+      },
+      "bss": {
+        "seconds": 21
+      },
+      "usage": {
+        "quantum_seconds": 21,
+        "seconds": 21,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierB_run3",
+    "job_id": "db3paqqmb58s73885tmg",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 21.0,
+    "circuits_info": [
+      {
+        "depth": 863,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 869,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 647,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 216,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 431,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:36:52.025227+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:06:52.025227Z",
+        "finished": "2026-10-08T13:07:20.001356Z",
+        "running": "2026-10-08T13:06:54.198297Z"
+      },
+      "bss": {
+        "seconds": 21
+      },
+      "usage": {
+        "quantum_seconds": 21,
+        "seconds": 21,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierB_run4",
+    "job_id": "db3pb5clf4us73c1n6v0",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 21.0,
+    "circuits_info": [
+      {
+        "depth": 863,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 869,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 431,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 216,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 647,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:37:33.471833+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:07:33.471833Z",
+        "finished": "2026-10-08T13:08:34.638658Z",
+        "running": "2026-10-08T13:07:34.830651Z"
+      },
+      "bss": {
+        "seconds": 21
+      },
+      "usage": {
+        "quantum_seconds": 21,
+        "seconds": 21,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierB_run5",
+    "job_id": "db3pbno4qg6s73c15610",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 21.0,
+    "circuits_info": [
+      {
+        "depth": 647,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 431,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 216,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 863,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 869,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:38:47.506740+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:08:47.50674Z",
+        "finished": "2026-10-08T13:09:13.358976Z",
+        "running": "2026-10-08T13:08:48.618965Z"
+      },
+      "bss": {
+        "seconds": 21
+      },
+      "usage": {
+        "quantum_seconds": 21,
+        "seconds": 21,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierC_run1",
+    "job_id": "db3pc184qg6s73c156j0",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 24.0,
+    "circuits_info": [
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 3560,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 3548,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2650,
+        "two_qubit_gates": 1011,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 883,
+        "two_qubit_gates": 329,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1766,
+        "two_qubit_gates": 668,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:39:25.763072+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:09:25.763072Z",
+        "finished": "2026-10-08T13:09:55.516877Z",
+        "running": "2026-10-08T13:09:27.039653Z"
+      },
+      "bss": {
+        "seconds": 24
+      },
+      "usage": {
+        "quantum_seconds": 24,
+        "seconds": 24,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierC_run2",
+    "job_id": "db3pcbimb58s73885vtg",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 24.0,
+    "circuits_info": [
+      {
+        "depth": 3548,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 1766,
+        "two_qubit_gates": 668,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2650,
+        "two_qubit_gates": 1011,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 883,
+        "two_qubit_gates": 329,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 3560,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:40:06.557405+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:10:06.557405Z",
+        "finished": "2026-10-08T13:10:36.31097Z",
+        "running": "2026-10-08T13:10:07.649389Z"
+      },
+      "bss": {
+        "seconds": 24
+      },
+      "usage": {
+        "quantum_seconds": 24,
+        "seconds": 24,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierC_run3",
+    "job_id": "db3pcm4vf2bc73ctitvg",
+    "calibration_timestamp": "2026-10-08 18:13:43+05:30",
+    "usage_seconds": 24.0,
+    "circuits_info": [
+      {
+        "depth": 3548,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1766,
+        "two_qubit_gates": 668,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2650,
+        "two_qubit_gates": 1011,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 3560,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 883,
+        "two_qubit_gates": 329,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:40:48.673201+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:10:48.673201Z",
+        "finished": "2026-10-08T13:11:18.329087Z",
+        "running": "2026-10-08T13:10:50.223712Z"
+      },
+      "bss": {
+        "seconds": 24
+      },
+      "usage": {
+        "quantum_seconds": 24,
+        "seconds": 24,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierC_run4",
+    "job_id": "db3pd0o4qg6s73c1584g",
+    "calibration_timestamp": "2026-10-08 18:32:55+05:30",
+    "usage_seconds": 24.0,
+    "circuits_info": [
+      {
+        "depth": 883,
+        "two_qubit_gates": 329,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2650,
+        "two_qubit_gates": 1011,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 1766,
+        "two_qubit_gates": 668,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 3560,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 3548,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:41:31.813295+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:11:31.813295Z",
+        "finished": "2026-10-08T13:12:01.878256Z",
+        "running": "2026-10-08T13:11:33.225323Z"
+      },
+      "bss": {
+        "seconds": 24
+      },
+      "usage": {
+        "quantum_seconds": 24,
+        "seconds": 24,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  },
+  {
+    "campaign": "ladder_v2b",
+    "label": "tierC_run5",
+    "job_id": "db3pdbsvf2bc73ctiuvg",
+    "calibration_timestamp": "2026-10-08 18:32:55+05:30",
+    "usage_seconds": 24.0,
+    "circuits_info": [
+      {
+        "depth": 883,
+        "two_qubit_gates": 329,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 3560,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 1766,
+        "two_qubit_gates": 668,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 3548,
+        "two_qubit_gates": 1354,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          6,
+          57,
+          98,
+          114,
+          153
+        ]
+      },
+      {
+        "depth": 2650,
+        "two_qubit_gates": 1011,
+        "physical_qubits": [
+          91,
+          98,
+          110,
+          111,
+          112
+        ]
+      }
+    ],
+    "creation_date": "2026-10-08 18:42:15.399224+05:30",
+    "metrics": {
+      "caller": "qiskit_ibm_runtime~sampler.py",
+      "qiskit_version": "qiskit_ibm_runtime-0.41.1,qiskit-2.1.2*,qiskit_aer-0.17.2*",
+      "timestamps": {
+        "created": "2026-10-08T13:12:15.399224Z",
+        "finished": "2026-10-08T13:12:45.36062Z",
+        "running": "2026-10-08T13:12:16.726499Z"
+      },
+      "bss": {
+        "seconds": 24
+      },
+      "usage": {
+        "quantum_seconds": 24,
+        "seconds": 24,
+        "status": "complete"
+      }
+    },
+    "status": "DONE"
+  }
+]

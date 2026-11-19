@@ -34,6 +34,13 @@ def tvd(p: np.ndarray, q: np.ndarray) -> float:
     return 0.5 * float(np.abs(np.asarray(p, float) - np.asarray(q, float)).sum())
 
 
+def hellinger(p: np.ndarray, q: np.ndarray) -> float:
+    """Discrete Hellinger distance: sqrt(1 - sum(sqrt(p_i * q_i))), in [0, 1]."""
+    p, q = np.asarray(p, float), np.asarray(q, float)
+    bc = np.sum(np.sqrt(p * q))
+    return float(np.sqrt(max(0.0, 1.0 - bc)))
+
+
 def tvd_null_distribution(p: np.ndarray, shots: int, draws: int = 2000, seed: int = 0) -> np.ndarray:
     """TVD(empirical, p) over `draws` simulated histograms of `shots` shots from p."""
     rng = np.random.default_rng(seed)

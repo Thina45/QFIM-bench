@@ -246,6 +246,7 @@ class HardwareBackend(Backend):
         optimization_level: int = 3,
         seed_transpiler: int = 42,
         dd_sequence: str = "XpXm",
+        dd_enabled: bool = True,
     ):
         self.backend_name = backend_name
         self.dry_run = dry_run
@@ -255,6 +256,7 @@ class HardwareBackend(Backend):
         self.optimization_level = optimization_level
         self.seed_transpiler = seed_transpiler
         self.dd_sequence = dd_sequence
+        self.dd_enabled = dd_enabled
         self.label = ""  # campaign label (e.g. "r=2 (repeat)"), recorded with each job
         self.last_report: dict | None = None
 
@@ -343,12 +345,18 @@ class HardwareBackend(Backend):
 
     @staticmethod
     def _billed_seconds(job) -> float | None:
-        """Billed quantum seconds for a finished job, or None if the runtime does not report it."""
+        """Billed quantum seconds for a finished job, or None if the runtime does not report it.
+
+        metrics()["usage"]["quantum_seconds"] is tried first: right after job.result() returns,
+        job.usage() has been observed to report 0 (not raise) before the runtime finalizes
+        billing, which silently under-recorded several jobs in the CPC-revision campaigns
+        (verified against the same jobs' metrics(), which had the correct value every time).
+        usage() is kept as a fallback for older qiskit-ibm-runtime versions."""
         try:
-            return float(job.usage())
+            return float(job.metrics()["usage"]["quantum_seconds"])
         except Exception:
             try:
-                return float(job.metrics()["usage"]["quantum_seconds"])
+                return float(job.usage())
             except Exception:
                 return None
 
@@ -404,8 +412,9 @@ class HardwareBackend(Backend):
         from qiskit_ibm_runtime import SamplerV2
 
         sampler = SamplerV2(mode=backend)
-        sampler.options.dynamical_decoupling.enable = True
-        sampler.options.dynamical_decoupling.sequence_type = self.dd_sequence
+        sampler.options.dynamical_decoupling.enable = self.dd_enabled
+        if self.dd_enabled:
+            sampler.options.dynamical_decoupling.sequence_type = self.dd_sequence
         if manifest.get("max_job_seconds") is not None:
             sampler.options.max_execution_time = int(manifest["max_job_seconds"])
 
