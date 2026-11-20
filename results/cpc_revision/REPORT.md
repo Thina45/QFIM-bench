@@ -153,8 +153,10 @@ data (a ~6-week gap) and called it "supported"; that was a different, explorator
 (long-term drift), not H1. Section 6's Run-1-vs-Oct-8 finding is retained below as exploratory
 long-term drift, not as an H1 result.
 
-- **H1 (|Run 1 mean − Run 3 mean| at n=3, r=2, > Run 1's own within-sitting CI width/spread):
-  evaluated in section 13 below, now that Run 3 exists. Result: NOT SUPPORTED.**
+- **H1 (|Run 1 mean − Run 3 mean| at n=3, r=2, > Run 1's own within-sitting CI width):
+  evaluated in section 13 below, now that Run 3 exists. Result: SUPPORTED** (using the CI
+  half-width, as the addendum specifies — a spread-based first pass in an earlier draft gave
+  NOT SUPPORTED and is corrected in section 13).
 - **H2** (verbatim): "DD improves n=4 hardware success at r=1 and r=2: Run 1 Tier B (DD on) mean
   exceeds Run 2 (DD off) mean, with the lower CI of the difference above 0." **NOT SUPPORTED.**
   r=1 is significant in the *opposite* direction (DD off outperforms DD on); r=2 is inconclusive.
@@ -245,12 +247,42 @@ Three further findings, each confirmed and approved by you before continuing:
    layout across its repeats, not a single unambiguous value.
 2. **Live-calibration-dependent gate synthesis means pinning the physical-qubit set alone does not
    reproduce Run 1's exact two-qubit gate count**, even searching all virtual-to-physical
-   permutations (verified deterministic, not run-to-run noise). Differences ranged from 1 gate
-   (Tier C, 1354→1355, 0.07%) to 6 gates (Tier A `ladder_n3_M1_r1`, 19→25, +32%). Approved as an
-   accepted deviation, not a routing error — `optimization_level=3`'s basis-gate synthesis is itself
-   sensitive to current calibration, not just to layout and seed. One circuit's depth difference
-   (`ladder_n3_M1_r1`, 72→68, **5.556%**) exceeded your stated 5% continue-threshold; approved to
-   proceed anyway as part of the same calibration-drift deviation.
+   permutations (verified deterministic, not run-to-run noise). **You explicitly approved
+   proceeding with these differences before Run 3 was submitted** (two separate confirmations,
+   2026-11-20: one for the gate-count/depth deltas in general, one specifically for the single
+   circuit exceeding the 5% depth threshold). Every count below is **TWO-QUBIT gate count**
+   (`cz`/`ecr`/`cx`; the metric `_circuit_info()` in `backends.py` reports) — not total gate count:
+
+   | Tier | Circuit | Run 1 two-qubit gates | Run 3 two-qubit gates | Δ | Depth Δ% |
+   |---|---|---|---|---|---|
+   | A | `ladder_n3_M1_r0` | 0 | 0 | 0 | 0.0% |
+   | A | `ladder_n3_M1_r1` | 19 | 25 | **+6** | **5.556%** (over threshold) |
+   | A | `ladder_n3_M1_r2` | 39 | 45 | +6 | 4.225% |
+   | A | `ladder_n3_M1_r3` | 57 | 67 | +10 | 0.957% |
+   | A | `ladder_n3_M1_r4` | 79 | 78 | −1 | 0.704% |
+   | A | `echo_n3_M1_r2` | 79 | 78 | −1 | 0.694% |
+   | A | `readout_n3_zeros` | 0 | 0 | 0 | 0.0% |
+   | A | `readout_n3_ones` | 0 | 0 | 0 | 0.0% |
+   | B | `ladder_n4_M2_r0` | 0 | 0 | 0 | 0.0% |
+   | B | `ladder_n4_M2_r1` | 56 | 56 | 0 | 0.939% |
+   | B | `ladder_n4_M2_r2` | 113 | 113 | 0 | 1.395% |
+   | B | `ladder_n4_M2_r3` | 170 | 170 | 0 | 1.238% |
+   | B | `ladder_n4_M2_r4` | 227 | 227 | 0 | 1.045% |
+   | B | `echo_n4_M2_r2` | 227 | 227 | 0 | 0.806% |
+   | B | `readout_n4_zeros` | 0 | 0 | 0 | 0.0% |
+   | B | `readout_n4_ones` | 0 | 0 | 0 | 0.0% |
+   | C | `ladder_n5_M4_r0` | 0 | 0 | 0 | 0.0% |
+   | C | `ladder_n5_M4_r1` | 329 | 330 | +1 | 0.0% |
+   | C | `ladder_n5_M4_r2` | 668 | 669 | +1 | 0.0% |
+   | C | `ladder_n5_M4_r3` | 1011 | 1012 | +1 | 0.264% |
+   | C | `ladder_n5_M4_r4` | 1354 | 1355 | +1 | 0.0% |
+   | C | `echo_n5_M4_r2` | 1354 | 1355 | +1 | 0.056% |
+   | C | `readout_n5_zeros` | 0 | 0 | 0 | 0.0% |
+   | C | `readout_n5_ones` | 0 | 0 | 0 | 0.0% |
+
+   Tier B matches exactly on two-qubit gate count (same virtual-to-physical assignment happened to
+   reproduce it); Tier A and C each differ by 1-10 gates on their gate-bearing circuits, all
+   accepted as the calibration-drift deviation. Full source: `results/cpc_revision/run3_layout_comparison.json`.
 3. **Run 1's own r=0/readout circuits (zero two-qubit gates) were not even on the same physical
    qubits as that tier's gate-bearing circuits** (e.g. Tier A ladder/echo used (53,54,55); Run 1's
    own r=0/readout used (10,139,140) instead) — because with no entangling gates, the transpiler is
@@ -268,20 +300,29 @@ before any job's results were used, with SHA-256 hashes recorded in `campaigns/c
 budget — exact match to the preregistered projection. No job's `usage_seconds` recorded as the
 known stale-zero bug (all read correctly via `job.metrics()` on first try).
 
-**H1, evaluated** (`ladder_n3_M1_r2`, n=3, marked state `011`):
+**H1, re-evaluated using the within-sitting 95% CI as the addendum specifies** (not the raw
+5-value spread used in an earlier draft of this section — correction below). Source:
+`results/cpc_revision/cpc_runs_analysis.json`. "Run 1 CI half-width" = half of Run 1's own 95%
+t-interval (4 d.f., its 5 repeats); "supported" means \|Run 1 mean − Run 3 mean\| > that half-width,
+i.e. the day-to-day difference exceeds what Run 1's own within-sitting scatter alone would produce.
 
-| | values | mean | spread (max−min) |
-|---|---|---|---|
-| Run 1 (5 repeats) | 0.8180, 0.8311, 0.8058, 0.8159, 0.8290 | 0.8199 | **0.0253** |
-| Run 3 (3 repeats) | 0.8069, 0.8109, 0.7991 | 0.8056 | 0.0118 |
+| Tier (n, r=2 circuit) | Run 1 mean [95% CI] | Run 3 mean [95% CI] | \|diff\| | Run 1 CI half-width | Supported? |
+|---|---|---|---|---|---|
+| A (n=3, `ladder_n3_M1_r2`) | 0.8199 [0.8071, 0.8328] | 0.8056 [0.7907, 0.8206] | 0.01432 | 0.01281 | **YES** |
+| B (n=4, `ladder_n4_M2_r2`) | 0.5161 [0.4912, 0.5411] | 0.4348 [0.3891, 0.4805] | 0.08130 | 0.02495 | **YES** |
+| C (n=5, `ladder_n5_M4_r2`) | 0.1686 [0.1652, 0.1719] | 0.1331 [0.1257, 0.1406] | 0.03542 | 0.00333 | **YES** |
 
-\|Run 1 mean − Run 3 mean\| = **0.0143**.
+**Correction to the previous draft of this section:** it compared \|diff\| against Run 1's raw
+5-value spread (max−min = 0.0253 for Tier A) and reported H1 as NOT SUPPORTED. The addendum's own
+text says "within-sitting **CI width**", not spread — using Run 1's actual 95% CI half-width
+(0.01281 for Tier A) instead, 0.01432 > 0.01281, which flips the Tier A verdict to SUPPORTED. The
+spread-based comparison in the earlier draft was the wrong statistic and is superseded by this table.
 
-H1 as literally written: "day-to-day variation (\|Run 1 mean − Run 3 mean\|) is **larger than**
-the within-sitting CI width from Run 1's own 5 daily values." Using Run 1's own spread (0.0253) as
-that within-sitting width: 0.0143 < 0.0253. **H1 is NOT SUPPORTED** — the day-to-day difference
-between Run 1 and Run 3 is smaller than Run 1's own repeat-to-repeat spread, i.e. this cell did not
-show a day-to-day shift any larger than ordinary within-sitting variation.
+**Overall H1 verdict, as the addendum literally defines it (n=3 only — H1's text is "r=2 (n=3)",
+with no n=4/n=5 clause): SUPPORTED.** The n=4 and n=5 rows above are the same test applied by
+extension to the other two tiers at r=2, requested as additional evidence; they are **not** part
+of H1's preregistered scope and are reported as supplementary, same-direction evidence (both also
+exceed their own Run 1 CI half-width), not as part of the hypothesis test itself.
 
 Fig F (section 10) is updated with a third series for Run 3.
 
