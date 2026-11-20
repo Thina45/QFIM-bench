@@ -74,6 +74,13 @@ Full tables in `phase1a_classical_baseline.csv`, `phase1b_global_fit.json` + `ph
   locations match exactly (r=2 at n=3, r=1 at n=4/5). Reduced chi-square per `phase1b_residuals.csv`:
   A=108.4, B=83.8, C=55.3, global=96.2 (all >>1 — binomial shot noise alone does not explain the
   dispersion; real variance includes calibration drift the model does not capture).
+  **Goodness-of-fit caveat (added on external review):** reduced chi-square this far above 1 at
+  every fit (15-250, including Run 1 and Run 4, section 9c) means this is a **phenomenological**
+  model — it correctly captures the trend and the peak-r shift, but does not describe the data
+  within shot noise. The raw bootstrap CI on f is therefore too narrow; every fit's CI has been
+  re-reported inflated by √(reduced χ²) (`f_ci95_inflated` / `f_ci_inflated`, added to
+  `phase1b_global_fit.json`, `cpc_run1_fit.json`, `cpc_run4_fit.json` by
+  `analysis/inflate_fit_cis.py`) and Figs C and I now show the inflated interval, not the raw one.
 - **1C (EXPLORATORY)**: echo-derived f tracks the Grover-fit f within ~0.001 at all three sizes,
   both below the simulator's 0.9967.
 - **1D**: farthest-from-ideal cells are Tier A r=3/r=4 and Tier C's high-depth cells.
@@ -154,9 +161,13 @@ data (a ~6-week gap) and called it "supported"; that was a different, explorator
 long-term drift, not as an H1 result.
 
 - **H1 (|Run 1 mean − Run 3 mean| at n=3, r=2, > Run 1's own within-sitting CI width):
-  evaluated in section 13 below, now that Run 3 exists. Result: SUPPORTED** (using the CI
-  half-width, as the addendum specifies — a spread-based first pass in an earlier draft gave
-  NOT SUPPORTED and is corrected in section 13).
+  evaluated in section 13 below, now that Run 3 exists. Result: meets the statistical criterion
+  (SUPPORTED), but is CONFOUNDED** — Run 3's n=3 circuit has 6 more two-qubit gates than Run 1's,
+  and that gate-count change alone predicts a larger drop than observed, so this result is not
+  clean evidence of day-to-day drift. The gate-matched n=4 comparison (identical gate count both
+  runs) is reported as the best available drift evidence instead (supplementary, outside H1's
+  literal n=3-only scope). A spread-based first pass in an earlier draft gave NOT SUPPORTED;
+  corrected to use the CI half-width in section 13.
 - **H2** (verbatim): "DD improves n=4 hardware success at r=1 and r=2: Run 1 Tier B (DD on) mean
   exceeds Run 2 (DD off) mean, with the lower CI of the difference above 0." **NOT SUPPORTED.**
   r=1 is significant in the *opposite* direction (DD off outperforms DD on); r=2 is inconclusive.
@@ -214,13 +225,22 @@ silently absorbed into the numbers below.
 
   Run 4/kingston passes Tier B where the Oct-8 data, Run 1, and the original addendum's prediction
   all failed it — a new result, not previously seen in this project.
-- **Global depolarizing fit f**: Run 1 (marrakesh) f=0.99371, CI [0.99364, 0.99378]; Run 4
-  (kingston) f=0.99645, CI [0.99642, 0.99650]. For reference, the original Oct-8 global fit was
-  f=0.99443 (`phase1b_global_fit.json`).
+- **Global depolarizing fit f**: Run 1 (marrakesh) f=0.99371, inflated CI [0.99339, 0.99401]; Run 4
+  (kingston) f=0.99645, inflated CI [0.99589, 0.99718]. For reference, the original Oct-8 global
+  fit was f=0.99443, inflated CI [0.99387, 0.99511] (`phase1b_global_fit.json`). Inflated = scaled
+  by √(reduced χ²) — see section 4's goodness-of-fit caveat; raw (uninflated) CIs are 5-16x
+  narrower and should not be quoted alone.
 - **Median two-qubit gate error**, computed from the exact calibration snapshot at each run's own
   recorded `calibration_timestamp`, restricted to the physical qubit pairs the ladder circuits
   actually used (not a generic device-wide figure): Oct-8 marrakesh 0.00180, Run 1 marrakesh
-  0.00186, Run 4 kingston 0.00133. Higher error tracks lower fit f at all three points — Fig I.
+  0.00186, Run 4 kingston 0.00133. Higher error tracks lower fit f at all three points — Fig I(a).
+- **Effective error ratio (new, external review)**: (1 − f) / median two-qubit error, with the
+  inflated-f-CI propagated: Oct-8 marrakesh **3.09x** [2.71, 3.40]; Run 1 marrakesh **3.38x**
+  [3.22, 3.55]; Run 4 kingston **2.67x** [2.12, 3.09]. Across two devices and two dates, the
+  effective per-gate error this depolarizing model infers is consistently about **3x** the
+  vendor-calibrated two-qubit error — reported as an observation (n=3 points), not a general law,
+  and consistent with literature showing calibration snapshots underestimate real circuit error.
+  Fig I(b). Source: `results/cpc_revision/numbers_for_manuscript.json` → `"effective_error_ratio"`.
 
 ## 13. Run 3 (replication, day B) and H1 — resolved
 
@@ -318,6 +338,37 @@ text says "within-sitting **CI width**", not spread — using Run 1's actual 95%
 (0.01281 for Tier A) instead, 0.01432 > 0.01281, which flips the Tier A verdict to SUPPORTED. The
 spread-based comparison in the earlier draft was the wrong statistic and is superseded by this table.
 
+**H1 at n=3 is confounded by the circuit change (caught on external review).** Run 3's
+`ladder_n3_M1_r2` circuit has **45 two-qubit gates vs Run 1's 39** (section 13's gate-count table
+above) — a real difference, not noise. Using Run 1's own per-size depolarizing fit
+(`cpc_run1_fit.json` per_size.A: f=0.99533, p_noise=0.13685) and the exact ideal probability for
+this circuit (p_ideal=0.94531, from `theoretical_success_probability(M=1, N=8, r=2)`), the gate
+model `p(g) = f^g p_ideal + (1-f^g) p_noise` alone predicts:
+
+| | two-qubit gates | predicted success probability |
+|---|---|---|
+| Run 1 | 39 | 0.81046 |
+| Run 3 | 45 | 0.79182 |
+| **predicted drop from gates alone** | | **0.01865** |
+| **observed drop (Run 1 − Run 3)** | | **0.01432** |
+
+The predicted drop from the gate-count change alone (0.01865) is **larger** than the observed
+drop (0.01432) — the gate-count increase, by itself, is sufficient to explain the entire H1
+difference at n=3. **H1 met its preregistered statistical criterion at n=3 (SUPPORTED per the
+table above), but the circuit was not held fixed, so this result provides no clean evidence of
+day-to-day drift** — it cannot be distinguished from a pure circuit-depth artifact with this data.
+
+**The clean (gate-matched) drift comparison is n=4**: Tier B's `ladder_n4_M2_r2` has an
+**identical** two-qubit gate count in both runs (113 = 113, section 13's table) — no circuit
+confound. Its difference, 0.08130, exceeds Run 1's own CI half-width (0.02495) by more than
+3x. This is reported as **supplementary evidence of day-to-day drift, outside H1's preregistered
+n=3-only scope**, but it is the best (confound-free) drift result from this dataset. Tier C's
+circuit also changed by 1 gate (1354→1355, 0.07%, judged negligible relative to its 1354-gate
+baseline) and is not treated as confounded.
+
+Full computation: `results/cpc_revision/numbers_for_manuscript.json` → `"h1"`, produced by
+`analysis/manuscript_numbers.py`.
+
 **Overall H1 verdict, as the addendum literally defines it (n=3 only — H1's text is "r=2 (n=3)",
 with no n=4/n=5 clause): SUPPORTED.** The n=4 and n=5 rows above are the same test applied by
 extension to the other two tiers at r=2, requested as additional evidence; they are **not** part
@@ -331,12 +382,17 @@ Fig F (section 10) is updated with a third series for Run 3.
 - `figures/cpc/fig_a.{pdf,png}`, `fig_b.{pdf,png}`: regenerated with the corrected Phase 1A data.
   Fig A intentionally does **not** add Run 1/Run 4 as extra series (would overcrowd the existing
   three-panel ideal/FakeMarrakesh/hardware layout) — that comparison is in the new Figs F/G instead.
-- `figures/cpc/fig_f.{py,pdf,png}`: day-to-day drift, r=2 success per day per n; now three series
-  (2026-10-08, Run 1, Run 3), from sections 6 and 13.
-- `figures/cpc/fig_g.{py,pdf,png}` (new): DD on vs off at n=4 vs r, from section 7.
-- `figures/cpc/fig_i.{py,pdf,png}` (new): fitted global f vs. median two-qubit error, one point per
-  device/session (Oct-8 marrakesh, Run 1 marrakesh, Run 4 kingston), from section 9c.
-- Figs C, D, E, H: unchanged from the earlier Phase 1 pass.
+- `figures/cpc/fig_f.{py,pdf,png}`: day-to-day drift at r=2, consistent across all three sizes (was
+  r=2/1/1, mixing iteration counts with H1 and the drift table — fixed on external review); legend
+  now by date; n=3 points drawn hollow (gate-count-confounded, see section 9's H1 discussion).
+- `figures/cpc/fig_g.{py,pdf,png}`: DD on vs off at n=4 vs r, from section 7. Unchanged this pass.
+- `figures/cpc/fig_i.{py,pdf,png}`: now two panels — (a) fitted global f (inflated CI) vs. median
+  two-qubit error, one point per device/session; (b) the effective error ratio (1−f)/median error,
+  from section 9c.
+- `figures/cpc/fig_c.{py,pdf,png}`: annotation now shows the inflated CI on the global fit, not
+  the raw bootstrap CI (section 4's goodness-of-fit caveat).
+- Figs D, E, H: unchanged from the earlier Phase 1 pass.
+- `figures/cpc/captions.md` (new): one caption draft per figure, A through I.
 
 ## 11. Tests
 

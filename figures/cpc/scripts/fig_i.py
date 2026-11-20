@@ -24,8 +24,7 @@ plt.style.use(str(FIG / "cpc.mplstyle"))
 
 
 def main():
-    oct8_fit = json.loads((CPC / "phase1b_global_fit.json").read_text())["global"]["f"]
-    oct8_fit_ci = json.loads((CPC / "phase1b_global_fit.json").read_text())["global"]["f_ci95"]
+    oct8_json = json.loads((CPC / "phase1b_global_fit.json").read_text())["global"]
     hist = json.loads((CPC / "historical_calibration.json").read_text())
     oct8_errs = [g["error"] for k in ["tierA_n3", "tierB_n4", "tierC_run1-3_n5"] for g in hist[k]["two_qubit_gate_errors"]]
     oct8_err = float(np.median(oct8_errs))
@@ -36,13 +35,16 @@ def main():
     run1_err = med_err["run1_by_calibration"]["2026-11-19 14:35:58+05:30"][1]
     run4_err = med_err["run4"][1]
 
+    def inflated_ci(fit):
+        return fit.get("f_ci95_inflated") or fit.get("f_ci_inflated") or fit.get("f_ci95") or fit["f_ci"]
+
     points = [
-        ("ibm_marrakesh, 2026-10-08", oct8_err, oct8_fit, oct8_fit_ci),
-        ("ibm_marrakesh, Run 1 (2026-11-19)", run1_err, run1_fit["f"], run1_fit["f_ci"]),
-        ("ibm_kingston, Run 4 (2026-11-19)", run4_err, run4_fit["f"], run4_fit["f_ci"]),
+        ("ibm_marrakesh, 2026-10-08", oct8_err, oct8_json["f"], inflated_ci(oct8_json)),
+        ("ibm_marrakesh, Run 1 (2026-11-19)", run1_err, run1_fit["f"], inflated_ci(run1_fit)),
+        ("ibm_kingston, Run 4 (2026-11-19)", run4_err, run4_fit["f"], inflated_ci(run4_fit)),
     ]
 
-    fig, ax = plt.subplots(figsize=(90 / 25.4, 60 / 25.4))
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(160 / 25.4, 60 / 25.4))
     colors = ["#0072B2", "#D55E00", "#009E73"]
     for (label, err, f, f_ci), c in zip(points, colors):
         yerr = [[f - f_ci[0]], [f_ci[1] - f]]
@@ -51,12 +53,28 @@ def main():
     ax.set_xlabel("median two-qubit gate error ($\\times 10^{-3}$), used-qubit pairs only")
     ax.set_ylabel("fitted global depolarizing $f$")
     ax.legend(fontsize=6, loc="lower left")
+    ax.set_title("(a) fit vs. calibrated error", fontsize=8)
+
+    ratios = []
+    for (label, err, f, f_ci), c in zip(points, colors):
+        r = (1 - f) / err
+        r_lo, r_hi = (1 - f_ci[1]) / err, (1 - f_ci[0]) / err
+        ratios.append((label, r, r_lo, r_hi, c))
+        ax2.errorbar([label], [r], yerr=[[r - r_lo], [r_hi - r]], fmt="o", color=c, capsize=3)
+    ax2.set_ylabel("effective error ratio $(1-f)\\,/\\,$median two-qubit error")
+    ax2.set_xticks(range(len(points)))
+    ax2.set_xticklabels([p[0] for p in points], rotation=20, ha="right", fontsize=6)
+    ax2.set_title("(b) effective vs. calibrated error ratio (n=3 points; observation, not a law)", fontsize=8)
+
     fig.tight_layout()
-    fig.savefig(FIG / "fig_i.pdf")
-    fig.savefig(FIG / "fig_i.png", dpi=300)
+    fig.subplots_adjust(wspace=0.45, top=0.85)
+    fig.savefig(FIG / "fig_i.pdf", bbox_inches="tight")
+    fig.savefig(FIG / "fig_i.png", dpi=300, bbox_inches="tight")
     print("saved fig_i.{pdf,png}")
     for label, err, f, f_ci in points:
-        print(f"{label}: 2Q_err={err:.5f} f={f:.5f} CI={f_ci}")
+        print(f"{label}: 2Q_err={err:.5f} f={f:.5f} inflated_CI={f_ci}")
+    for label, r, r_lo, r_hi, _ in ratios:
+        print(f"{label}: ratio={r:.3f} CI=[{r_lo:.3f},{r_hi:.3f}]")
 
 
 if __name__ == "__main__":

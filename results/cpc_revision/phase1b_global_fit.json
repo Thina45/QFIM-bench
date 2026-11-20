@@ -24,7 +24,11 @@
       ],
       "chi_square": 325.3433576035364,
       "degrees_of_freedom": 3,
-      "reduced_chi_square": 108.44778586784547
+      "reduced_chi_square": 108.44778586784547,
+      "f_ci95_inflated": [
+        0.9927329856546301,
+        0.9954111864099424
+      ]
     },
     "B": {
       "n": 4,
@@ -50,7 +54,11 @@
       ],
       "chi_square": 251.32361722322113,
       "degrees_of_freedom": 3,
-      "reduced_chi_square": 83.77453907440704
+      "reduced_chi_square": 83.77453907440704,
+      "f_ci95_inflated": [
+        0.9930951014074874,
+        0.994828580474795
+      ]
     },
     "C": {
       "n": 5,
@@ -76,7 +84,11 @@
       ],
       "chi_square": 166.0095723999088,
       "degrees_of_freedom": 3,
-      "reduced_chi_square": 55.33652413330293
+      "reduced_chi_square": 55.33652413330293,
+      "f_ci95_inflated": [
+        0.9947352555027489,
+        0.99618712709498
+      ]
     }
   },
   "global": {
@@ -92,7 +104,11 @@
     ],
     "chi_square": 1250.0728503372793,
     "degrees_of_freedom": 13,
-    "reduced_chi_square": 96.15945002594457
+    "reduced_chi_square": 96.15945002594457,
+    "f_ci95_inflated": [
+      0.9938683960716246,
+      0.9951131668210359
+    ]
   },
   "expected_peak_r": {
     "A": 2,

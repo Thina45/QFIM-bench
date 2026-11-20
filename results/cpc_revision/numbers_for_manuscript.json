@@ -1,0 +1,115 @@
+{
+  "phase1a_classical_baseline": {
+    "file": "results/cpc_revision/phase1a_classical_baseline.csv",
+    "note": "classical query-search baseline per (tier, r); q=0 bug fixed (section 2 of REPORT.md)"
+  },
+  "phase1b_fits": {
+    "oct8": {
+      "file": "results/cpc_revision/phase1b_global_fit.json",
+      "note": "per-size A/B/C + global depolarizing fit, with chi-square and f_ci95_inflated (sqrt(reduced_chi_square)) added this pass"
+    },
+    "run1": {
+      "file": "results/cpc_revision/cpc_run1_fit.json",
+      "note": "chi-square + f_ci_inflated added this pass (was missing before)"
+    },
+    "run4": {
+      "file": "results/cpc_revision/cpc_run4_fit.json",
+      "note": "chi-square + f_ci_inflated added this pass (was missing before)"
+    },
+    "goodness_of_fit": "reduced chi-square is 15-250 across all fits (far above 1); the model is phenomenological -- it captures the trend and the peak-r shift, not an exact fit within shot noise. Use f_ci*_inflated, not the raw bootstrap CI, for any CI quoted in the manuscript."
+  },
+  "phase1c_echo_vs_grover": {
+    "file": "results/cpc_revision/phase1c_echo_vs_grover_fit.csv"
+  },
+  "phase1d_tvd_hellinger": {
+    "file": "results/cpc_revision/phase1d_distances.csv",
+    "note": "per (tier, r): TVD and Hellinger distance, hardware vs ideal and hardware vs FakeMarrakesh noisy simulator, plus a TVD null-floor/p-value"
+  },
+  "phase1e_digital_twin": {
+    "file": "results/cpc_revision/phase1e_digital_twin.json",
+    "note": "calibration-day digital twin (gate_error + readout_error only, no thermal relaxation -- device BackendProperties has no frequency field) vs generic FakeMarrakesh, TVD per cell"
+  },
+  "phase1f_diffusion_pitfall": {
+    "file": "results/cpc_revision/phase1f_diffusion_pitfall.csv"
+  },
+  "run1_billing": {
+    "file": "results/cpc_revision/billing_correction.json",
+    "value_s": 325.0
+  },
+  "run2_billing": {
+    "file": "results/cpc_revision/billing_correction.json",
+    "value_s": 100.0
+  },
+  "run3_billing": {
+    "file": "campaigns/cpc_run3/manifest.json",
+    "value_s": 195.0
+  },
+  "run4_billing": {
+    "file": "results/cpc_revision/billing_correction.json",
+    "value_s": 315.0
+  },
+  "run1_vs_run4_criterion": {
+    "file": "results/cpc_revision/cpc_run1_criterion.json / cpc_run4_criterion.json"
+  },
+  "h1": {
+    "cell": "ladder_n3_M1_r2 (n=3, r=2) -- the H1 cell",
+    "run1_two_qubit_gates": 39,
+    "run3_two_qubit_gates": 45,
+    "fit_used": "cpc_run1_fit.json per_size.A (Run 1's own n=3 fit)",
+    "p_ideal": 0.9453124999999999,
+    "f": 0.9953320261257219,
+    "p_noise": 0.13684523366141296,
+    "predicted_p_at_run1_gates": 0.8104630948838062,
+    "predicted_p_at_run3_gates": 0.7918153176629755,
+    "predicted_diff_from_gate_count_alone": -0.018647777220830664,
+    "observed_run1_mean": 0.8199462890625,
+    "observed_run3_mean": 0.8056233723958334,
+    "observed_diff": -0.01432291666666663,
+    "conclusion": "the gate-count increase alone predicts a drop of 0.01865, which is LARGER in magnitude than the observed difference of 0.01432 -- the gate-count change can account for the entire observed H1 difference at n=3; H1 at n=3 is confounded and provides no clean evidence of day-to-day drift",
+    "gate_matched_alternative": {
+      "cell": "ladder_n4_M2_r2 (n=4, r=2) -- identical two-qubit gate count both runs (113=113)",
+      "run1_mean": 0.51611328125,
+      "run3_mean": 0.434814453125,
+      "diff": -0.081298828125,
+      "run1_ci_half_width": 0.02495254318355844,
+      "supported": true,
+      "note": "supplementary evidence, outside H1's preregistered n=3-only scope, but the only gate-matched (unconfounded) drift comparison available"
+    },
+    "source": "computed in analysis/manuscript_numbers.py from cpc_run1_fit.json, cpc_runs_analysis.json, results/cpc_revision/run3_layout_comparison.json"
+  },
+  "h2": {
+    "file": "results/cpc_revision/REPORT.md section 7",
+    "verdict": "NOT SUPPORTED -- r=1 significant in the opposite direction (DD off beats DD on)"
+  },
+  "effective_error_ratio": {
+    "oct8_marrakesh_2026-10-08": {
+      "one_minus_f": 0.005572616536064112,
+      "median_two_qubit_error_used_qubits": 0.0018007767950967146,
+      "ratio": 3.0945626083352673,
+      "ratio_ci_from_inflated_f_ci": [
+        2.7137362011051693,
+        3.404977199323643
+      ]
+    },
+    "run1_marrakesh_2026-11-19": {
+      "one_minus_f": 0.006292176396083815,
+      "median_two_qubit_error_used_qubits": 0.0018609648065872342,
+      "ratio": 3.3811366952300634,
+      "ratio_ci_from_inflated_f_ci": [
+        3.217530213489692,
+        3.5525403299505656
+      ]
+    },
+    "run4_kingston_2026-11-19": {
+      "one_minus_f": 0.0035484465025262812,
+      "median_two_qubit_error_used_qubits": 0.0013293864959053603,
+      "ratio": 2.66923615777341,
+      "ratio_ci_from_inflated_f_ci": [
+        2.122477649000977,
+        3.0937756448319043
+      ]
+    },
+    "note": "effective error per two-qubit gate (1-f) is roughly 2.7-3.4x the calibrated two-qubit error on the qubits actually used, across two devices and two dates -- an observation with only 3 points, not a law",
+    "source": "phase1b_global_fit.json, cpc_run1_fit.json, cpc_run4_fit.json (f, inflated CI), historical_calibration.json + run1_run4_median_2q_error.json (median two-qubit error)"
+  }
+}

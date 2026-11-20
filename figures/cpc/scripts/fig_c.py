@@ -57,7 +57,10 @@ def main():
     ax.set_xlabel("two-qubit gate count")
     ax.set_ylabel("marked-state probability / fitted fidelity")
     ax.legend(loc="upper right", fontsize=6.5)
-    ax.annotate(f"global fit f={fit['global']['f']:.5f}\nCI [{fit['global']['f_ci95'][0]:.5f}, {fit['global']['f_ci95'][1]:.5f}]",
+    ci = fit["global"].get("f_ci95_inflated", fit["global"]["f_ci95"])
+    ax.annotate(f"global fit f={fit['global']['f']:.5f}\n"
+                f"CI (inflated by sqrt(reduced χ²)={fit['global']['reduced_chi_square']**0.5:.1f}x) "
+                f"[{ci[0]:.5f}, {ci[1]:.5f}]",
                 xy=(0.02, 0.02), xycoords="axes fraction", fontsize=7, va="bottom")
 
     fig.savefig(FIG / "fig_c.pdf")
