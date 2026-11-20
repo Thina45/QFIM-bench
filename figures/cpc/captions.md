@@ -109,15 +109,22 @@ Quantum). Layer A is the opt-in characterization layer (`search_cost.py`, `stati
 `scaling.py`, `noise_scaling.py`) that reads `pipeline.py`'s results rather than being bundled
 into every run. Source: `src/qfim_bench/pipeline.py` docstring and imports (read-only).
 
-## Fig. K — Campaign timeline, 2026-10-08 to 2026-11-20 (double column, 190mm)
-NOT DATA — a timeline built only from `git log` (read-only) and the saved campaign manifests
-(`campaigns/*/manifest.json`), no live API query. One swimlane per campaign; each tick is one
-job, placed at that job's recorded `calibration_timestamp`. Vertical dotted lines + annotations
-mark two preregistration points: the original operating-point criterion + addendum DRAFT
-(commits `c25b1b0`/`dd01e6e`, 2026-10-08) and addendum V3 (`494632b`, committed and pushed
-2026-11-19 14:46 — 2026-11-19 14:46:33+05:30, before the first Run 1 job, created
-2026-11-19 14:52:04.949+05:30; REPORT.md section 9b). Job counts per campaign: ladder_v2 6,
-ladder_v2b 10, Run 1 15, Run 2 5, Run 4 15, Run 3 9.
+## Fig. K — Campaign timeline, broken axis: 2026-10-08 (a) / 2026-11-19–20 (b) (double column, 190mm)
+NOT DATA — a timeline with a broken x-axis: panel (a) 2026-10-08 (original campaigns), panel (b)
+2026-11-19 to 2026-11-20 (Runs 1–4), both with hour-level ticks (IST) and standard diagonal
+axis-break marks. One swimlane per campaign; each tick is one job, placed at that job's recorded
+CREATION/SUBMISSION time (`results/cpc_revision/job_creation_times.json`, a read-only
+`QiskitRuntimeService.job().creation_date` query — NOT `calibration_timestamp`, which precedes
+submission and would misplace every job before its own preregistration commit; this was corrected
+on review). **Verified and printed by the script before plotting: every Run 1–4 job's creation
+time is after the 494632b commit (2026-11-19 14:46:33 IST) — confirmed, no violations.** The
+addendum V3 commit (`494632b`, committed and pushed 2026-11-19 14:46:33+05:30, before the first
+Run 1 job, created 2026-11-19 14:52:04.949+05:30; REPORT.md section 9b) is a vertical dotted line
+in panel (b); the original operating-point criterion + addendum DRAFT (commits `c25b1b0`/
+`dd01e6e`, both 2026-10-08) falls inside panel (a)'s date range and is not separately marked there
+(panel (a) IS that date). Light teal vertical bands mark each campaign's calibration-snapshot
+timestamp (exact moments only, from the manifests — no assumed window duration). Job counts per
+campaign: ladder_v2 6, ladder_v2b 10, Run 1 15, Run 2 5, Run 4 15, Run 3 9.
 
 ## Fig. L — ibm_marrakesh local qubit layout, Oct-8 vs Run 1 (1.5-column, 140mm)
 NOT DATA — the local subgraph of the 156-qubit heavy-hex coupling map (FakeMarrakesh's saved

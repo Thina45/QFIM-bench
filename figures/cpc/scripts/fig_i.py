@@ -49,7 +49,7 @@ def main():
     ]
 
     fig, (ax, ax2) = plt.subplots(1, 2, figsize=mm2in(190, 68),
-                                   gridspec_kw={"wspace": 0.35})
+                                   gridspec_kw={"wspace": 0.22})
     colors = ["#0072B2", "#D55E00", "#009E73"]
     for (label, err, f, f_ci), c in zip(points, colors):
         yerr = [[f - f_ci[0]], [f_ci[1] - f]]
@@ -69,10 +69,10 @@ def main():
         r_lo, r_hi = (1 - f_ci[1]) / err, (1 - f_ci[0]) / err
         ratios.append((label, r, r_lo, r_hi, c))
         ax2.errorbar([short_label[label]], [r], yerr=[[r - r_lo], [r_hi - r]], fmt="o", color=c, capsize=3)
-    ax2.set_ylabel("effective error ratio $(1-f)\\,/\\,$median two-qubit error")
+    ax2.set_ylabel("effective error ratio $(1-f)\\,/\\,$median two-qubit error", labelpad=4)
     ax2.set_xticks(range(len(points)))
     ax2.set_xticklabels([short_label[p[0]] for p in points], fontsize=7)
-    panel_label(ax2, "(b)")
+    panel_label(ax2, "(b)", dx=-0.05, dy=1.1)
 
     save_all(fig, "fig_i")
     for label, err, f, f_ci in points:

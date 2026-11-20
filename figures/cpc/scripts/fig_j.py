@@ -65,7 +65,7 @@ def main():
         x2 = stage_boxes[i + 1][0]
         arrow(ax, (x1, 38 + 3.5), (x2, 38 + 3.5))
     arrow(ax, (50, 50), (50, 45))
-    ax.text(50, 46.3, "Layer B -- application pipeline", ha="center", fontsize=7.5, style="italic")
+    ax.text(88, 47.5, "Layer B – application pipeline", ha="center", fontsize=7.5, style="italic")
 
     # three backends, called from the circuit.py/backends.py stage
     bx0 = 50 - (3 * 22 + 2 * 3) / 2
@@ -79,7 +79,11 @@ def main():
     ax.text(50, 21.5, "one shared interface: Backend.run(circuit, shots)", ha="center",
             fontsize=7, style="italic")
 
-    # Layer A: characterization modules, called on pipeline.py's results (opt-in)
+    # Layer A: characterization modules, called on pipeline.py's results (opt-in). Each module
+    # points up to a "results from pipeline.py" bar, not into empty space.
+    results_bar = box(ax, (18, 13), 64, 3.2, "results from pipeline.py (result.circuit, "
+                       "result.circuit_info, result.backend)", fc="#E8EEF7", fontsize=6.2)
+
     m = len(LAYER_A)
     aw, agap = 9.6, 0.8
     total_aw = m * aw + (m - 1) * agap
@@ -89,8 +93,8 @@ def main():
         abx = ax0 + i * (aw + agap)
         a_boxes.append(box(ax, (abx, 4), aw, 7, mod, fc="#EAF3EA", fontsize=6.2))
     for ab in a_boxes:
-        arrow(ax, (ab[0] + ab[2] / 2, 11), (ab[0] + ab[2] / 2, 15))
-    ax.text(50, 16.3, "Layer A -- characterization (opt-in, reads pipeline.py's results)",
+        arrow(ax, (ab[0] + ab[2] / 2, 11), (ab[0] + ab[2] / 2, results_bar[1]))
+    ax.text(50, 19.0, "Layer A – characterization (opt-in, reads pipeline.py's results)",
             ha="center", fontsize=7.5, style="italic")
 
     save_all(fig, "fig_j")
