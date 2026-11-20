@@ -119,19 +119,24 @@ mark two preregistration points: the original operating-point criterion + addend
 2026-11-19 14:52:04.949+05:30; REPORT.md section 9b). Job counts per campaign: ladder_v2 6,
 ladder_v2b 10, Run 1 15, Run 2 5, Run 4 15, Run 3 9.
 
-## Fig. L — ibm_marrakesh qubit layout, Oct-8 vs Run 1 (1.5-column, 140mm)
-NOT DATA — a schematic of the 156-qubit heavy-hex coupling graph (FakeMarrakesh's saved
+## Fig. L — ibm_marrakesh local qubit layout, Oct-8 vs Run 1 (1.5-column, 140mm)
+NOT DATA — the local subgraph of the 156-qubit heavy-hex coupling map (FakeMarrakesh's saved
 coupling_map, confirmed identical to the live backend's, 352 edges/same edge set, in a one-off
-Phase 0 check; no job submitted to make this figure), with a force-directed layout (rustworkx
-`spring_layout`, fixed seed 7) since Graphviz (needed for qiskit's literal chip-floorplan
-`plot_gate_map`) is not installed in this environment — node positions are schematic connectivity,
-not the literal chip floorplan. Highlighted nodes are the physical qubits used by the
-gate-bearing (two-qubit-gate) circuits at n=3/4/5, from the saved manifests' `circuits_info`:
-**(a)** 2026-10-08 (`campaigns/ladder_v2`, `ladder_v2b`); **(b)** Run 1, 2026-11-19
-(`campaigns/cpc_run1`). Colour = problem size n (same palette as every other figure). Note
-visible in (a): Tier B (n=4) and Tier C (n=5) share nearly the same physical qubits on 2026-10-08
-(qubits 98/110/111/112 used by both; only qubit 91 is n=5-only) — an incidental fact about that
-day's transpilation, not a control.
+Phase 0 check; no job submitted to make this figure) containing every physical qubit used at
+n=3/4/5 on either date, plus every qubit within 2 coupling-graph hops. Node positions come from
+Graphviz "neato" laid out on the FULL 156-qubit graph (conda-forge `graphviz` + `pygraphviz`,
+installed this pass), then cropped to the local subgraph — relative positions match the real chip
+floorplan exactly, not a schematic. Every drawn qubit is labelled with its index. **Marker SHAPE**
+(not just colour) encodes problem size: circle n=3, square n=4, triangle n=5 — so a qubit used by
+two sizes shows both outlines overlaid, visibly distinguishable. Physical qubits used by the
+gate-bearing (two-qubit-gate) circuits, from the saved manifests' `circuits_info`: **(a)**
+2026-10-08 (`campaigns/ladder_v2`, `ladder_v2b`); **(b)** Run 1, 2026-11-19
+(`campaigns/cpc_run1`). The three qubit groups (n=3/4/5) sit in disconnected regions of the chip
+(no coupling path within 2 hops between them), so each panel shows three separate local
+neighbourhoods, not one connected region. Note visible in (a): Tier B (n=4, qubits 98/110/111/112)
+and Tier C (n=5, 91/98/110/111/112) share 4 of 5 physical qubits on 2026-10-08, shown as
+overlapping square+triangle outlines — an incidental fact about that day's transpilation, not a
+control; Run 1 (b) has no such overlap (disjoint qubit sets per size).
 
 ## Fig. M — Second device comparison (EXPLORATORY) (double column, 190mm)
 Measured success probability vs. r (integer ticks), three panels n=3/4/5: `ibm_marrakesh` (Run 1)
