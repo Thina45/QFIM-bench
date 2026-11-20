@@ -8,13 +8,17 @@ review/preregistration/ladder_predictions.json; writes figures/cpc/fig_a.{pdf,pn
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import mm2in, panel_label  # noqa: E402
 
 PRED = {c["id"]: c for c in json.loads((ROOT / "review" / "preregistration" / "ladder_predictions.json").read_text())["circuits"]}
 TIER_N = {"A": 3, "B": 4, "C": 5}
@@ -28,8 +32,9 @@ def load_phase1a():
 
 def main():
     rows = load_phase1a()
-    fig, axes = plt.subplots(1, 3, figsize=(190 / 25.4, 60 / 25.4), sharey=True)
-    for ax, tier in zip(axes, ["A", "B", "C"]):
+    fig, axes = plt.subplots(1, 3, figsize=mm2in(190, 62), sharey=True)
+    for ax, tier, lab in zip(axes, ["A", "B", "C"], ["(a)", "(b)", "(c)"]):
+        panel_label(ax, lab)
         n, M = TIER_N[tier], TIER_M[tier]
         trow = [r for r in rows if r["tier"] == tier]
         trow.sort(key=lambda r: int(r["r"]))
@@ -52,9 +57,7 @@ def main():
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="outside upper center", ncol=4, columnspacing=1.2, fontsize=7.5)
 
-    fig.savefig(FIG / "fig_a.pdf")
-    fig.savefig(FIG / "fig_a.png")  # 300 dpi from savefig.dpi in cpc.mplstyle
-    print("wrote", FIG / "fig_a.pdf", "and .png")
+    save_all(fig, "fig_a")
 
 
 if __name__ == "__main__":

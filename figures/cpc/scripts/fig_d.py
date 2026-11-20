@@ -10,6 +10,7 @@ figures/cpc/fig_d.{pdf,png}.
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 import matplotlib.lines as mlines
@@ -17,10 +18,12 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import TIER_COLOR, mm2in, panel_label  # noqa: E402
 
 TIER_LABEL = {"A": "n=3", "B": "n=4", "C": "n=5"}
-TIER_COLOR = {"A": "#0072B2", "B": "#D55E00", "C": "#009E73"}
 REF_STYLE = {"ideal": "-", "FakeMarrakesh": "--", "digital twin (Phase 1E)": ":"}
 
 
@@ -30,7 +33,7 @@ def main():
     twin = json.loads((ROOT / "results" / "cpc_revision" / "phase1e_digital_twin.json").read_text())
     twin_rows = {(r["tier"], r["r"]): r for r in twin["rows"]}
 
-    fig, axes = plt.subplots(1, 2, figsize=(190 / 25.4, 58 / 25.4), sharex=True)
+    fig, axes = plt.subplots(1, 2, figsize=mm2in(190, 65), sharex=True)
     for tier in ["A", "B", "C"]:
         color = TIER_COLOR[tier]
         trow = sorted([r for r in rows if r["tier"] == tier], key=lambda r: int(r["r"]))
@@ -51,10 +54,11 @@ def main():
 
     axes[0].set_ylabel("total variation distance")
     axes[1].set_ylabel("Hellinger distance")
-    axes[0].set_title("(a)")
-    axes[1].set_title("(b)")
+    panel_label(axes[0], "(a)")
+    panel_label(axes[1], "(b)")
     for ax in axes:
         ax.set_xlabel("Grover iterations r")
+        ax.set_xticks([0, 1, 2, 3, 4])
 
     size_handles = [mlines.Line2D([], [], color=TIER_COLOR[t], linestyle="-", marker="o", label=TIER_LABEL[t])
                     for t in ["A", "B", "C"]]
@@ -64,9 +68,7 @@ def main():
     fig.legend(handles=size_handles + ref_handles, loc="outside upper center", ncol=6, fontsize=6.5,
                columnspacing=1.0, handletextpad=0.5)
 
-    fig.savefig(FIG / "fig_d.pdf")
-    fig.savefig(FIG / "fig_d.png")
-    print("wrote", FIG / "fig_d.pdf", "and .png")
+    save_all(fig, "fig_d")
 
 
 if __name__ == "__main__":

@@ -7,13 +7,17 @@ Writes figures/cpc/fig_e.{pdf,png}.
 """
 
 import json
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import mm2in  # noqa: E402
 
 M_SHOWN = 1
 
@@ -30,7 +34,7 @@ def main():
     matched_vals = [by_r[r]["ansatz_matched"] for r in rs]
     hadamard_vals = [by_r[r]["ansatz_hadamard"] for r in rs]
 
-    fig, ax = plt.subplots(figsize=(90 / 25.4, 55 / 25.4))
+    fig, ax = plt.subplots(figsize=mm2in(90, 60))
     positions_m = [r - 0.17 for r in rs]
     positions_h = [r + 0.17 for r in rs]
     bp_m = ax.boxplot(matched_vals, positions=positions_m, widths=0.28, patch_artist=True,
@@ -51,9 +55,7 @@ def main():
     fig.legend([bp_m["boxes"][0], bp_h["boxes"][0]], ["diffusion matched to start", "Hadamard diffusion (pitfall)"],
                loc="outside upper center", ncol=2, fontsize=7)
 
-    fig.savefig(FIG / "fig_e.pdf")
-    fig.savefig(FIG / "fig_e.png")
-    print("wrote", FIG / "fig_e.pdf", "and .png")
+    save_all(fig, "fig_e")
 
 
 if __name__ == "__main__":

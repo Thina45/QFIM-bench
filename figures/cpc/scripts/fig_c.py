@@ -11,6 +11,7 @@ counts actually used per circuit. Writes figures/cpc/fig_c.{pdf,png}.
 import csv
 import json
 import math
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -18,12 +19,14 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import TIER_COLOR, mm2in, panel_label  # noqa: E402
 
 PRED = {c["id"]: c for c in json.loads((ROOT / "review" / "preregistration" / "ladder_predictions.json").read_text())["circuits"]}
 TIER_N = {"A": 3, "B": 4, "C": 5}
 TIER_M = {"A": 1, "B": 2, "C": 4}
-TIER_COLOR = {"A": "#0072B2", "B": "#D55E00", "C": "#009E73"}
 
 
 def decay_model(g, f, p_noise, p_ideal):
@@ -43,7 +46,7 @@ def main():
     with (ROOT / "results" / "cpc_revision" / "phase1c_echo_vs_grover_fit.csv").open(encoding="utf-8") as f:
         rows_c = list(csv.DictReader(f))
 
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(190 / 25.4, 62 / 25.4))
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=mm2in(190, 65))
 
     # (a) success probability vs two-qubit gate count, log x
     for tier in ["A", "B", "C"]:
@@ -63,7 +66,7 @@ def main():
     ax.set_xlabel("two-qubit gate count")
     ax.set_ylabel("marked-state probability")
     ax.legend(loc="upper right", fontsize=7)
-    ax.set_title("(a)")
+    panel_label(ax, "(a)")
 
     # (b) per-size Grover fit f vs echo-derived f, inflated CIs
     xs = np.arange(len(rows_c))
@@ -88,11 +91,9 @@ def main():
     ax2.set_xticklabels([f"n={r['n']}" for r in rows_c])
     ax2.set_ylabel("effective fidelity per two-qubit gate $f$")
     ax2.legend(loc="lower left", fontsize=7)
-    ax2.set_title("(b)")
+    panel_label(ax2, "(b)")
 
-    fig.savefig(FIG / "fig_c.pdf")
-    fig.savefig(FIG / "fig_c.png")
-    print("wrote", FIG / "fig_c.pdf", "and .png")
+    save_all(fig, "fig_c")
     for tier in ["A", "B", "C"]:
         pf = fit["per_size"][tier]
         ci = inflate(pf["f_ci95"], pf["f"], pf["reduced_chi_square"])

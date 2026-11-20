@@ -5,6 +5,7 @@ Reads results/cpc_revision/phase1a_classical_baseline.csv; writes figures/cpc/fi
 """
 
 import csv
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -12,7 +13,10 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import mm2in  # noqa: E402
 
 TIER_LABEL = {"A": "n=3", "B": "n=4", "C": "n=5"}
 
@@ -21,7 +25,7 @@ def main():
     with (ROOT / "results" / "cpc_revision" / "phase1a_classical_baseline.csv").open(encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
 
-    fig, ax = plt.subplots(figsize=(90 / 25.4, 55 / 25.4))
+    fig, ax = plt.subplots(figsize=mm2in(90, 58))
     width = 0.25
     offsets = {"A": -width, "B": 0.0, "C": width}
     for tier in ["A", "B", "C"]:
@@ -37,9 +41,7 @@ def main():
     ax.set_xticks(sorted({int(r["r"]) for r in rows}))
     ax.legend(loc="best")
 
-    fig.savefig(FIG / "fig_b.pdf")
-    fig.savefig(FIG / "fig_b.png")
-    print("wrote", FIG / "fig_b.pdf", "and .png")
+    save_all(fig, "fig_b")
 
 
 if __name__ == "__main__":

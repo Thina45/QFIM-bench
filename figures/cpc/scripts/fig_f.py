@@ -12,13 +12,17 @@ results/cpc_revision/cpc_runs_analysis.json.
     python figures/cpc/scripts/fig_f.py
 """
 import json
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
+from style_constants import mm2in  # noqa: E402
 
 R_OPT = {3: ("ladder_n3_M1_r2", "A"), 4: ("ladder_n4_M2_r2", "B"), 5: ("ladder_n5_M4_r2", "C")}
 GATE_CONFOUNDED_N = {3}  # n=3's r=2 circuit has a different two-qubit gate count Run1 vs Run3
@@ -34,7 +38,7 @@ def main():
     oct8 = oct8_rows()
     new = json.load(open(ROOT / "results/cpc_revision/cpc_runs_analysis.json"))
 
-    fig, ax = plt.subplots(figsize=(90 / 25.4, 68 / 25.4))
+    fig, ax = plt.subplots(figsize=mm2in(90, 70))
     xs = [0, 1, 2]
     sittings = ["2026-10-08", "2026-11-19 (Run 1)", "2026-11-20 (Run 3)"]
     colors = {"2026-10-08": "#0072B2", "2026-11-19 (Run 1)": "#D55E00",
@@ -72,9 +76,7 @@ def main():
                                    "count differs (Run 1: 39, Run 3: 45)")
     fig.legend(handles=date_handles + [hollow_handle], loc="outside upper center", ncol=2,
                fontsize=6, frameon=False)
-    fig.savefig(FIG / "fig_f.pdf")
-    fig.savefig(FIG / "fig_f.png", dpi=300)
-    print("wrote", FIG / "fig_f.pdf", "and .png")
+    save_all(fig, "fig_f")
 
 
 if __name__ == "__main__":

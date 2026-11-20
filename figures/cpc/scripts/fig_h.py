@@ -8,6 +8,7 @@ start, "mcz" oracle style, matched diffusion). Writes figures/cpc/fig_h.{pdf,png
     python figures/cpc/scripts/fig_h.py
 """
 
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -18,7 +19,9 @@ from qfim_bench.circuit import build_diffusion, build_oracle_variant, build_star
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
+sys.path.insert(0, str(FIG))
 plt.style.use(str(FIG / "cpc.mplstyle"))
+from save_utils import save_all  # noqa: E402
 
 N_ITEMS = 3
 MARKED = [3]  # M=1, matching ladder_n3_M1
@@ -30,19 +33,20 @@ def main():
     diffusion = build_diffusion(N_ITEMS, preparation=prep)
 
     qc = QuantumCircuit(N_ITEMS, N_ITEMS)
-    qc.append(prep.to_gate(label="State preparation $A$"), range(N_ITEMS))
+    # a leading/trailing space keeps each label clear of qiskit's own per-wire index text
+    # (box width is sized to the label; without padding the "Diffusion" box -- the shortest
+    # instruction -- was narrow enough that its index "1" touched the label text).
+    qc.append(prep.to_gate(label=" State preparation $A$ "), range(N_ITEMS))
     qc.barrier()
-    qc.append(oracle.to_gate(label="Oracle (mcz)"), range(N_ITEMS))
+    qc.append(oracle.to_gate(label=" Oracle (mcz) "), range(N_ITEMS))
     qc.barrier()
-    qc.append(diffusion.to_gate(label="Diffusion"), range(N_ITEMS))
+    qc.append(diffusion.to_gate(label=" Diffusion "), range(N_ITEMS))
     qc.barrier()
     qc.measure(range(N_ITEMS), range(N_ITEMS))
 
     fig = circuit_drawer(qc, output="mpl", style={"fontsize": 9}, fold=-1)
     fig.set_size_inches(190 / 25.4, 45 / 25.4)
-    fig.savefig(FIG / "fig_h.pdf", bbox_inches="tight")
-    fig.savefig(FIG / "fig_h.png", bbox_inches="tight", dpi=300)
-    print("wrote", FIG / "fig_h.pdf", "and .png")
+    save_all(fig, "fig_h")
 
 
 if __name__ == "__main__":
