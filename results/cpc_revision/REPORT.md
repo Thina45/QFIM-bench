@@ -97,9 +97,12 @@ manifest's `usage_seconds` — see the bug below).
 | 1 (replication) | ibm_marrakesh | 15 | 325.0 | 325.0 (exact) |
 | 2 (DD-off ablation) | ibm_marrakesh | 5 | 105.0 | 100.0 |
 | 4 (second device) | ibm_kingston | 15 | 325.0 (assumed) | 315.0 (assumption held) |
-| **Total** | | **35** | **755.0** | **740.0** |
+| 3 (replication, day B) | ibm_marrakesh | 9 | 195.0 | 195.0 (exact) |
+| **Total** | | **44** | **950.0** | **935.0** |
 
-740.0 s against the 1,200 s hard cap — 460 s of headroom remaining before Run 3.
+935.0 s against the 1,200 s hard cap — 265 s of headroom remains, all four preregistered runs
+now submitted. All 9 Run 3 jobs billed nonzero via `job.metrics()` on first read; the billing
+bug (section "Billing bug found and fixed" below) did not recur.
 
 **Billing bug found and fixed**: 4 of the 35 jobs had `usage_seconds` recorded as `0.0` in their
 campaign manifest. `HardwareBackend._billed_seconds()` read `job.usage()`, which returned `0`
@@ -150,8 +153,8 @@ data (a ~6-week gap) and called it "supported"; that was a different, explorator
 (long-term drift), not H1. Section 6's Run-1-vs-Oct-8 finding is retained below as exploratory
 long-term drift, not as an H1 result.
 
-- **H1 (|Run 1 mean − Run 3 mean| at n=3, r=2, > Run 1's own within-sitting CI width): PENDING.**
-  Cannot be evaluated until Run 3 exists.
+- **H1 (|Run 1 mean − Run 3 mean| at n=3, r=2, > Run 1's own within-sitting CI width/spread):
+  evaluated in section 13 below, now that Run 3 exists. Result: NOT SUPPORTED.**
 - **H2** (verbatim): "DD improves n=4 hardware success at r=1 and r=2: Run 1 Tier B (DD on) mean
   exceeds Run 2 (DD off) mean, with the lower CI of the difference above 0." **NOT SUPPORTED.**
   r=1 is significant in the *opposite* direction (DD off outperforms DD on); r=2 is inconclusive.
@@ -217,12 +220,78 @@ silently absorbed into the numbers below.
   actually used (not a generic device-wide figure): Oct-8 marrakesh 0.00180, Run 1 marrakesh
   0.00186, Run 4 kingston 0.00133. Higher error tracks lower fit f at all three points — Fig I.
 
+## 13. Run 3 (replication, day B) and H1 — resolved
+
+**Gap check (your condition 1):** last Run 1 job (`C_run5`) finished `2026-11-19T09:33:47.656Z`
+UTC = **2026-11-19 15:03:47 IST**. Run 3's first job (`A_run1`) was created at
+**2026-11-20 18:42:48 IST** — about **27h 39m** after Run 1 finished, well over the 12h minimum.
+Both timestamps reported as required.
+
+**Calibration window check (your condition 2):** Run 1 used calibration `2026-11-19 14:35:58 IST`
+(all Tier A/most of B/C) or `14:48:07 IST` (the rest); current `ibm_marrakesh` calibration at
+submission time was `2026-11-20 03:39:26 IST` — a different window, as expected after waiting 12h+.
+
+**Deviation — Run 1's transpiled circuits were never saved to QPY**, so Run 3 could not literally
+reuse them (your condition 3's instruction to stop if this was the case). Resolution (approved by
+you, 2026-11-20): re-transpile each Run 3 circuit for `ibm_marrakesh` with `initial_layout` pinned
+to the physical-qubit **set** Run 1 recorded for the same circuit label (`optimization_level=3`,
+`seed_transpiler=42`, matching Run 1), searching permutations of that set for the virtual-to-
+physical assignment that most closely reproduced Run 1's two-qubit gate count (full method and
+numbers: `results/cpc_revision/run3_layout_comparison.json`, built by `analysis/prepare_run3.py`).
+
+Three further findings, each confirmed and approved by you before continuing:
+1. **Run 1 itself used 2-3 distinct physical layouts across its own 5 repeats per tier** (B: 3/5
+   runs on one layout, 2/5 on another; C: 4/5 vs 1/5) — "Run 1's layout" is therefore the MODAL
+   layout across its repeats, not a single unambiguous value.
+2. **Live-calibration-dependent gate synthesis means pinning the physical-qubit set alone does not
+   reproduce Run 1's exact two-qubit gate count**, even searching all virtual-to-physical
+   permutations (verified deterministic, not run-to-run noise). Differences ranged from 1 gate
+   (Tier C, 1354→1355, 0.07%) to 6 gates (Tier A `ladder_n3_M1_r1`, 19→25, +32%). Approved as an
+   accepted deviation, not a routing error — `optimization_level=3`'s basis-gate synthesis is itself
+   sensitive to current calibration, not just to layout and seed. One circuit's depth difference
+   (`ladder_n3_M1_r1`, 72→68, **5.556%**) exceeded your stated 5% continue-threshold; approved to
+   proceed anyway as part of the same calibration-drift deviation.
+3. **Run 1's own r=0/readout circuits (zero two-qubit gates) were not even on the same physical
+   qubits as that tier's gate-bearing circuits** (e.g. Tier A ladder/echo used (53,54,55); Run 1's
+   own r=0/readout used (10,139,140) instead) — because with no entangling gates, the transpiler is
+   free to place them anywhere. This means Run 1's readout-error "control" was never actually
+   measured on the qubits it was meant to characterize. Run 3 instead pins r=0/readout to the SAME
+   qubits as that tier's busy circuits (a more scientifically meaningful control), approved as a
+   second, distinct deviation from literal Run-1 reproduction.
+
+All 24 transpiled circuits (8 per tier x 3 tiers) were saved to QPY under `campaigns/cpc_run3/qpy/`
+before any job's results were used, with SHA-256 hashes recorded in `campaigns/cpc_run3/manifest.json`
+(`qpy_files` per job) and in `campaigns/cpc_run3/qpy/index.json`.
+
+**Submission**: 9 jobs (3 repeats x Tier A/B/C), `ibm_marrakesh`, DD on, 8192 shots. Billed: A/B/C =
+20.0/21.0/24.0 s per job (identical to Run 1's per-job rate) = **195.0 s total**, against a 220.0 s
+budget — exact match to the preregistered projection. No job's `usage_seconds` recorded as the
+known stale-zero bug (all read correctly via `job.metrics()` on first try).
+
+**H1, evaluated** (`ladder_n3_M1_r2`, n=3, marked state `011`):
+
+| | values | mean | spread (max−min) |
+|---|---|---|---|
+| Run 1 (5 repeats) | 0.8180, 0.8311, 0.8058, 0.8159, 0.8290 | 0.8199 | **0.0253** |
+| Run 3 (3 repeats) | 0.8069, 0.8109, 0.7991 | 0.8056 | 0.0118 |
+
+\|Run 1 mean − Run 3 mean\| = **0.0143**.
+
+H1 as literally written: "day-to-day variation (\|Run 1 mean − Run 3 mean\|) is **larger than**
+the within-sitting CI width from Run 1's own 5 daily values." Using Run 1's own spread (0.0253) as
+that within-sitting width: 0.0143 < 0.0253. **H1 is NOT SUPPORTED** — the day-to-day difference
+between Run 1 and Run 3 is smaller than Run 1's own repeat-to-repeat spread, i.e. this cell did not
+show a day-to-day shift any larger than ordinary within-sitting variation.
+
+Fig F (section 10) is updated with a third series for Run 3.
+
 ## 10. Figures
 
 - `figures/cpc/fig_a.{pdf,png}`, `fig_b.{pdf,png}`: regenerated with the corrected Phase 1A data.
   Fig A intentionally does **not** add Run 1/Run 4 as extra series (would overcrowd the existing
   three-panel ideal/FakeMarrakesh/hardware layout) — that comparison is in the new Figs F/G instead.
-- `figures/cpc/fig_f.{py,pdf,png}` (new): day-to-day drift, r=2 success per day per n, from section 6.
+- `figures/cpc/fig_f.{py,pdf,png}`: day-to-day drift, r=2 success per day per n; now three series
+  (2026-10-08, Run 1, Run 3), from sections 6 and 13.
 - `figures/cpc/fig_g.{py,pdf,png}` (new): DD on vs off at n=4 vs r, from section 7.
 - `figures/cpc/fig_i.{py,pdf,png}` (new): fitted global f vs. median two-qubit error, one point per
   device/session (Oct-8 marrakesh, Run 1 marrakesh, Run 4 kingston), from section 9c.
@@ -230,15 +299,19 @@ silently absorbed into the numbers below.
 
 ## 11. Tests
 
-198 passed, 0 failed (184 original + 11 from the Phase 1 pass + 2 regression tests for DD-enable
-and the billing fix + 1 other), confirmed after the billing-bug fix.
+200 passed, 0 failed (184 original + 11 from the Phase 1 pass + 2 regression tests for DD-enable
+and the billing fix + 2 new tests for `initial_layout` pinning and QPY-saving, added for Run 3),
+confirmed with the full suite after every change in this round.
 
 ## 12. What was not done / deviated
 
-- Run 3 was explicitly not submitted — waits for a separate "go" ≥12 h after Run 1's completion.
 - `qBraid` was surveyed (`results/cpc_revision/qbraid_survey.json`) and recommended against for
   Run 4 (no quotable IBM pricing, no fixed-price alternative fits the budget/shot-count floor).
 - Nothing under `campaigns/ladder_v2(/b)`, `results/hardware/ladder_v2(/b)`, or existing `review/`
   files was modified.
-- Nothing in this round was committed to git; all new/changed files remain uncommitted on the
-  `cpc-revision` branch pending your review.
+- Run 3's circuits are NOT identical to Run 1's at the single-gate/depth level (section 13) —
+  pinned to the same physical-qubit set, not Run 1's exact transpiled circuit, because Run 1's
+  transpiled circuits were never saved. Going forward, `HardwareBackend` now saves every submitted
+  circuit to QPY (`qpy_dir`), so this gap cannot recur for any future run.
+- All four preregistered runs (1, 2, 3, 4) are now submitted. Nothing remains pending from the
+  V3 addendum.

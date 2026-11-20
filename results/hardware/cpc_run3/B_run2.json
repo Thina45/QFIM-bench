@@ -1,0 +1,286 @@
+{
+  "label": "B_run2",
+  "job": {
+    "label": "B_run2",
+    "labels": [
+      "ladder_n4_M2_r1",
+      "echo_n4_M2_r2",
+      "readout_n4_ones",
+      "readout_n4_zeros",
+      "ladder_n4_M2_r4",
+      "ladder_n4_M2_r2",
+      "ladder_n4_M2_r3",
+      "ladder_n4_M2_r0"
+    ],
+    "job_id": "dc04g1lhdvas73biuijg",
+    "target": "ibm_marrakesh (live calibration)",
+    "n_circuits": 8,
+    "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+    "circuits_info": [
+      {
+        "depth": 215,
+        "two_qubit_gates": 56,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 876,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 870,
+        "two_qubit_gates": 227,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 436,
+        "two_qubit_gates": 113,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 654,
+        "two_qubit_gates": 170,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          137,
+          146,
+          147,
+          148
+        ]
+      }
+    ],
+    "qpy_files": [
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_0_ladder_n4_M2_r1.qpy",
+        "label": "ladder_n4_M2_r1",
+        "sha256": "2b89c7655fc8689a86d30188ba94d8924904edfa0f9cfef6915da528cae4499c"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_1_echo_n4_M2_r2.qpy",
+        "label": "echo_n4_M2_r2",
+        "sha256": "352bdc7c211fce7f7f09c547e6b3c08b4deacb6a94bddee0abb9451aa392a662"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_2_readout_n4_ones.qpy",
+        "label": "readout_n4_ones",
+        "sha256": "9dee9e7cfd0cd2d281fe634350bb21fd4bd3c86d4c82a337223558fec7a16b18"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_3_readout_n4_zeros.qpy",
+        "label": "readout_n4_zeros",
+        "sha256": "bb8e5f96a2a78fb7a83e75f784dda2a63acbbffbf64fe9804f8aeb5878b490c7"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_4_ladder_n4_M2_r4.qpy",
+        "label": "ladder_n4_M2_r4",
+        "sha256": "024bb4044b8c249b5df163735a2498a6ab77d00f72e835123ca38f87a0cd6106"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_5_ladder_n4_M2_r2.qpy",
+        "label": "ladder_n4_M2_r2",
+        "sha256": "47470922b16388a2a20c7b3578cc74522788b1726912c65838d093f42e806865"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_6_ladder_n4_M2_r3.qpy",
+        "label": "ladder_n4_M2_r3",
+        "sha256": "a6d17dfe6ade848541f8d725010181eb77142a35158e37d14f8cc36d234576b8"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\B_run2_1795180549298_7_ladder_n4_M2_r0.qpy",
+        "label": "ladder_n4_M2_r0",
+        "sha256": "03fd7dd72555bd9c8e60179e7b5305534d410fb4ee3851984b27dd635f8e333a"
+      }
+    ],
+    "usage_seconds": 21.0
+  },
+  "order": [
+    "ladder_n4_M2_r1",
+    "echo_n4_M2_r2",
+    "readout_n4_ones",
+    "readout_n4_zeros",
+    "ladder_n4_M2_r4",
+    "ladder_n4_M2_r2",
+    "ladder_n4_M2_r3",
+    "ladder_n4_M2_r0"
+  ],
+  "counts": {
+    "ladder_n4_M2_r1": {
+      "0011": 1948,
+      "0111": 331,
+      "0001": 414,
+      "0101": 2211,
+      "0010": 335,
+      "0100": 356,
+      "1111": 200,
+      "0110": 248,
+      "1001": 242,
+      "1100": 253,
+      "1101": 284,
+      "1110": 249,
+      "1010": 264,
+      "0000": 310,
+      "1000": 249,
+      "1011": 298
+    },
+    "echo_n4_M2_r2": {
+      "0000": 1943,
+      "0101": 414,
+      "1100": 394,
+      "0011": 430,
+      "0100": 516,
+      "0001": 577,
+      "0110": 426,
+      "1011": 343,
+      "1001": 405,
+      "1010": 370,
+      "0010": 516,
+      "1101": 354,
+      "1111": 315,
+      "0111": 372,
+      "1110": 327,
+      "1000": 490
+    },
+    "readout_n4_ones": {
+      "1111": 7617,
+      "0111": 164,
+      "1011": 119,
+      "1101": 144,
+      "1110": 134,
+      "0101": 2,
+      "1001": 4,
+      "0110": 3,
+      "0011": 2,
+      "1100": 2,
+      "1010": 1
+    },
+    "readout_n4_zeros": {
+      "0000": 8104,
+      "0001": 25,
+      "0100": 36,
+      "0010": 5,
+      "1000": 21,
+      "0101": 1
+    },
+    "ladder_n4_M2_r4": {
+      "0101": 580,
+      "1110": 394,
+      "1111": 389,
+      "0011": 577,
+      "0001": 677,
+      "0110": 460,
+      "1001": 481,
+      "0100": 620,
+      "0000": 542,
+      "1101": 583,
+      "0111": 559,
+      "1010": 409,
+      "0010": 548,
+      "1011": 459,
+      "1100": 477,
+      "1000": 437
+    },
+    "ladder_n4_M2_r2": {
+      "0011": 1549,
+      "1100": 265,
+      "0010": 375,
+      "0110": 252,
+      "1000": 304,
+      "0111": 392,
+      "1111": 270,
+      "0100": 404,
+      "1001": 312,
+      "0001": 551,
+      "0101": 2158,
+      "1101": 322,
+      "1011": 276,
+      "1010": 248,
+      "1110": 213,
+      "0000": 301
+    },
+    "ladder_n4_M2_r3": {
+      "0011": 651,
+      "1010": 424,
+      "0001": 552,
+      "0000": 476,
+      "0010": 489,
+      "0110": 487,
+      "1101": 459,
+      "0101": 901,
+      "0100": 562,
+      "1000": 354,
+      "0111": 715,
+      "1011": 434,
+      "1110": 369,
+      "1111": 425,
+      "1001": 445,
+      "1100": 449
+    },
+    "ladder_n4_M2_r0": {
+      "1100": 483,
+      "1000": 522,
+      "1011": 475,
+      "0101": 489,
+      "0111": 517,
+      "0100": 545,
+      "1001": 500,
+      "1111": 501,
+      "1010": 512,
+      "1110": 522,
+      "0110": 527,
+      "0000": 555,
+      "0011": 523,
+      "0001": 520,
+      "1101": 483,
+      "0010": 518
+    }
+  }
+}

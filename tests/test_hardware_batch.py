@@ -152,6 +152,38 @@ def test_dd_enabled_false_disables_dynamical_decoupling(fake):
     assert rec["sampler_options"].dynamical_decoupling.enable is False
 
 
+def test_initial_layout_is_passed_to_transpile(fake, monkeypatch):
+    hb, _, _ = fake(max_jobs=1)
+    hb.initial_layout = [10, 20, 30]
+    seen = {}
+    import qiskit as qiskit_module
+    real_transpile = qiskit_module.transpile
+
+    def spy_transpile(circuit, **kwargs):
+        seen["initial_layout"] = kwargs.get("initial_layout")
+        return real_transpile(circuit, **kwargs)
+
+    monkeypatch.setattr(qiskit_module, "transpile", spy_transpile)
+    hb.run_batch(_circuits(1), shots=1000)
+    assert seen["initial_layout"] == [10, 20, 30]
+
+
+def test_qpy_dir_saves_transpiled_circuits_with_recorded_hashes(fake, tmp_path):
+    qpy_dir = tmp_path / "qpy"
+    hb, _, path = fake(max_jobs=1)
+    hb.qpy_dir = str(qpy_dir)
+    hb.label = "batch1"
+    hb.run_batch(_circuits(2), shots=1000, labels=["x", "y"])
+    job = json.loads(path.read_text())["jobs"][0]
+    assert len(job["qpy_files"]) == 2
+    for entry, label in zip(job["qpy_files"], ["x", "y"]):
+        assert entry["label"] == label
+        saved = __import__("pathlib").Path(entry["path"])
+        assert saved.exists()
+        import hashlib
+        assert hashlib.sha256(saved.read_bytes()).hexdigest() == entry["sha256"]
+
+
 def test_batch_dry_run_reports_each_circuit_and_submits_nothing(monkeypatch):
     monkeypatch.delenv("IBM_QUANTUM_TOKEN", raising=False)
     hb = HardwareBackend(dry_run=True)

@@ -247,6 +247,8 @@ class HardwareBackend(Backend):
         seed_transpiler: int = 42,
         dd_sequence: str = "XpXm",
         dd_enabled: bool = True,
+        initial_layout: list[int] | None = None,
+        qpy_dir: str | None = None,
     ):
         self.backend_name = backend_name
         self.dry_run = dry_run
@@ -257,6 +259,8 @@ class HardwareBackend(Backend):
         self.seed_transpiler = seed_transpiler
         self.dd_sequence = dd_sequence
         self.dd_enabled = dd_enabled
+        self.initial_layout = initial_layout  # pin transpilation to these physical qubits, if given
+        self.qpy_dir = qpy_dir  # directory to save each submitted job's transpiled circuits (QPY), if given
         self.label = ""  # campaign label (e.g. "r=2 (repeat)"), recorded with each job
         self.last_report: dict | None = None
 
@@ -287,11 +291,15 @@ class HardwareBackend(Backend):
     def _transpile(self, circuit: QuantumCircuit, backend) -> QuantumCircuit:
         from qiskit import transpile
 
+        kwargs = {}
+        if self.initial_layout is not None:
+            kwargs["initial_layout"] = self.initial_layout
         return transpile(
             circuit,
             backend=backend,
             optimization_level=self.optimization_level,
             seed_transpiler=self.seed_transpiler,
+            **kwargs,
         )
 
     @staticmethod
@@ -360,6 +368,31 @@ class HardwareBackend(Backend):
             except Exception:
                 return None
 
+    def _save_qpy(self, transpiled: list[QuantumCircuit], labels: list[str] | None) -> list[dict]:
+        """Save each transpiled circuit to QPY under self.qpy_dir, named by this batch's label.
+
+        Called BEFORE the job is submitted, so the exact submitted circuits (not just a depth/
+        gate-count summary) are saved and hashed no matter what happens to the submission.
+        Returns one {"path", "label", "sha256"} entry per circuit, for the manifest."""
+        import hashlib
+        import os as _os
+        import time
+
+        import qiskit.qpy as qpy
+
+        _os.makedirs(self.qpy_dir, exist_ok=True)
+        label_list = list(labels) if labels is not None else [self.label] * len(transpiled)
+        stamp = int(time.time() * 1000)
+        out = []
+        for i, (tq, lab) in enumerate(zip(transpiled, label_list)):
+            path = os.path.join(self.qpy_dir, f"{self.label}_{stamp}_{i}_{lab}.qpy")
+            with open(path, "wb") as f:
+                qpy.dump(tq, f)
+            with open(path, "rb") as f:
+                digest = hashlib.sha256(f.read()).hexdigest()
+            out.append({"path": path, "label": lab, "sha256": digest})
+        return out
+
     def run(self, circuit: QuantumCircuit, shots: int) -> ExecutionResult:
         return self.run_batch([circuit], shots)[0]
 
@@ -397,6 +430,8 @@ class HardwareBackend(Backend):
             self.last_report = {"target": target_label, "submitted": False, **reports[0], "circuits": reports}
             return [ExecutionResult(counts={}, shots=0, backend_name=f"{self.backend_name}:dry-run") for _ in circuits]
 
+        qpy_saved = self._save_qpy(transpiled, labels) if self.qpy_dir is not None else None
+
         manifest = self._load_manifest()
         job_cap = int(manifest.get("max_jobs", self.max_jobs))
         required_shots = int(manifest.get("shots", LEGACY_SHOTS))
@@ -428,6 +463,8 @@ class HardwareBackend(Backend):
             "calibration_timestamp": self._calibration_timestamp(backend),
             "circuits_info": [self._circuit_info(tq) for tq in transpiled],
         }
+        if qpy_saved is not None:
+            entry["qpy_files"] = qpy_saved
         manifest["jobs"] = manifest.get("jobs", []) + [entry]
         self._save_manifest(manifest)  # record the job id before waiting on it
 

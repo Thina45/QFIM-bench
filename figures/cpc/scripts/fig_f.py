@@ -1,7 +1,8 @@
 """Fig. F: day-to-day drift at r=2 (the operating point) per n, comparing the 2026-10-08 sitting
-(ladder_v2/v2b) against Run 1 (ibm_marrakesh, same-day-type replication). Error bars are 95% t-CIs
-(4 d.f., 5 repeats per sitting). Reads results/hardware/ladder_v2/analysis.json,
-results/hardware/ladder_v2b/analysis.json, results/cpc_revision/cpc_runs_analysis.json.
+(ladder_v2/v2b), Run 1 and Run 3 (both ibm_marrakesh, same-day-type replication, Run 3 >=12h after
+Run 1). Error bars are 95% t-CIs (4 d.f. for 5-repeat sittings, 2 d.f. for Run 3's 3 repeats).
+Reads results/hardware/ladder_v2/analysis.json, results/hardware/ladder_v2b/analysis.json,
+results/cpc_revision/cpc_runs_analysis.json.
 
     python figures/cpc/scripts/fig_f.py
 """
@@ -29,19 +30,22 @@ def main():
 
     fig, ax = plt.subplots(figsize=(90 / 25.4, 65 / 25.4))
     xs = [0, 1, 2]
-    sittings = ["2026-10-08", "Run 1 (same session type)"]
-    colors = {"2026-10-08": "#0072B2", "Run 1 (same session type)": "#D55E00"}
-    for j, sitting in enumerate(sittings):
+    sittings = ["2026-10-08", "Run 1 (same session type)", "Run 3 (>=12h after Run 1)"]
+    colors = {"2026-10-08": "#0072B2", "Run 1 (same session type)": "#D55E00",
+              "Run 3 (>=12h after Run 1)": "#009E73"}
+    campaign_for = {"Run 1 (same session type)": "cpc_run1", "Run 3 (>=12h after Run 1)": "cpc_run3"}
+    offsets = {s: (i - 1) * 0.12 for i, s in enumerate(sittings)}
+    for sitting in sittings:
         means, los, his = [], [], []
         for n, (cid, tier) in R_OPT.items():
             if sitting == "2026-10-08":
                 r = oct8[cid]
             else:
-                r = new["cpc_run1"][tier][cid]
+                r = new[campaign_for[sitting]][tier][cid]
             means.append(r["mean"])
             los.append(r["mean"] - r["t_ci95"][0])
             his.append(r["t_ci95"][1] - r["mean"])
-        ax.errorbar([x + (j - 0.5) * 0.12 for x in xs], means, yerr=[los, his], fmt="o",
+        ax.errorbar([x + offsets[sitting] for x in xs], means, yerr=[los, his], fmt="o",
                     label=sitting, color=colors[sitting], capsize=2, markersize=4)
     ax.set_xticks(xs)
     ax.set_xticklabels(["n=3 (r=2)", "n=4 (r=1)", "n=5 (r=1)"])

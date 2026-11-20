@@ -33,7 +33,7 @@ def marked_keys(cid: str) -> set:
     raise ValueError(cid)
 
 
-def load_runs(out_dir: Path, tier_prefix: str, n_runs: int = 5) -> list[dict]:
+def load_runs(out_dir: Path, tier_prefix: str, n_runs: int) -> list[dict]:
     return [json.loads((out_dir / f"{tier_prefix}_run{i}.json").read_text(encoding="utf-8")) for i in range(1, n_runs + 1)]
 
 
@@ -48,7 +48,9 @@ def cell_stats(runs: list[dict], cid: str) -> dict:
         info = next(i for i, lbl in zip(run["job"]["circuits_info"], run["job"]["labels"]) if lbl == cid)
         gates.append(info["two_qubit_gates"])
     mean, sd = float(np.mean(vals)), float(np.std(vals, ddof=1))
-    half = T975_DF4 * sd / math.sqrt(len(vals))
+    df = len(vals) - 1
+    t975 = T975_DF4 if df == 4 else float(__import__("scipy.stats", fromlist=["t"]).t.ppf(0.975, df))
+    half = t975 * sd / math.sqrt(len(vals))
     return {"id": cid, "daily": vals, "mean": mean, "sd": sd, "t_ci95": [mean - half, mean + half],
             "two_qubit_gates": float(np.mean(gates)), "n_runs": len(vals)}
 
@@ -61,11 +63,14 @@ def main() -> None:
     }
 
     results = {}
-    for campaign, tiers in [("cpc_run1", ["A", "B", "C"]), ("cpc_run2", ["B"]), ("cpc_run4", ["A", "B", "C"])]:
+    for campaign, tiers, n_runs in [("cpc_run1", ["A", "B", "C"], 5), ("cpc_run2", ["B"], 5),
+                                     ("cpc_run4", ["A", "B", "C"], 5), ("cpc_run3", ["A", "B", "C"], 3)]:
         out_dir = ROOT / "results" / "hardware" / campaign
+        if not out_dir.exists():
+            continue
         results[campaign] = {}
         for tier in tiers:
-            runs = load_runs(out_dir, tier)
+            runs = load_runs(out_dir, tier, n_runs)
             results[campaign][tier] = {cid: cell_stats(runs, cid) for cid in cells_by_tier[tier]}
 
     (ROOT / "results" / "cpc_revision" / "cpc_runs_analysis.json").write_text(

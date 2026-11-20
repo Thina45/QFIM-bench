@@ -1,0 +1,224 @@
+{
+  "label": "A_run2",
+  "job": {
+    "label": "A_run2",
+    "labels": [
+      "readout_n3_ones",
+      "ladder_n3_M1_r2",
+      "readout_n3_zeros",
+      "ladder_n3_M1_r3",
+      "ladder_n3_M1_r1",
+      "ladder_n3_M1_r4",
+      "echo_n3_M1_r2",
+      "ladder_n3_M1_r0"
+    ],
+    "job_id": "dc04ests2omc7388nvag",
+    "target": "ibm_marrakesh (live calibration)",
+    "n_circuits": 8,
+    "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+    "circuits_info": [
+      {
+        "depth": 2,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 136,
+        "two_qubit_gates": 45,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 1,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 211,
+        "two_qubit_gates": 67,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 68,
+        "two_qubit_gates": 25,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 282,
+        "two_qubit_gates": 78,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 286,
+        "two_qubit_gates": 78,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      },
+      {
+        "depth": 4,
+        "two_qubit_gates": 0,
+        "physical_qubits": [
+          53,
+          54,
+          55
+        ]
+      }
+    ],
+    "qpy_files": [
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_0_readout_n3_ones.qpy",
+        "label": "readout_n3_ones",
+        "sha256": "74f5769447a6eb073155d8744f0ffa7be32d8e4311755d78c7ec8143a09942bc"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_1_ladder_n3_M1_r2.qpy",
+        "label": "ladder_n3_M1_r2",
+        "sha256": "d70e3948e21ca1e48035ca6c3fd12c2ee3f92040df45a4451c9dda15084b3f03"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_2_readout_n3_zeros.qpy",
+        "label": "readout_n3_zeros",
+        "sha256": "766a39133b5abcdbdfb5fcc608645f567b2af426914e1c82e7844dcbba4d598d"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_3_ladder_n3_M1_r3.qpy",
+        "label": "ladder_n3_M1_r3",
+        "sha256": "733dec7bc7196c1941c5a94a5710f049c3665c3d55d6949f8a4ce87b53b1edbe"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_4_ladder_n3_M1_r1.qpy",
+        "label": "ladder_n3_M1_r1",
+        "sha256": "c9b2a580566c72d4614f23438c490c5572b91df5c89653f4115e8a5ee669f9e3"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_5_ladder_n3_M1_r4.qpy",
+        "label": "ladder_n3_M1_r4",
+        "sha256": "a034f4720c948642acd8f9b4832dd73420b361be169fae05a92720bc825d1683"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_6_echo_n3_M1_r2.qpy",
+        "label": "echo_n3_M1_r2",
+        "sha256": "c54810fc4c348ba1984f449e8f8228faecb395d218eff5fdccece2979f89b897"
+      },
+      {
+        "path": "V:\\D\\Quantum programs\\Quantum Apriori Algorithm\\qfim-bench\\campaigns\\cpc_run3\\qpy\\A_run2_1795180402366_7_ladder_n3_M1_r0.qpy",
+        "label": "ladder_n3_M1_r0",
+        "sha256": "01a76a581370133ae7e845ccbb2c2cd4d51ae6e243abc743dadff0d53ee75c93"
+      }
+    ],
+    "usage_seconds": 20.0
+  },
+  "order": [
+    "readout_n3_ones",
+    "ladder_n3_M1_r2",
+    "readout_n3_zeros",
+    "ladder_n3_M1_r3",
+    "ladder_n3_M1_r1",
+    "ladder_n3_M1_r4",
+    "echo_n3_M1_r2",
+    "ladder_n3_M1_r0"
+  ],
+  "counts": {
+    "readout_n3_ones": {
+      "111": 7950,
+      "101": 60,
+      "011": 74,
+      "010": 4,
+      "110": 103,
+      "100": 1
+    },
+    "ladder_n3_M1_r2": {
+      "011": 6643,
+      "110": 184,
+      "000": 233,
+      "101": 195,
+      "001": 290,
+      "111": 194,
+      "100": 171,
+      "010": 282
+    },
+    "readout_n3_zeros": {
+      "000": 8109,
+      "001": 22,
+      "010": 32,
+      "100": 28,
+      "011": 1
+    },
+    "ladder_n3_M1_r3": {
+      "011": 2307,
+      "001": 873,
+      "110": 778,
+      "111": 778,
+      "000": 895,
+      "010": 966,
+      "101": 793,
+      "100": 802
+    },
+    "ladder_n3_M1_r1": {
+      "011": 5534,
+      "100": 266,
+      "110": 418,
+      "111": 397,
+      "101": 394,
+      "010": 444,
+      "001": 414,
+      "000": 325
+    },
+    "ladder_n3_M1_r4": {
+      "111": 1174,
+      "001": 1251,
+      "100": 1007,
+      "010": 1051,
+      "000": 1016,
+      "110": 1016,
+      "101": 1165,
+      "011": 512
+    },
+    "echo_n3_M1_r2": {
+      "000": 6395,
+      "111": 223,
+      "010": 256,
+      "100": 276,
+      "001": 293,
+      "110": 266,
+      "011": 254,
+      "101": 229
+    },
+    "ladder_n3_M1_r0": {
+      "101": 973,
+      "110": 1043,
+      "100": 1021,
+      "000": 1049,
+      "001": 969,
+      "010": 1042,
+      "111": 997,
+      "011": 1098
+    }
+  }
+}

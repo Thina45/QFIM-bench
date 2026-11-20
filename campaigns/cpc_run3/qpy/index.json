@@ -1,0 +1,98 @@
+{
+  "A_ladder_n3_M1_r0": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_ladder_n3_M1_r0.qpy",
+    "sha256": "3914b546f883c9ebf68a8e1bc480e2cea35ed907f740ffbe5e6d4991854f1ab1"
+  },
+  "A_ladder_n3_M1_r1": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_ladder_n3_M1_r1.qpy",
+    "sha256": "6534b894913654d4e93f5555a99b709da6ddd81240d6fcfc7b131f99c05e2355"
+  },
+  "A_ladder_n3_M1_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_ladder_n3_M1_r2.qpy",
+    "sha256": "c99e28d771d5b02c1a3d21dfc1232ec33de7b2cdf0c232882ac1c13c3a94df7a"
+  },
+  "A_ladder_n3_M1_r3": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_ladder_n3_M1_r3.qpy",
+    "sha256": "1bff14f325869f78796559e3e1ea0eb8ecb58c0035a693f6dd0e17c99fe33fe1"
+  },
+  "A_ladder_n3_M1_r4": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_ladder_n3_M1_r4.qpy",
+    "sha256": "95a4f1ddc2bc8e4160054fdc77d01cbb18cfd2848cac253844308216c77b8a2e"
+  },
+  "A_echo_n3_M1_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_echo_n3_M1_r2.qpy",
+    "sha256": "7dbf50a7680170bda37b808e5ee3bd6e1d81c10187f2bc5c77ab2e10ff747049"
+  },
+  "A_readout_n3_zeros": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_readout_n3_zeros.qpy",
+    "sha256": "2307cdfdf82f640622484414f73016a0f4ec76e0cf1088e054dca6351a6c9652"
+  },
+  "A_readout_n3_ones": {
+    "path": "campaigns\\cpc_run3\\qpy\\A_readout_n3_ones.qpy",
+    "sha256": "ded436eff55ff4d0eb2e2d89fafb1d1d45996f5ca2a157e74408102bd1f3cf07"
+  },
+  "B_ladder_n4_M2_r0": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_ladder_n4_M2_r0.qpy",
+    "sha256": "bdfc6eca0d358f464aa54c7179c5a002eab218d36994f6e85aa5d573428ab3f9"
+  },
+  "B_ladder_n4_M2_r1": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_ladder_n4_M2_r1.qpy",
+    "sha256": "f19633c52a56203500f086bd5760006a62129fb537b2f28c8924b87c92cee256"
+  },
+  "B_ladder_n4_M2_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_ladder_n4_M2_r2.qpy",
+    "sha256": "c9146958e6b3bd25727be9e598d5a97ea3156302770e3c6064f73f923c422885"
+  },
+  "B_ladder_n4_M2_r3": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_ladder_n4_M2_r3.qpy",
+    "sha256": "c2c11f9492d5df99e28912aa13c5bda0df7bc470468866efe52c3395040789af"
+  },
+  "B_ladder_n4_M2_r4": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_ladder_n4_M2_r4.qpy",
+    "sha256": "8fd8dafed477278917632e66dc7a2e3fdef5990afeb9b0892cbb2a983c0f84e7"
+  },
+  "B_echo_n4_M2_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_echo_n4_M2_r2.qpy",
+    "sha256": "d69d3f6b1c40e78f32a8e23ffedd7bde5f16203b9031688200787db24a6c4abd"
+  },
+  "B_readout_n4_zeros": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_readout_n4_zeros.qpy",
+    "sha256": "c1e16c41ba3e9d499e5d240f594e821fa92c3f6eb04a284cbf15ce8f3b172edc"
+  },
+  "B_readout_n4_ones": {
+    "path": "campaigns\\cpc_run3\\qpy\\B_readout_n4_ones.qpy",
+    "sha256": "66a33d09256196600d472c686429dd5448a723aef91b65c47649bd4880c71040"
+  },
+  "C_ladder_n5_M4_r0": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_ladder_n5_M4_r0.qpy",
+    "sha256": "7b3b58a98bf18618d999e365e6d7397d4833f4f79d4d6cfcfe08ddcb404a7276"
+  },
+  "C_ladder_n5_M4_r1": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_ladder_n5_M4_r1.qpy",
+    "sha256": "eeca9cf569d73b09b4afe9ecb5920616e4d7077d228cad04976931dd6f53af2d"
+  },
+  "C_ladder_n5_M4_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_ladder_n5_M4_r2.qpy",
+    "sha256": "574e0b45c2088021ae4e9b411d790fff93ce6db2df69c0dc874e1c9aca1ffefd"
+  },
+  "C_ladder_n5_M4_r3": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_ladder_n5_M4_r3.qpy",
+    "sha256": "8e0101f32bb0ea9486d38f084b99dce5096ba01886cf8362e8a81d437243f059"
+  },
+  "C_ladder_n5_M4_r4": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_ladder_n5_M4_r4.qpy",
+    "sha256": "4d095803d01d55783d7718eb60b210d7470d3153b149cd6c6c14d2a5a31c4682"
+  },
+  "C_echo_n5_M4_r2": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_echo_n5_M4_r2.qpy",
+    "sha256": "7281fac86d743ef3dd7d02c4ae1cb304069986b6049e49e9614b7153317b6aba"
+  },
+  "C_readout_n5_zeros": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_readout_n5_zeros.qpy",
+    "sha256": "0b7883c1a4eb2e1d43ae794e3aad98f3596cd0dddb2e4f0a214c42bd0da4d816"
+  },
+  "C_readout_n5_ones": {
+    "path": "campaigns\\cpc_run3\\qpy\\C_readout_n5_ones.qpy",
+    "sha256": "c9351065a02903881a810813bd47da41c0928a11f465499958705826f0c2a71a"
+  }
+}
