@@ -19,18 +19,23 @@ found and fixed this round (REPORT.md section 2) — three (tier, r=0) cells cha
 `results/cpc_revision/phase1a_classical_baseline.csv`.
 
 ## Fig. C — Success probability vs. two-qubit gate count, with the depolarizing fit
-Measured success probability vs. the transpiled two-qubit gate count, per ladder size, with the
-fitted depolarizing curve `p(g) = f^g p_ideal + (1-f^g) p_noise` overlaid (binomial MLE, Oct-8
-data). EXPLORATORY echo-circuit fidelity shown alongside (triangles). The annotated global-fit CI
-is inflated by √(reduced χ²) (reduced χ² = 96, far above 1 — this is a phenomenological fit that
-captures the trend and the peak-r location, not an exact description of the data within shot
-noise; see REPORT.md section 4). Source: `results/cpc_revision/phase1b_global_fit.json`,
-`phase1c_echo_vs_grover_fit.csv`.
+Oct-8 data, two panels. **(a)** Measured success probability vs. the transpiled two-qubit gate
+count (log x-axis), per ladder size, with the fitted depolarizing curve
+`p(g) = f^g p_ideal + (1-f^g) p_noise` overlaid (binomial MLE). **(b)** per-size Grover-fit f vs.
+the EXPLORATORY echo-derived f, both with 95% CIs inflated by √(reduced χ²) (reduced χ² = 55-108
+per size, 96 global, all far above 1 — this is a phenomenological fit that captures the trend and
+the peak-r location, not an exact description of the data within shot noise; see REPORT.md section
+4). Global fit (not plotted per-panel; quote in text): f = 0.99443, inflated CI [0.99387, 0.99511].
+Source: `results/cpc_revision/phase1b_global_fit.json`, `phase1c_echo_vs_grover_fit.csv`.
 
-## Fig. D — Distributional distance to ideal and to the noisy simulator
-Total variation distance and Hellinger distance between the measured hardware distribution and (i)
-the ideal distribution and (ii) the generic FakeMarrakesh noisy-simulator distribution, per (n, r).
-Source: `results/cpc_revision/phase1d_distances.csv`.
+## Fig. D — Distributional distance to three references
+Total variation distance **(a)** and Hellinger distance **(b)** between the measured hardware
+distribution and three references, per (n, r): ideal (solid), the generic FakeMarrakesh noisy
+simulator (dashed), and the calibration-day digital twin from Phase 1E (dotted; qiskit-aer
+`NoiseModel.from_backend_properties` at the exact Oct-8 calibration snapshot, gate + readout error
+only — no thermal relaxation term, since this device's `BackendProperties` has no `frequency`
+field). Colour encodes problem size n; linestyle encodes the reference, in one shared legend above
+both panels. Source: `results/cpc_revision/phase1d_distances.csv`, `phase1e_digital_twin.json`.
 
 ## Fig. E — Diffusion-operator pitfall (simulated, EXPLORATORY)
 SIMULATED (statevector, 30 seeds), not measured on hardware: success probability vs. r for matched
@@ -43,12 +48,12 @@ diffusion operator collapses performance regardless of r. Source:
 Measured success probability at r=2 (the H1 hypothesis's defined comparison point), for all three
 ladder sizes, across three sittings: 2026-10-08, Run 1 (2026-11-19), Run 3 (2026-11-20, ≥12h after
 Run 1). Error bars are 95% t-intervals (4 d.f. for the 5-repeat sittings, 2 d.f. for Run 3's 3
-repeats). **n=3 points are drawn hollow**: Run 3's n=3 circuit has 45 two-qubit gates vs. Run 1's
-39 (circuits re-transpiled for Run 3 pin the physical-qubit layout, not the exact gate sequence,
-since Run 1's transpiled circuits were not saved — REPORT.md section 13); this gate-count change
-alone predicts a larger success-probability drop than observed, so the n=3 point is not clean
-evidence of drift. n=4 is gate-matched (113=113 two-qubit gates) and is the cleanest drift evidence
-in this figure. Source: `results/hardware/ladder_v2(/b)/analysis.json`,
+repeats). **n=3 points are drawn hollow** (legend: "hollow marker = two-qubit gate count differs,
+Run 1: 39, Run 3: 45"): circuits re-transpiled for Run 3 pin the physical-qubit layout, not the
+exact gate sequence, since Run 1's transpiled circuits were not saved (REPORT.md section 13); this
+gate-count change alone predicts a larger success-probability drop than observed, so the n=3 point
+is not clean evidence of drift. n=4 is gate-matched (113=113 two-qubit gates) and is the cleanest
+drift evidence in this figure. Source: `results/hardware/ladder_v2(/b)/analysis.json`,
 `results/cpc_revision/cpc_runs_analysis.json`.
 
 ## Fig. G — Dynamical decoupling on vs. off, n=4
@@ -57,19 +62,21 @@ Measured success probability vs. r, DD on (Run 1 Tier B) vs. DD off (Run 2), n=4
 opposite direction (DD off outperforms DD on). Error bars are 95% t-intervals (4 d.f., 5 repeats).
 Source: `results/cpc_revision/cpc_runs_analysis.json`.
 
-## Fig. H — Transpiled circuit diagram (n=3, r=1)
-The transpiled `ladder_n3_M1_r1` circuit (optimization_level=3, seed_transpiler=42), drawn against
-FakeMarrakesh — confirmed identical in coupling-map topology to the live `ibm_marrakesh` backend at
-the time of a one-off read-only check (352 edges, same edge set). Illustrative, not a measured
-result.
+## Fig. H — Logical Grover circuit diagram (n=3, M=1, r=1)
+The LOGICAL circuit (state preparation, oracle, diffusion, labelled boxes with barriers between
+stages, then measurement) for the `ladder_n3_M1_r1` cell — built from the same
+`build_start_preparation` / `build_oracle_variant("mcz")` / `build_diffusion` functions the
+campaigns actually use, so the diagram matches the real construction exactly. Illustrative of
+circuit structure only; not a transpiled or measured result (no physical layout, gate counts, or
+hardware-specific detail shown here — see Fig. C/section 9c for transpiled gate counts).
 
 ## Fig. I — Fitted effective fidelity vs. calibrated two-qubit error
-Two panels, one point per device/session (ibm_marrakesh 2026-10-08, ibm_marrakesh Run 1
-2026-11-19, ibm_kingston Run 4 2026-11-19). **(a)** the fitted global depolarizing f (inflated CI,
-§ Fig. C) vs. the median two-qubit gate error at submission-time calibration, restricted to the
-physical-qubit pairs the ladder circuits actually used. **(b)** the effective error ratio
-(1 − f) / median two-qubit error, with the inflated-f CI propagated: approximately 3x at all three
-points (2.7-3.4x). Reported as an observation from 3 points, not a general law. Source:
-`results/cpc_revision/numbers_for_manuscript.json` → `"effective_error_ratio"`,
-`phase1b_global_fit.json`, `cpc_run1_fit.json`, `cpc_run4_fit.json`,
+Two panels, one point per device/session: "Marrakesh 10-08" (ibm_marrakesh, 2026-10-08),
+"Marrakesh 11-19" (ibm_marrakesh, Run 1), "Kingston 11-19" (ibm_kingston, Run 4). **(a)** the
+fitted global depolarizing f (inflated CI, § Fig. C) vs. the median two-qubit gate error at
+submission-time calibration, restricted to the physical-qubit pairs the ladder circuits actually
+used. **(b)** the effective error ratio (1 − f) / median two-qubit error, with the inflated-f CI
+propagated: approximately 3x at all three points (2.7-3.4x). Reported as an observation from 3
+points, not a general law. Source: `results/cpc_revision/numbers_for_manuscript.json` →
+`"effective_error_ratio"`, `phase1b_global_fit.json`, `cpc_run1_fit.json`, `cpc_run4_fit.json`,
 `run1_run4_median_2q_error.json`.

@@ -44,7 +44,8 @@ def main():
         ("ibm_kingston, Run 4 (2026-11-19)", run4_err, run4_fit["f"], inflated_ci(run4_fit)),
     ]
 
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(160 / 25.4, 60 / 25.4))
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(190 / 25.4, 65 / 25.4),
+                                   gridspec_kw={"wspace": 0.35})
     colors = ["#0072B2", "#D55E00", "#009E73"]
     for (label, err, f, f_ci), c in zip(points, colors):
         yerr = [[f - f_ci[0]], [f_ci[1] - f]]
@@ -53,21 +54,22 @@ def main():
     ax.set_xlabel("median two-qubit gate error ($\\times 10^{-3}$), used-qubit pairs only")
     ax.set_ylabel("fitted global depolarizing $f$")
     ax.legend(fontsize=6, loc="lower left")
-    ax.set_title("(a) fit vs. calibrated error", fontsize=8)
+    ax.set_title("(a)")
 
+    short_label = {"ibm_marrakesh, 2026-10-08": "Marrakesh 10-08",
+                   "ibm_marrakesh, Run 1 (2026-11-19)": "Marrakesh 11-19",
+                   "ibm_kingston, Run 4 (2026-11-19)": "Kingston 11-19"}
     ratios = []
     for (label, err, f, f_ci), c in zip(points, colors):
         r = (1 - f) / err
         r_lo, r_hi = (1 - f_ci[1]) / err, (1 - f_ci[0]) / err
         ratios.append((label, r, r_lo, r_hi, c))
-        ax2.errorbar([label], [r], yerr=[[r - r_lo], [r_hi - r]], fmt="o", color=c, capsize=3)
+        ax2.errorbar([short_label[label]], [r], yerr=[[r - r_lo], [r_hi - r]], fmt="o", color=c, capsize=3)
     ax2.set_ylabel("effective error ratio $(1-f)\\,/\\,$median two-qubit error")
     ax2.set_xticks(range(len(points)))
-    ax2.set_xticklabels([p[0] for p in points], rotation=20, ha="right", fontsize=6)
-    ax2.set_title("(b) effective vs. calibrated error ratio (n=3 points; observation, not a law)", fontsize=8)
+    ax2.set_xticklabels([short_label[p[0]] for p in points], fontsize=7)
+    ax2.set_title("(b)")
 
-    fig.tight_layout()
-    fig.subplots_adjust(wspace=0.45, top=0.85)
     fig.savefig(FIG / "fig_i.pdf", bbox_inches="tight")
     fig.savefig(FIG / "fig_i.png", dpi=300, bbox_inches="tight")
     print("saved fig_i.{pdf,png}")

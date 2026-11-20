@@ -34,7 +34,7 @@ def main():
     oct8 = oct8_rows()
     new = json.load(open(ROOT / "results/cpc_revision/cpc_runs_analysis.json"))
 
-    fig, ax = plt.subplots(figsize=(90 / 25.4, 65 / 25.4))
+    fig, ax = plt.subplots(figsize=(90 / 25.4, 68 / 25.4))
     xs = [0, 1, 2]
     sittings = ["2026-10-08", "2026-11-19 (Run 1)", "2026-11-20 (Run 3)"]
     colors = {"2026-10-08": "#0072B2", "2026-11-19 (Run 1)": "#D55E00",
@@ -58,17 +58,20 @@ def main():
         for x, m, h in zip(x_pos, means, hollow):
             ax.scatter([x], [m], marker="o", s=22,
                        facecolor="none" if h else colors[sitting],
-                       edgecolor=colors[sitting], linewidth=1.2, zorder=2,
-                       label=sitting if x == x_pos[0] else None)
+                       edgecolor=colors[sitting], linewidth=1.2, zorder=2)
     ax.set_xticks(xs)
     ax.set_xticklabels(["n=3", "n=4", "n=5"])
+    ax.set_xlim(-0.4, 2.4)
     ax.set_ylabel("Success probability (r=2)")
-    ax.legend(frameon=False, fontsize=7, loc="upper right")
-    fig.text(0.01, 0.01,
-              "Hollow markers (n=3): two-qubit gate count differs between Run 1 (39) and Run 3 "
-              "(45) -- this point is gate-count-confounded, see REPORT.md section 13.",
-              fontsize=5.5, va="bottom")
-    fig.tight_layout(rect=(0, 0.05, 1, 1))
+
+    import matplotlib.lines as mlines
+    date_handles = [mlines.Line2D([], [], marker="o", linestyle="none", color=colors[s], label=s)
+                    for s in sittings]
+    hollow_handle = mlines.Line2D([], [], marker="o", linestyle="none", markerfacecolor="none",
+                                   markeredgecolor="0.3", label="hollow marker = two-qubit gate "
+                                   "count differs (Run 1: 39, Run 3: 45)")
+    fig.legend(handles=date_handles + [hollow_handle], loc="outside upper center", ncol=2,
+               fontsize=6, frameon=False)
     fig.savefig(FIG / "fig_f.pdf")
     fig.savefig(FIG / "fig_f.png", dpi=300)
     print("wrote", FIG / "fig_f.pdf", "and .png")

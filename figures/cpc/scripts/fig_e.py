@@ -45,10 +45,11 @@ def main():
         box.set_alpha(0.6)
 
     ax.set_xticks(rs)
+    ax.set_xticklabels([str(r) for r in rs])
     ax.set_xlabel("Grover iterations r")
     ax.set_ylabel(f"success probability (M={M_SHOWN}, 30 seeds)")
-    ax.legend([bp_m["boxes"][0], bp_h["boxes"][0]], ["diffusion matched to start", "Hadamard diffusion (pitfall)"],
-              loc="upper right")
+    fig.legend([bp_m["boxes"][0], bp_h["boxes"][0]], ["diffusion matched to start", "Hadamard diffusion (pitfall)"],
+               loc="outside upper center", ncol=2, fontsize=7)
 
     fig.savefig(FIG / "fig_e.pdf")
     fig.savefig(FIG / "fig_e.png")

@@ -4,12 +4,14 @@
 
 font.family: serif
 font.serif: Times New Roman, Nimbus Roman, DejaVu Serif, serif
+mathtext.fontset: stix
 font.size: 8.5
-axes.titlesize: 0
+axes.titlesize: 9
 axes.labelsize: 9
 xtick.labelsize: 8
 ytick.labelsize: 8
 legend.fontsize: 7.5
+figure.constrained_layout.use: True
 
 axes.prop_cycle: cycler('color', ['0072B2', 'D55E00', '009E73', 'CC79A7', 'E69F00', '56B4E9', '000000'])
 

@@ -1,10 +1,9 @@
-"""Fig. H: transpiled Grover circuit, n=3, r=1 (the ladder_n3_M1_r1 circuit), drawn with Qiskit's
-mpl drawer. Transpiled against FakeMarrakesh (optimization_level=3, seed_transpiler=42, matching the
-campaign's HardwareBackend settings). FakeMarrakesh's coupling map is not an approximation here: a
-read-only query of the live ibm_marrakesh backend (performed once, Phase 0) confirmed its
-coupling_map is identical (352 edges, same edge set) to FakeMarrakesh's -- the topology is a fixed
-hardware property that does not change with calibration, so drawing against FakeMarrakesh gives the
-exact layout, not a stand-in. Writes figures/cpc/fig_h.{pdf,png}.
+"""Fig. H: the LOGICAL Grover circuit for n=3, M=1, r=1 (state preparation, oracle, diffusion as
+labelled boxes, with barriers between stages, and measurement) -- illustrative of the circuit
+structure, not a measured or transpiled result (replaces the earlier transpiled-circuit drawing).
+Reuses qfim_bench.circuit's own building blocks (build_start_preparation, build_oracle_variant,
+build_diffusion) so the diagram matches exactly what the ladder campaigns actually run (uniform
+start, "mcz" oracle style, matched diffusion). Writes figures/cpc/fig_h.{pdf,png}.
 
     python figures/cpc/scripts/fig_h.py
 """
@@ -12,32 +11,38 @@ exact layout, not a stand-in. Writes figures/cpc/fig_h.{pdf,png}.
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-from qiskit import transpile
+from qiskit import QuantumCircuit
 from qiskit.visualization import circuit_drawer
-from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
 
-from qfim_bench.circuit import build_grover_circuit
+from qfim_bench.circuit import build_diffusion, build_oracle_variant, build_start_preparation
 
 ROOT = Path(__file__).resolve().parents[3]
 FIG = ROOT / "figures" / "cpc"
 plt.style.use(str(FIG / "cpc.mplstyle"))
 
+N_ITEMS = 3
+MARKED = [3]  # M=1, matching ladder_n3_M1
+
 
 def main():
-    qc, info = build_grover_circuit(
-        n_items=3, threshold=0, r=1, initial_state="uniform", diffusion="matched",
-        marked_states=[3], oracle_style="mcz", seed=42,
-    )
-    backend = FakeMarrakesh()
-    transpiled = transpile(qc, backend=backend, optimization_level=3, seed_transpiler=42)
+    prep = build_start_preparation(N_ITEMS, kind="uniform")
+    oracle = build_oracle_variant(N_ITEMS, MARKED, style="mcz")
+    diffusion = build_diffusion(N_ITEMS, preparation=prep)
 
-    fig = circuit_drawer(transpiled, output="mpl", style={"fontsize": 7}, fold=40)
-    fig.set_size_inches(90 / 25.4 * 2, 90 / 25.4)
+    qc = QuantumCircuit(N_ITEMS, N_ITEMS)
+    qc.append(prep.to_gate(label="State preparation $A$"), range(N_ITEMS))
+    qc.barrier()
+    qc.append(oracle.to_gate(label="Oracle (mcz)"), range(N_ITEMS))
+    qc.barrier()
+    qc.append(diffusion.to_gate(label="Diffusion"), range(N_ITEMS))
+    qc.barrier()
+    qc.measure(range(N_ITEMS), range(N_ITEMS))
+
+    fig = circuit_drawer(qc, output="mpl", style={"fontsize": 9}, fold=-1)
+    fig.set_size_inches(190 / 25.4, 45 / 25.4)
     fig.savefig(FIG / "fig_h.pdf", bbox_inches="tight")
     fig.savefig(FIG / "fig_h.png", bbox_inches="tight", dpi=300)
     print("wrote", FIG / "fig_h.pdf", "and .png")
-    print(f"depth={transpiled.depth()}, two_qubit_gates="
-          f"{sum(v for k, v in transpiled.count_ops().items() if k in ('cz', 'ecr', 'cx'))}")
 
 
 if __name__ == "__main__":

@@ -49,10 +49,11 @@ def main():
         ax.set_xticks(rs)
         ax.annotate(f"n={n}, M={M}", xy=(0.97, 0.95), xycoords="axes fraction", ha="right", va="top", fontsize=7.5)
     axes[0].set_ylabel("marked-state probability")
-    axes[0].legend(loc="upper left", bbox_to_anchor=(0, 1.35), ncol=4, columnspacing=1.0)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="outside upper center", ncol=4, columnspacing=1.2, fontsize=7.5)
 
     fig.savefig(FIG / "fig_a.pdf")
-    fig.savefig(FIG / "fig_a.png")
+    fig.savefig(FIG / "fig_a.png")  # 300 dpi from savefig.dpi in cpc.mplstyle
     print("wrote", FIG / "fig_a.pdf", "and .png")
 
 
