@@ -1,0 +1,202 @@
+{
+  "rows": [
+    {
+      "n": 4,
+      "steps": 1,
+      "two_qubit_gates": 6,
+      "ideal_return_probability": 0.852294921875,
+      "noisy_return_probability": 0.835693359375,
+      "tvd_ideal_vs_noisy": 0.016845703125,
+      "repeated_run_mean": 0.835693359375,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.835693359375,
+        0.835693359375
+      ]
+    },
+    {
+      "n": 4,
+      "steps": 2,
+      "two_qubit_gates": 12,
+      "ideal_return_probability": 0.55780029296875,
+      "noisy_return_probability": 0.5396728515625,
+      "tvd_ideal_vs_noisy": 0.039794921875,
+      "repeated_run_mean": 0.5396728515625,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.5396728515625,
+        0.5396728515625
+      ]
+    },
+    {
+      "n": 4,
+      "steps": 3,
+      "two_qubit_gates": 18,
+      "ideal_return_probability": 0.34808349609375,
+      "noisy_return_probability": 0.3306884765625,
+      "tvd_ideal_vs_noisy": 0.0318603515625,
+      "repeated_run_mean": 0.3306884765625,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.3306884765625,
+        0.3306884765625
+      ]
+    },
+    {
+      "n": 4,
+      "steps": 4,
+      "two_qubit_gates": 24,
+      "ideal_return_probability": 0.2481689453125,
+      "noisy_return_probability": 0.2364501953125,
+      "tvd_ideal_vs_noisy": 0.0279541015625,
+      "repeated_run_mean": 0.2364501953125,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.2364501953125,
+        0.2364501953125
+      ]
+    },
+    {
+      "n": 5,
+      "steps": 1,
+      "two_qubit_gates": 8,
+      "ideal_return_probability": 0.816802978515625,
+      "noisy_return_probability": 0.7958984375,
+      "tvd_ideal_vs_noisy": 0.0284423828125,
+      "repeated_run_mean": 0.7958984375,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.7958984375,
+        0.7958984375
+      ]
+    },
+    {
+      "n": 5,
+      "steps": 2,
+      "two_qubit_gates": 16,
+      "ideal_return_probability": 0.488739013671875,
+      "noisy_return_probability": 0.461669921875,
+      "tvd_ideal_vs_noisy": 0.03515625,
+      "repeated_run_mean": 0.461669921875,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.461669921875,
+        0.461669921875
+      ]
+    },
+    {
+      "n": 5,
+      "steps": 3,
+      "two_qubit_gates": 24,
+      "ideal_return_probability": 0.277130126953125,
+      "noisy_return_probability": 0.265625,
+      "tvd_ideal_vs_noisy": 0.0394287109375,
+      "repeated_run_mean": 0.265625,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.265625,
+        0.265625
+      ]
+    },
+    {
+      "n": 5,
+      "steps": 4,
+      "two_qubit_gates": 32,
+      "ideal_return_probability": 0.2010498046875,
+      "noisy_return_probability": 0.1839599609375,
+      "tvd_ideal_vs_noisy": 0.044189453125,
+      "repeated_run_mean": 0.1839599609375,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.1839599609375,
+        0.1839599609375
+      ]
+    },
+    {
+      "n": 6,
+      "steps": 1,
+      "two_qubit_gates": 10,
+      "ideal_return_probability": 0.785797119140625,
+      "noisy_return_probability": 0.7569580078125,
+      "tvd_ideal_vs_noisy": 0.0302734375,
+      "repeated_run_mean": 0.7569580078125,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.7569580078125,
+        0.7569580078125
+      ]
+    },
+    {
+      "n": 6,
+      "steps": 2,
+      "two_qubit_gates": 20,
+      "ideal_return_probability": 0.430694580078125,
+      "noisy_return_probability": 0.3995361328125,
+      "tvd_ideal_vs_noisy": 0.0469970703125,
+      "repeated_run_mean": 0.3995361328125,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.3995361328125,
+        0.3995361328125
+      ]
+    },
+    {
+      "n": 6,
+      "steps": 3,
+      "two_qubit_gates": 30,
+      "ideal_return_probability": 0.2266845703125,
+      "noisy_return_probability": 0.21337890625,
+      "tvd_ideal_vs_noisy": 0.0450439453125,
+      "repeated_run_mean": 0.21337890625,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.21337890625,
+        0.21337890625
+      ]
+    },
+    {
+      "n": 6,
+      "steps": 4,
+      "two_qubit_gates": 40,
+      "ideal_return_probability": 0.15887451171875,
+      "noisy_return_probability": 0.147705078125,
+      "tvd_ideal_vs_noisy": 0.0498046875,
+      "repeated_run_mean": 0.147705078125,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.147705078125,
+        0.147705078125
+      ]
+    }
+  ],
+  "fit": {
+    "f": 0.9961218020812803,
+    "f_ci95": [
+      0.9953353988177287,
+      0.9969512706000117
+    ],
+    "p_noise": 0.08627365586832653,
+    "p_noise_ci95": [
+      0.03408828927296197,
+      0.12815435655915594
+    ]
+  },
+  "params": {
+    "J": 1.0,
+    "h": 1.0,
+    "dt": 0.2
+  },
+  "note": "success = P(measure all-zeros), a Loschmidt-echo-style return probability; p_ideal is the noiseless statevector probability of the SAME trotterized circuit (matching the Grover ladder's own p_ideal convention), not the exact continuous-time Hamiltonian evolution"
+}

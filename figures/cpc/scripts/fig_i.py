@@ -35,9 +35,11 @@ def main():
 
     run1_fit = json.loads((CPC / "cpc_run1_fit.json").read_text())["global"]
     run4_fit = json.loads((CPC / "cpc_run4_fit.json").read_text())["global"]
+    run3_fit = json.loads((ROOT / "results" / "cpc_v4" / "cpc_run3_fit.json").read_text())["global"]
     med_err = json.loads((CPC / "run1_run4_median_2q_error.json").read_text())
     run1_err = med_err["run1_by_calibration"]["2026-11-19 14:35:58+05:30"][1]
     run4_err = med_err["run4"][1]
+    run3_err = json.loads((ROOT / "results" / "cpc_v4" / "run3_median_2q_error.json").read_text())["median_two_qubit_error"]
 
     def inflated_ci(fit):
         return fit.get("f_ci95_inflated") or fit.get("f_ci_inflated") or fit.get("f_ci95") or fit["f_ci"]
@@ -45,12 +47,13 @@ def main():
     points = [
         ("ibm_marrakesh, 2026-10-08", oct8_err, oct8_json["f"], inflated_ci(oct8_json)),
         ("ibm_marrakesh, Run 1 (2026-11-19)", run1_err, run1_fit["f"], inflated_ci(run1_fit)),
+        ("ibm_marrakesh, Run 3 (2026-11-20)", run3_err, run3_fit["f"], inflated_ci(run3_fit)),
         ("ibm_kingston, Run 4 (2026-11-19)", run4_err, run4_fit["f"], inflated_ci(run4_fit)),
     ]
 
     fig, (ax, ax2) = plt.subplots(1, 2, figsize=mm2in(190, 68),
                                    gridspec_kw={"wspace": 0.22})
-    colors = ["#0072B2", "#D55E00", "#009E73"]
+    colors = ["#0072B2", "#D55E00", "#CC79A7", "#009E73"]
     for (label, err, f, f_ci), c in zip(points, colors):
         yerr = [[f - f_ci[0]], [f_ci[1] - f]]
         ax.errorbar([err * 1e3], [f], yerr=yerr, fmt="o", color=c, label=label, capsize=3)
@@ -62,6 +65,7 @@ def main():
 
     short_label = {"ibm_marrakesh, 2026-10-08": "Marrakesh 10-08",
                    "ibm_marrakesh, Run 1 (2026-11-19)": "Marrakesh 11-19",
+                   "ibm_marrakesh, Run 3 (2026-11-20)": "Marrakesh 11-20",
                    "ibm_kingston, Run 4 (2026-11-19)": "Kingston 11-19"}
     ratios = []
     for (label, err, f, f_ci), c in zip(points, colors):

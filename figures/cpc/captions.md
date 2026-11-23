@@ -85,17 +85,19 @@ text (previously "1Diffusion" collided on the shortest box). Illustrative of cir
 only; not a transpiled or measured result (no physical layout, gate counts, or hardware-specific
 detail shown here — see Fig. C/section 9c for transpiled gate counts).
 
-## Fig. I — Fitted effective fidelity vs. calibrated two-qubit error (double column, 190mm)
+## Fig. I — Fitted effective fidelity vs. calibrated two-qubit error, 4 sessions (double column, 190mm)
 Two panels, one point per device/session: "Marrakesh 10-08" (ibm_marrakesh, 2026-10-08),
-"Marrakesh 11-19" (ibm_marrakesh, Run 1), "Kingston 11-19" (ibm_kingston, Run 4) — short labels on
-panel (b)'s x-axis, full device/date in panel (a)'s legend. **(a)** the fitted global depolarizing
-f (inflated CI, § Fig. C) vs. the median two-qubit gate error at submission-time calibration,
-restricted to the physical-qubit pairs the ladder circuits actually used. **(b)** the effective
-error ratio (1 − f) / median two-qubit error, with the inflated-f CI propagated: approximately 3x
-at all three points (2.7-3.4x). Reported as an observation from 3 points, not a general law.
-Source: `results/cpc_revision/numbers_for_manuscript.json` → `"effective_error_ratio"`,
-`phase1b_global_fit.json`, `cpc_run1_fit.json`, `cpc_run4_fit.json`,
-`run1_run4_median_2q_error.json`.
+"Marrakesh 11-19" (ibm_marrakesh, Run 1), "Marrakesh 11-20" (ibm_marrakesh, Run 3, added this
+pass), "Kingston 11-19" (ibm_kingston, Run 4) — short labels on panel (b)'s x-axis, full
+device/date in panel (a)'s legend. **(a)** the fitted global depolarizing f (inflated CI, § Fig. C)
+vs. the median two-qubit gate error at submission-time calibration, restricted to the
+physical-qubit pairs the ladder circuits actually used (Run 3's: 9 edges, exact calibration match
+confirmed, `results/cpc_v4/run3_median_2q_error.json`). **(b)** the effective error ratio
+(1 − f) / median two-qubit error, with the inflated-f CI propagated: 2.7-3.8x across all 4 points
+(Run 3 is the highest of the four, 3.80 [3.27, 4.45]). Reported as an observation from 4 points,
+not a general law. Source: `results/cpc_v4/REPORT.md` section 3, `phase1b_global_fit.json`,
+`cpc_run1_fit.json`, `cpc_run4_fit.json`, `results/cpc_v4/cpc_run3_fit.json`,
+`run1_run4_median_2q_error.json`, `results/cpc_v4/run3_median_2q_error.json`.
 
 ## Fig. J — Software architecture (double column, 190mm)
 NOT DATA — a diagram of code structure, drawn with matplotlib boxes/arrows from the real module
@@ -164,8 +166,28 @@ TVD 0.1494 (vs ideal) / 0.0516 (vs FakeMarrakesh), Hellinger 0.1648 / 0.0519; (b
 TVD 0.5143 (vs ideal) / 0.1198 (vs FakeMarrakesh), Hellinger 0.3789 / 0.0932 — hardware is
 markedly closer to FakeMarrakesh than to ideal at n=5, consistent with Fig. D.
 
-## Fig. S1 (supplementary) — Depolarizing-fit residuals vs. r, Oct-8 (single column, 90mm)
-Measured minus fitted success probability (per-size fit, Fig. C), per (n, r), integer r ticks.
-Reduced chi-square per size (far above 1 at every size — see Fig. C / REPORT.md section 4
-goodness-of-fit caveat): n=3 108.4, n=4 83.8, n=5 55.3 (global 96.2).
-Source: `results/cpc_revision/phase1b_residuals.csv`, `phase1b_global_fit.json`.
+## Fig. O — Layer A generality: two non-Grover examples (double column, 190mm)
+SIMULATED only (ibm_marrakesh calibration-snapshot noise model via `NoisySimulatorBackend`; no
+hardware job submitted), item 6 of the CPC v4 pass, demonstrating Layer A's tools
+(`noise_analysis`, `reproducibility`, `fit`) are not Grover-specific. **(a)** `examples/ghz_ladder.py`:
+GHZ state, n=3-6, success = P(all-zeros or all-ones) vs. two-qubit gate count (the n-1 CNOTs),
+with the fitted depolarizing curve (f=0.9923, CI [0.866, 0.993] — wide because the ideal target is
+constant 1.0 at every point, poorly constraining p_noise with only 4 data points). **(b)**
+`examples/tfim_trotter.py`: 1D transverse-field Ising model, first-order Trotterization, n=4-6 x
+1-4 Trotter steps (J=h=1, dt=0.2), return probability P(all-zeros) vs. two-qubit gate count
+(solid = noisy simulation, dashed = ideal statevector of the same trotterized circuit — NOT exact
+continuous-time dynamics). Both use 8192 shots, 5 simulator seeds for the reproducibility check
+(not plotted). Source: `results/cpc_v4/ghz_ladder.json`, `results/cpc_v4/tfim_trotter.json`.
+
+## Fig. S1 (supplementary) — Depolarizing-fit residuals vs. r, Oct-8, two models (single column, 90mm)
+Measured minus fitted success probability, per (n, r), integer r ticks, for BOTH models compared
+in `results/cpc_v4/REPORT.md` item 4: **Model 1** (solid circles; f and p_noise both free —
+reduced chi-square n=3 108.4, n=4 83.8, n=5 55.3, global 96.2) and **Model 2** (dashed triangles;
+f free, p_noise fixed at the theoretical floor M/N, ideal curve scaled by a SPAM factor estimated
+from readout controls — reduced chi-square n=3 ~109 [per-size breakdown not separately tabulated],
+n=4 diverges sharply at r=3-4, global 157.9). Model 1 fits better at every size (lower AIC/BIC,
+`results/cpc_v4/REPORT.md` item 4 table); Model 2's largest residuals are concentrated at n=4,
+high r, visible here as the orange dashed line's excursion to +0.046 at r=3. Both are
+phenomenological (neither reduced chi-square is near 1 — see Fig. C's goodness-of-fit caveat).
+Source: `results/cpc_revision/phase1b_residuals.csv`, `phase1b_global_fit.json`,
+`results/cpc_v4/two_param_spam_fit.json`.

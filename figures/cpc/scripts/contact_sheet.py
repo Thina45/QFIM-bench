@@ -11,7 +11,7 @@ import matplotlib.image as mpimg
 
 FIG = Path(__file__).resolve().parents[1]
 NAMES = ["fig_a", "fig_b", "fig_c", "fig_d", "fig_e", "fig_f", "fig_g", "fig_h", "fig_i",
-         "fig_j", "fig_k", "fig_l", "fig_m", "fig_n", "fig_s1"]
+         "fig_j", "fig_k", "fig_l", "fig_m", "fig_n", "fig_o", "fig_s1"]
 
 
 def main() -> None:

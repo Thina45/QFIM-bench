@@ -1,0 +1,503 @@
+{
+  "Run1": [
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.019995117187499994,
+      "hellinger_hw_vs_digital_twin": 0.016965455488910444,
+      "tvd_hw_vs_generic_fake": 0.012768554687499989,
+      "hellinger_hw_vs_generic_fake": 0.010918481524473275
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.07958984375000001,
+      "hellinger_hw_vs_digital_twin": 0.08188503552977014,
+      "tvd_hw_vs_generic_fake": 0.03315429687499999,
+      "hellinger_hw_vs_generic_fake": 0.03611388150977038
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.08684082031250001,
+      "hellinger_hw_vs_digital_twin": 0.09494433208646343,
+      "tvd_hw_vs_generic_fake": 0.0247802734375,
+      "hellinger_hw_vs_generic_fake": 0.028599585684516187
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.039282226562500015,
+      "hellinger_hw_vs_digital_twin": 0.035215803774690406,
+      "tvd_hw_vs_generic_fake": 0.05307617187499999,
+      "hellinger_hw_vs_generic_fake": 0.03938402388783714
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.026245117187500007,
+      "hellinger_hw_vs_digital_twin": 0.025262963638901445,
+      "tvd_hw_vs_generic_fake": 0.03789062500000002,
+      "hellinger_hw_vs_generic_fake": 0.033307898837423966
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.024853515624999992,
+      "hellinger_hw_vs_digital_twin": 0.02345725038587917,
+      "tvd_hw_vs_generic_fake": 0.017529296874999985,
+      "hellinger_hw_vs_generic_fake": 0.014996443667022583
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.04724121093750001,
+      "hellinger_hw_vs_digital_twin": 0.04050687647157037,
+      "tvd_hw_vs_generic_fake": 0.059497070312500004,
+      "hellinger_hw_vs_generic_fake": 0.04794781854883449
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.10712890625,
+      "hellinger_hw_vs_digital_twin": 0.08572828274776065,
+      "tvd_hw_vs_generic_fake": 0.1247314453125,
+      "hellinger_hw_vs_generic_fake": 0.09689056716176224
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.05776367187500002,
+      "hellinger_hw_vs_digital_twin": 0.05513416008688166,
+      "tvd_hw_vs_generic_fake": 0.05332031250000001,
+      "hellinger_hw_vs_generic_fake": 0.05149733400526681
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 14:35:58+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.05224609375,
+      "hellinger_hw_vs_digital_twin": 0.04539436679531491,
+      "tvd_hw_vs_generic_fake": 0.06533203125,
+      "hellinger_hw_vs_generic_fake": 0.05386249922203512
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 14:48:07+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.021826171875,
+      "hellinger_hw_vs_digital_twin": 0.019976351617565825,
+      "tvd_hw_vs_generic_fake": 0.022045898437499996,
+      "hellinger_hw_vs_generic_fake": 0.020078594628937484
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 14:48:07+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.09794921875,
+      "hellinger_hw_vs_digital_twin": 0.08829012119130793,
+      "tvd_hw_vs_generic_fake": 0.096875,
+      "hellinger_hw_vs_generic_fake": 0.0878857822441474
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 14:48:07+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.061987304687500015,
+      "hellinger_hw_vs_digital_twin": 0.05791480118909396,
+      "tvd_hw_vs_generic_fake": 0.05983886718750001,
+      "hellinger_hw_vs_generic_fake": 0.05419052880197011
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 14:48:07+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.0383056640625,
+      "hellinger_hw_vs_digital_twin": 0.033577026236527405,
+      "tvd_hw_vs_generic_fake": 0.036425781250000004,
+      "hellinger_hw_vs_generic_fake": 0.03149493294775174
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 14:48:07+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.0300537109375,
+      "hellinger_hw_vs_digital_twin": 0.026180606349200285,
+      "tvd_hw_vs_generic_fake": 0.030175781250000006,
+      "hellinger_hw_vs_generic_fake": 0.02520057438880284
+    }
+  ],
+  "Run3": [
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 0,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.012532552083333329,
+      "hellinger_hw_vs_digital_twin": 0.010951886457237554,
+      "tvd_hw_vs_generic_fake": 0.010701497395833329,
+      "hellinger_hw_vs_generic_fake": 0.011707834470002189
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 1,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.026896158854166644,
+      "hellinger_hw_vs_digital_twin": 0.02522382852106946,
+      "tvd_hw_vs_generic_fake": 0.02758789062499998,
+      "hellinger_hw_vs_generic_fake": 0.02502025217123812
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 2,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.014241536458333317,
+      "hellinger_hw_vs_digital_twin": 0.023317416168368417,
+      "tvd_hw_vs_generic_fake": 0.01940917968749998,
+      "hellinger_hw_vs_generic_fake": 0.027994171409128625
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 3,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.02486165364583333,
+      "hellinger_hw_vs_digital_twin": 0.022594809426665197,
+      "tvd_hw_vs_generic_fake": 0.02705891927083333,
+      "hellinger_hw_vs_generic_fake": 0.025724320432429684
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 4,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.04093424479166667,
+      "hellinger_hw_vs_digital_twin": 0.03549043655267721,
+      "tvd_hw_vs_generic_fake": 0.03299967447916667,
+      "hellinger_hw_vs_generic_fake": 0.030677311340275293
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 0,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.023152669270833325,
+      "hellinger_hw_vs_digital_twin": 0.020821244698067527,
+      "tvd_hw_vs_generic_fake": 0.029378255208333325,
+      "hellinger_hw_vs_generic_fake": 0.022556115131799115
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 1,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.1065673828125,
+      "hellinger_hw_vs_digital_twin": 0.08308848653944385,
+      "tvd_hw_vs_generic_fake": 0.04911295572916667,
+      "hellinger_hw_vs_generic_fake": 0.04422498092751697
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 2,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.2105712890625,
+      "hellinger_hw_vs_digital_twin": 0.16819321196969156,
+      "tvd_hw_vs_generic_fake": 0.08321126302083333,
+      "hellinger_hw_vs_generic_fake": 0.07111260650772265
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 3,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.07491048177083334,
+      "hellinger_hw_vs_digital_twin": 0.07080304550081533,
+      "tvd_hw_vs_generic_fake": 0.05900065104166667,
+      "hellinger_hw_vs_generic_fake": 0.04988534702077081
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 4,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.06115722656250001,
+      "hellinger_hw_vs_digital_twin": 0.058010042362728574,
+      "tvd_hw_vs_generic_fake": 0.04573567708333334,
+      "hellinger_hw_vs_generic_fake": 0.04087664521660584
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 0,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.030965169270833336,
+      "hellinger_hw_vs_digital_twin": 0.025541540061120093,
+      "tvd_hw_vs_generic_fake": 0.030598958333333336,
+      "hellinger_hw_vs_generic_fake": 0.025411172917835352
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 1,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.12398274739583333,
+      "hellinger_hw_vs_digital_twin": 0.10872550549578053,
+      "tvd_hw_vs_generic_fake": 0.10786946614583334,
+      "hellinger_hw_vs_generic_fake": 0.0949534895591785
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 2,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.11092122395833331,
+      "hellinger_hw_vs_digital_twin": 0.09786843425666009,
+      "tvd_hw_vs_generic_fake": 0.08158365885416666,
+      "hellinger_hw_vs_generic_fake": 0.07334301204690444
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 3,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.047078450520833336,
+      "hellinger_hw_vs_digital_twin": 0.03981458577354843,
+      "tvd_hw_vs_generic_fake": 0.037272135416666664,
+      "hellinger_hw_vs_generic_fake": 0.02982542012772487
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 4,
+      "calibration_timestamp": "2026-11-20 03:39:26+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.04056803385416666,
+      "hellinger_hw_vs_digital_twin": 0.034778586224327404,
+      "tvd_hw_vs_generic_fake": 0.030802408854166668,
+      "hellinger_hw_vs_generic_fake": 0.027716436579238845
+    }
+  ],
+  "Run4": [
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.01865234375,
+      "hellinger_hw_vs_digital_twin": 0.015973434431125203,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.019238281249999996,
+      "hellinger_hw_vs_digital_twin": 0.03129294695958038,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.04282226562500001,
+      "hellinger_hw_vs_digital_twin": 0.04749842378197674,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.05346679687499999,
+      "hellinger_hw_vs_digital_twin": 0.04177819037382666,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "A",
+      "n": 3,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.04287109374999999,
+      "hellinger_hw_vs_digital_twin": 0.046173448904970854,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.01674804687499999,
+      "hellinger_hw_vs_digital_twin": 0.01620413167837043,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.09990234375000002,
+      "hellinger_hw_vs_digital_twin": 0.08141626221725741,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.03481445312499999,
+      "hellinger_hw_vs_digital_twin": 0.04007045117318643,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.0787353515625,
+      "hellinger_hw_vs_digital_twin": 0.07587206832055178,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "B",
+      "n": 4,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.081201171875,
+      "hellinger_hw_vs_digital_twin": 0.07183341862393286,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 0,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.030957031250000006,
+      "hellinger_hw_vs_digital_twin": 0.028236001791838237,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 1,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.0628662109375,
+      "hellinger_hw_vs_digital_twin": 0.0528778427905296,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 2,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.039501953124999996,
+      "hellinger_hw_vs_digital_twin": 0.033628312601628185,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 3,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.0363037109375,
+      "hellinger_hw_vs_digital_twin": 0.033035791845066616,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    },
+    {
+      "tier": "C",
+      "n": 5,
+      "r": 4,
+      "calibration_timestamp": "2026-11-19 05:36:23+05:30",
+      "exact_calibration_match": true,
+      "tvd_hw_vs_digital_twin": 0.027099609375,
+      "hellinger_hw_vs_digital_twin": 0.0232935999123696,
+      "tvd_hw_vs_generic_fake": null,
+      "hellinger_hw_vs_generic_fake": null
+    }
+  ]
+}

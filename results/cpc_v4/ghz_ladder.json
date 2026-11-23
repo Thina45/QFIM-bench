@@ -1,0 +1,73 @@
+{
+  "rows": [
+    {
+      "n": 3,
+      "two_qubit_gates": 2,
+      "ideal_success_probability": 1.0,
+      "noisy_success_probability": 0.9857177734375,
+      "tvd_ideal_vs_noisy": 0.0142822265625,
+      "repeated_run_mean": 0.9857177734375,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.9857177734375,
+        0.9857177734375
+      ]
+    },
+    {
+      "n": 4,
+      "two_qubit_gates": 3,
+      "ideal_success_probability": 1.0,
+      "noisy_success_probability": 0.978515625,
+      "tvd_ideal_vs_noisy": 0.0238037109375,
+      "repeated_run_mean": 0.978515625,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.978515625,
+        0.978515625
+      ]
+    },
+    {
+      "n": 5,
+      "two_qubit_gates": 4,
+      "ideal_success_probability": 1.0,
+      "noisy_success_probability": 0.968017578125,
+      "tvd_ideal_vs_noisy": 0.031982421875,
+      "repeated_run_mean": 0.968017578125,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.968017578125,
+        0.968017578125
+      ]
+    },
+    {
+      "n": 6,
+      "two_qubit_gates": 5,
+      "ideal_success_probability": 1.0,
+      "noisy_success_probability": 0.960693359375,
+      "tvd_ideal_vs_noisy": 0.039306640625,
+      "repeated_run_mean": 0.960693359375,
+      "repeated_run_sd": 0.0,
+      "repeated_run_cv_pct": 0.0,
+      "repeated_run_ci95": [
+        0.960693359375,
+        0.960693359375
+      ]
+    }
+  ],
+  "fit": {
+    "f": 0.9922668478519631,
+    "f_ci95": [
+      0.8657654980569153,
+      0.9926504819977384
+    ],
+    "p_noise": 0.0,
+    "p_noise_ci95": [
+      0.0,
+      0.9316301779368307
+    ]
+  },
+  "note": "success = measure all-zeros or all-ones; ideal_success_probability is exactly 1.0 at every n (noiseless GHZ always returns one of the two basis states)"
+}
